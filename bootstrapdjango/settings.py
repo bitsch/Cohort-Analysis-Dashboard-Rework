@@ -107,6 +107,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ( os.path.join(BASE_DIR, "static"),)
 EVENT_LOG_NAME = ':notset:'
 
+INTERVAL_GRANULARITY = "2T"
+DEFAULT_PLOT_STYLE = "plotly_white"
+
 ROLE_APPLIED = False
 ROLE_FILE = ''
 

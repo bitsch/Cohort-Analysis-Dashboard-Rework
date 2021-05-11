@@ -1,13 +1,9 @@
 import json
 import traceback
-from pm4py.algo.discovery.dfg import factory as dfg_factory
-from pm4py.objects.conversion.log import factory as conversion_factory
-from pm4py.objects.log.exporter.xes import factory as xes_exporter
-from pm4py.objects.log.importer.csv import factory as csv_importer
-from pm4py.objects.log.importer.xes import factory as xes_import_factory
-from pm4py.visualization.dfg import factory as dfg_vis_factory
 from pm4py.algo.filtering.log.attributes import attributes_filter
+from functools import partial
 from pm4py.util import constants
+
 import os
 
 
@@ -227,3 +223,16 @@ def generate_process_model(log):
     gviz = dfg_vis_factory.apply(dfg, log=log, variant="frequency")
     dfg_vis_factory.view(gviz)
     return dfg
+
+
+
+def flatten(ls):
+    """
+    Flattens a list of list into a single list
+    input ls, List of Lists
+    output list
+    """
+
+    return [item for sublist in ls for item in sublist]
+
+

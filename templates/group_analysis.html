@@ -22,7 +22,15 @@
     <div class="container-fluid">
 
       {% autoescape off %}
-      {{ plt_div }}
+      {{ concurrency_plt_div }}
+      {% endautoescape %}
+
+      {% autoescape off %}
+      {{ bar_timeframe_plt_div }}
+      {% endautoescape %}
+
+      {% autoescape off %}
+      {{ timeframe_plt_div }}
       {% endautoescape %}
 
     </div>
