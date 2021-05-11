@@ -1,7 +1,7 @@
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from pm4py.objects.log.importer.xes import factory as xes_importer_factory
+from pm4py.objects.log.importer.xes import importer as xes_importer_factory
 from django.conf import settings
 import os
 from os import listdir

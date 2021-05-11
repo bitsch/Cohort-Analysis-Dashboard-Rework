@@ -10,7 +10,6 @@ from wsgiref.util import FileWrapper
 from pm4py.algo.discovery.alpha import algorithm as alpha_miner
 from pm4py.objects.log.importer.xes import importer
 from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
-from pm4py.algo.discovery.dfg import factory as dfg_factory
 import json
 import re
 import log_filtering.abstraction_support_functions as asf
