@@ -63,15 +63,26 @@ def group_analysis(request):
         if load_log_succes:
             
             #TODO Extend this to CSV Data
-            Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']), Group(name = "Treat", members = ["Test"])]    
+            Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']),
+                      Group(name = "Emergency Room", members = ['ER Triage', 'ER Registration', 'ER Sepsis Triage']),
+                      Group(name = "Admission", members = ['Admission NC', 'Admission IC']),
+                      Group(name = "IV", members = ['IV Antibiotics', 'IV Liquid']), 
+                      Group(name = "Treat", members = ['LacticAcid', 'Leucocytes'])
+                      ]   
+                       
             min_time, max_time = dt_utils.xes_compute_min_max_time(log)
             date_frame = log_import.xes_create_date_range_frame(log, Groups, min_time, max_time, parameters = None, freq = 'D', interval = False)
 
             concurrency_plt_div = plotting.concurrency_plot_factory(date_frame, Groups, freq = "W")
-            timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)
+            timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)           
             bar_timeframe_plt_div =  plotting.timeframe_plot_factory(date_frame, Groups)
+            df_lifetime = log_import.create_group_lifetime_dataframe_from_dateframe(date_frame, Groups)
+            lifetime_plt_div = plotting.lifetime_plot_factory(df_lifetime)
 
-            return render(request, "group_analysis.html", context={'concurrency_plt_div': concurrency_plt_div, 'timeframe_plt_div': timeframe_plt_div, 'bar_timeframe_plt_div' : bar_timeframe_plt_div})
+            return render(request, "group_analysis.html", context={'concurrency_plt_div': concurrency_plt_div,
+                                                                   'timeframe_plt_div': timeframe_plt_div,
+                                                                   'bar_timeframe_plt_div' : bar_timeframe_plt_div,
+                                                                   'lifetime_plt_div' : lifetime_plt_div})
 
         else:
 

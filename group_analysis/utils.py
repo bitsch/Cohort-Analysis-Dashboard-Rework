@@ -3,6 +3,7 @@ import traceback
 from pm4py.algo.filtering.log.attributes import attributes_filter
 from functools import partial
 from pm4py.util import constants
+import numpy as np
 
 import os
 
@@ -236,3 +237,11 @@ def flatten(ls):
     return [item for sublist in ls for item in sublist]
 
 
+def first_last_nonzero(arr, axis, invalid_val=-1):
+    """
+    Fast search for the first and last values in each column that isn't zero. 
+    """
+    mask = arr!=0
+    val = arr.shape[axis] - np.flip(mask, axis=axis).argmax(axis=axis) - 1
+
+    return np.where(mask.any(axis=axis), mask.argmax(axis=axis), invalid_val), np.where(mask.any(axis=axis), val, invalid_val)
