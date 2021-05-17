@@ -34,13 +34,18 @@ class LogService:
 
         if isXesFile:
             xes_log = xes_importer_factory.apply(file_dir)
-            traces = xes_log._list
-            events = traces[0]._list
-            events_key = list(events[0]._dict.keys())
-            attributes = list(xes_log.attributes.keys())
-            properties = list(xes_log.properties.keys())
-            classifiers = list(xes_log._classifiers.keys())
-            return LogDto(log_name, attributes, properties, classifiers)
+
+            trace_attributes = set(xes_log[0].attributes)
+            event_attributes = set(xes_log[0][0].keys())
+
+            flatten = lambda ls:  [item for sublist in ls for item in sublist]
+
+            for trace in xes_log: 
+                trace_attributes = trace_attributes.intersection(trace.attributes)
+                event_attributes = event_attributes.intersection(set(flatten([event.keys() for event in trace])))
+    
+            return LogDto(log_name, trace_attributes, event_attributes)
+            
         else:
             event_log = pandas.read_csv(file_dir, sep=',')
             columns = list(event_log.columns)

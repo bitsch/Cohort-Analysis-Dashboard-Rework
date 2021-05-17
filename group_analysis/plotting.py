@@ -9,7 +9,7 @@ import plotly.io as pio
 
 def create_div_block(fig):
     """
-
+    Creates a Div Block from a plotly figure that can be inserted into a Template
     """
     return plot(fig, output_type='div')
 
@@ -79,7 +79,7 @@ def concurrency_plot_factory(date_frame, Groups, freq = "M", interval = False):
 
 def timeframe_plot_factory(date_frame, Groups, freq = "M"):
     """    
-    Adds 
+    Creates a plot representing the timeframe of an activity using a bar plot design
     """ 
     pio.templates.default = settings.DEFAULT_PLOT_STYLE
     dict_list = []
@@ -108,11 +108,8 @@ def timeframe_plot_factory(date_frame, Groups, freq = "M"):
 
 def amplitude_plot_factory(date_frame, Groups, freq = "M", Unified = True):
     """
-    Produces an DIV Block containing an Plotly Graphobject in the Style of a Amplitude Plot. 
-    Used in the Timeframe view as a way to represent 
-
-    
-
+    Produces an div Block containing an Plotly Graphobject in the Style of a Amplitude Plot. 
+    Used in the Timeframe view as a way to represent     
     """
 
 
@@ -178,9 +175,11 @@ def amplitude_plot_factory(date_frame, Groups, freq = "M", Unified = True):
     return create_div_block(fig)
 
 # TODO Making this Right-aligned or improving the overall Hovertemplate
+
+
 def trace_plotting_styler(variant_tuple, offset = 3):
     
-    sublists = [", ".join(variant_tuple[x:x+offset])  for x in range(0, len(variant), offset)]
+    sublists = [", ".join(variant_tuple[x:x+offset])  for x in range(0, len(variant_tuple), offset)]
     styled_variant = "<br>".join(sublists)
     
     return styled_variant

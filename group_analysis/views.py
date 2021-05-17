@@ -1,29 +1,21 @@
-import shutil
-
-
 import os
+import shutil
 from datetime import datetime
 
+import pandas as pd
 # Django Dependencies
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
 from django.conf import settings
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 
 # Application Modules
-import group_analysis.utils as utils
-import group_analysis.group_managment as gm
-import group_analysis.plotting as plotting
-import group_analysis.log_import_util as log_import
 import group_analysis.datetime_utils as dt_utils
+import group_analysis.group_managment as gm
+import group_analysis.log_import_util as log_import
+import group_analysis.plotting as plotting
+import group_analysis.utils as utils
 from group_analysis.group_managment import Group
-
-import pandas as pd
-
-
-
-
-
 
 # Create your views here.
 
