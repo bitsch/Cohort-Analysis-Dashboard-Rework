@@ -1,14 +1,15 @@
 # PM4PY Dependencies
-from pm4py.objects.log.importer.xes import importer as xes_importer
+import pandas as pd
+from django.conf import settings
 from pm4py.objects.conversion.log import converter as log_converter
+from pm4py.objects.log.importer.xes import importer as xes_importer
+import pm4py
+from functools import partial
 
 import group_analysis.datetime_utils as dt_utils
 import group_analysis.utils as utils
 from group_analysis.group_managment import Group
 
-import pandas as pd
-
-from django.conf import settings
 
 def get_log_format(file_path):
 
@@ -85,7 +86,7 @@ def csv_create_date_range_frame(log, Groups, parameters = None, freq = 'H', inte
 
     if interval:
         #TODO Change to Default
-        log = log[log["concept:name"].isin(flatten([group.members for group in Groups]))]
+        log = log[log["concept:name"].isin(utils.flatten([group.members for group in Groups]))]
 
         #TODO Need to get this TimeStamp
         log["start_timestamp"] = pd.to_datetime(log["start_timestamp"], utc=True)
@@ -106,7 +107,7 @@ def csv_create_date_range_frame(log, Groups, parameters = None, freq = 'H', inte
 
     else: 
         # Prefiltering by Projecting on Group Activites 
-        log = log[log["concept:name"].isin(flatten([group.members for group in Groups]))]
+        log = log[log["concept:name"].isin(utils.flatten([group.members for group in Groups]))]
 
         # Create the Dateframe using the count_group_activities helper function
         date_frame = log.groupby(by = pd.Grouper(key = "time:timestamp", freq = freq)).apply(partial(count_group_activities, groups = Groups))

@@ -48,11 +48,13 @@ def index(request):
             if "log_list" not in request.POST:
                 return HttpResponseRedirect(request.path_info)
             filename = request.POST["log_list"]
+
             return redirect('setlog/' + filename + '/')
 
     eventlog_list = log_service.getAll()
     my_dict = {"eventlog_list": eventlog_list}
-    if(request.session['current_log'] != None):
+
+    if('current_log' in request.session and request.session['current_log'] != None):
         try:
             my_dict["selected_log_info"] = request.session['current_log']
         except Exception as err:
