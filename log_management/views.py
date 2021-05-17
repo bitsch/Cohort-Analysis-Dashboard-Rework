@@ -1,3 +1,4 @@
+from core.models import SelectedLog
 from log_management.services.log_service import LogService
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
@@ -46,26 +47,52 @@ def index(request):
         elif "setButton" in request.POST:
             if "log_list" not in request.POST:
                 return HttpResponseRedirect(request.path_info)
-
             filename = request.POST["log_list"]
-            request.session['current_log'] = filename
+            return redirect('setlog/' + filename + '/')
 
     eventlog_list = log_service.getAll()
     my_dict = {"eventlog_list": eventlog_list}
     if(request.session['current_log'] != None):
         try:
-            log = log_service.getLogInfo(request.session['current_log'])
-            my_dict["selected_log_info"] = log
+            my_dict["selected_log_info"] = request.session['current_log']
         except Exception as err:
             print("Oops!  Fetching the log failed: {0}".format(err))
     return render(request, LOGMANAGEMENT_DIR + '/index.html', context=my_dict)
 
-
-def get_log_info(request):
+def set_log(request, logname):
     log_service = LogService()
 
-    log_name = request.GET.get('log_name', None)
-    data = log_service.getLogInfo(log_name).__dict__
+    if request.method == 'POST':
+        name = request.POST['logName']
+        case_id = request.POST['caseId']
+        case_concept_name = request.POST['caseConcept']
+        
+        selected_log = SelectedLog(name, case_id, case_concept_name)
+        
+        selected_log.log_type = request.POST['inlineRadioOptions']
+        if(selected_log.log_type == 'noninterval'):
+            selected_log.timestamp = request.POST['timestamp']
+        elif(selected_log.log_type == 'lifecycle'):
+            selected_log.lifecycle = request.POST['lifecycle']
+        elif(selected_log.log_type == 'timestamp'):
+            selected_log.start_timestamp = request.POST['startTimestamp']
+            selected_log.end_timestamp = request.POST['endTimestamp']
+
+        request.session['current_log'] = selected_log.__dict__
+        return redirect('/logmanagement/')
+
+
+    data = log_service.getLogInfo(logname).__dict__
+    return render(request, LOGMANAGEMENT_DIR + '/set_log.html', context=data)
+
+
+def get_log_info(request):
+    # TODO: Allow user checking log info prior to selecting a log
+    # log_service = LogService()
+
+    # log_name = request.GET.get('log_name', None)
+    # data = log_service.getLogInfo(log_name).__dict__
+    data = {"todo":"todo"}
     return JsonResponse(data)
 
 def log_response(request, log):

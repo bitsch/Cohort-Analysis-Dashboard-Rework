@@ -26,7 +26,6 @@ urlpatterns = [
     path('',views.home, name= 'home'),
     url(r'^logmanagement/', include('log_management.urls')),
     #url(r'^rolemining/', include(role_mining.urls))
-    path('upload/', include('upload_eventlog.urls')),
     path('filter', include('log_filtering.urls')),
     path('group_analysis', include('group_analysis.urls')),
 ]

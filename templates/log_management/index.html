@@ -55,15 +55,27 @@
   
            <div class="row">
             <div class=" col-sm-6 col-md-7 col-lg-8">
-              {% if selected_log_info.log_name %}
-                <p> {{selected_log_info.log_name}} has been set as the input ... </p>
-              {% endif %}
-              {% if selected_log_info.no_traces %}
-              <p id="no_trace"> No of traces: {{selected_log_info.no_traces}} </p>
-              {% endif %}
-              {% if selected_log_info.no_events %}
-              <p id="no_event"> No of events: {{selected_log_info.no_events}} </p>
-                {% endif %}
+            {% if selected_log_info %}
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h5 class="card-title">Currently Selected Log</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Log Name: {{selected_log_info.log_name}}</h6>
+                <p class="card-text">Case Id: {{selected_log_info.case_id}}</p>
+                <p class="card-text">Concept Name: {{selected_log_info.case_concept_name}}</p>
+                <p class="card-text">Log Type: {{selected_log_info.log_type}}</p>
+                {% ifequal selected_log_info.log_type "noninterval" %}
+                  <p id="concept_name"> Timestamp: {{selected_log_info.timestamp}} </p>
+                {% endifequal %}
+                {% ifequal selected_log_info.log_type "lifecycle" %}
+                <p id="concept_name"> Lifecycle Event: {{selected_log_info.lifecycle}} </p>
+                {% endifequal %}
+                {% ifequal selected_log_info.log_type "timestamp" %}
+                <p id="concept_name"> Start Timestamp Event: {{selected_log_info.start_timestamp}} </p>
+                <p id="concept_name"> End Timestamp Event: {{selected_log_info.end_timestamp}} </p>
+                {% endifequal %}
+              </div>
+            </div>
+            {% endif %}
             </div>
           </div>
         </div>
