@@ -44,8 +44,8 @@
                     <label for="caseConcept" class="col-sm-2 col-form-label">Case Concept Name</label>
                     <div class="col-sm-10">
                       <select name="caseConcept" class="custom-select custom-select-md mb-3">
-                        <option selected disabled>Trace Attribute Name</option>
-                        {% for attribute in trace_attributes %}
+                        <option selected disabled>Event Attribute Name</option>
+                        {% for attribute in event_attributes %}
                             <option value="{{attribute}}">{{attribute}}</option>
                         {% endfor %}
                       </select>
