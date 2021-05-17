@@ -56,7 +56,7 @@
                     <div class="col-sm-10">
                       <div class="form-check form-check-inline radio-button">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="noninterval">
-                        <label class="form-check-label" for="inlineRadio1">Non-Interval</label>
+                        <label class="form-check-label" for="inlineRadio1">Single-Timestamp</label>
                       </div>
                       <div class="form-check form-check-inline radio-button">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="lifecycle">
@@ -83,6 +83,15 @@
                     <label for="lifecycle" class="col-sm-2 col-form-label">Lifecycle Event: </label>
                     <div class="col-sm-10">
                       <select name="lifecycle" class="custom-select custom-select-md mb-3">
+                        <option selected disabled>Event Attribute Name</option>
+                        {% for attribute in event_attributes %}
+                            <option value="{{attribute}}">{{attribute}}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <label for="lifecycle" class="col-sm-2 col-form-label">Timestamp: </label>
+                    <div class="col-sm-10">
+                       <select name="timestamp" class="custom-select custom-select-md mb-3">
                         <option selected disabled>Event Attribute Name</option>
                         {% for attribute in event_attributes %}
                             <option value="{{attribute}}">{{attribute}}</option>
