@@ -77,7 +77,6 @@ def set_log(request, logname):
         elif(selected_log.log_type == 'lifecycle'):
             selected_log.lifecycle = request.POST['lifecycle']
             selected_log.timestamp = request.POST['timestamp']
-            
         elif(selected_log.log_type == 'timestamp'):
             selected_log.start_timestamp = request.POST['startTimestamp']
             selected_log.end_timestamp = request.POST['endTimestamp']
