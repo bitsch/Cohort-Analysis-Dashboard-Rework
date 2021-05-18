@@ -4,13 +4,12 @@ from dateutil.relativedelta import relativedelta
 
 
 
-def xes_compute_min_max_time(xes_log): 
+def xes_compute_min_max_time(xes_log, log_information): 
     """
     Computes min and max times for an XES log
     input: xes_log A PM4PY XES Log object
     output: min_time Timestamp, max_time Timestamp
     """
-
 
     if set(["meta_time:log_start_time", "meta_time:log_end_time"]).issubset(xes_log.attributes.keys()):
             min_time = xes_log.attributes["meta_time:log_start_time"]
@@ -20,16 +19,28 @@ def xes_compute_min_max_time(xes_log):
         min_times = []
         max_times = []
 
-
-    
         for trace in xes_log: 
-            timestamps = [event["time:timestamp"] for event in trace]
-            min_times.append(min(timestamps))
-            max_times.append(max(timestamps))
+            
+            # If the Log has two Timestamps, check Seperatly
+            if log_information["log_type"] == "timestamp": 
+                start_timestamps = []
+                end_timestamps = []
 
+                for event in trace: 
+                    start_timestamps.append(event[log_information["start_timestamp"]])
+                    end_timestamps.append(event["end_timestamp"])
+
+                min_times.append(min(timestamps))
+                max_times.append(max(timestamps))
+
+            # If the Log has only a single timestamp, do this faster
+            else: 
+                timestamps = [event[log_information["timestamp"]] for event in trace]
+                min_times.append(min(timestamps))
+                max_times.append(max(timestamps))
+                
         min_time =  min(min_times)
         max_time =  max(max_times)
-
     
     return min_time, max_time
 
@@ -62,6 +73,7 @@ def datetime_floor(date_time_obj, freq = 'H'):
         date = dt.min.replace(year = date_time_obj.year) 
     
     return date.replace(tzinfo = timezone.utc)
+
 
 def datetime_ceil(date_time_obj, freq = 'H'): 
     """

@@ -14,7 +14,7 @@ def create_div_block(fig):
     return plot(fig, output_type='div')
 
 
-def concurrency_plot_factory(date_frame, Groups, freq = "M", interval = False):
+def concurrency_plot_factory(date_frame, Groups, aggregate, freq):
     """
     Create a concurrency plot from a dateframe
     input date_time_obj, the freq, to ceil to. 
@@ -26,10 +26,8 @@ def concurrency_plot_factory(date_frame, Groups, freq = "M", interval = False):
     fig = go.Figure()
     
     ## Groupe the Data, if it is an interval, simply use the dateframe
-    if interval:
-        date_frame = date_frame.groupby(by = pd.Grouper(freq = freq)).max()
-    else:
-        date_frame = date_frame.groupby(by = pd.Grouper(freq = freq)).sum()
+
+    date_frame = date_frame.groupby(by = pd.Grouper(freq = freq)).agg(aggregate)
     
     ## Add the lines to the Plot object 
     for group in Groups: 

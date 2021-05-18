@@ -5,7 +5,6 @@ class Group():
         name str
         members list
 
-
     """
 
     def __init__(self, name: str, members: list):

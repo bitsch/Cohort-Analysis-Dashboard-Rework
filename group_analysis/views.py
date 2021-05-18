@@ -30,16 +30,24 @@ def group_analysis(request):
 
     log_information = request.session["current_log"]
 
+    print(log_information)
+    # TODO Get the Groups, from the Post
+    Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']),
+                      Group(name = "Emergency Room", members = ['ER Triage', 'ER Registration', 'ER Sepsis Triage']),
+                      Group(name = "Admission", members = ['Admission NC', 'Admission IC']),
+                      Group(name = "IV", members = ['IV Antibiotics', 'IV Liquid']), 
+                      Group(name = "Treat", members = ['LacticAcid', 'Leucocytes'])
+                      ]  
+
+
     if log_information is not None:
 
-        print()
         event_log = os.path.join(event_logs_path, log_information["log_name"])
         log_format = log_import.get_log_format(log_information["log_name"])
 
-        print(log_format)
-
         # Import the Log considering the given Format
-        log = log_import.log_import(event_log, log_format)
+        log = log_import.log_import(event_log, log_format, log_information)
+        date_frame = log_import.create_plotting_data(log, Groups, log_format, log_information, floor_freq = "H")
         load_log_succes = True
 
 
@@ -56,19 +64,8 @@ def group_analysis(request):
     else:
 
         if load_log_succes:
-            
-            #TODO Extend this to CSV Data
-            Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']),
-                      Group(name = "Emergency Room", members = ['ER Triage', 'ER Registration', 'ER Sepsis Triage']),
-                      Group(name = "Admission", members = ['Admission NC', 'Admission IC']),
-                      Group(name = "IV", members = ['IV Antibiotics', 'IV Liquid']), 
-                      Group(name = "Treat", members = ['LacticAcid', 'Leucocytes'])
-                      ]   
-                       
-            min_time, max_time = dt_utils.xes_compute_min_max_time(log)
-            date_frame = log_import.xes_create_date_range_frame(log, Groups, min_time, max_time, parameters = None, freq = 'D', interval = False)
-
-            concurrency_plt_div = plotting.concurrency_plot_factory(date_frame, Groups, freq = "W")
+                               
+            concurrency_plt_div = plotting.concurrency_plot_factory(date_frame, Groups, freq = "W", aggregate = max)
             timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)           
             bar_timeframe_plt_div =  plotting.timeframe_plot_factory(date_frame, Groups)
             df_lifetime = log_import.create_group_lifetime_dataframe_from_dateframe(date_frame, Groups)
