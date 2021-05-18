@@ -7,75 +7,375 @@
               alert({{message}})
           </script>
   {% endif %}
+  <style>
 
+    .link {
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+    
+    .node {
+      cursor: move;
+      fill: #ccc;
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+    
+    .node.fixed {
+      fill: #f00;
+    }
+    
+            #mynetwork1 {
+                width: 800px;
+                height: 800px;
+                background-color: #ffffff;
+                border: 1px solid lightgray;
+                position: relative;
+                float: left;
+            }
+    
+            #mynetwork2 {
+                width: 800px;
+                height: 800px;
+                background-color: #ffffff;
+                border: 1px solid lightgray;
+                position: relative;
+                float: left;
+            }
+            
+            #mynetwork3 {
+                width: 800px;
+                height: 800px;
+                background-color: #ffffff;
+                border: 1px solid lightgray;
+                position: relative;
+                float: left;
+            }
+    
+    .canvas {
+        width:800px;
+        height:800px;
+    }
+</style>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.css" type="text/css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"> </script>
+
+</head>
+<body>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="organisation-tab" data-toggle="tab" href="#organisation" role="tab" aria-controls="organisation" aria-selected="true">Organisational View</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="timeframe-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="timeframe" aria-selected="false">Doctor View</a>
+    <a class="nav-link" id="doctor-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="disease" aria-selected="false">Doctor View</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" id="concurrency-tab" data-toggle="tab" href="#disease" role="tab" aria-controls="concurrency" aria-selected="false">Disease View</a>
+    <a class="nav-link" id="disease-tab" data-toggle="tab" href="#disease" role="tab" aria-controls="disease" aria-selected="false">Disease View</a>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="timeframe" role="tabpanel" aria-labelledby="timeframe-tab">
+  <div class="tab-pane fade show active" id="organisation" role="tabpanel" aria-labelledby="timeframe-tab">
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-4">
+        <br>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Overview</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cases:</th>
+              <td>100</td>
+            </tr>
+            <tr>
+              <th scope="row">Trace:</th>
+              <td>1000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-8">
+        <form  name="perspective_view" action="perspective_view" method = "POST">
 
-    <div class="container-fluid">
-      <h3> Concurrency Plot </h3>
-      {% autoescape off %}
-      {{ concurrency_plt_div }}
-      {% endautoescape %}
-      <h3> Timeframe Bar Plot </h3>
-      {% autoescape off %}
-      {{ bar_timeframe_plt_div }}
-      {% endautoescape %}
-      <h3> Amplitude Plot </h3>
-      {% autoescape off %}
-      {{ timeframe_plt_div }}
-      {% endautoescape %}
-      <h3> Lifetime Plot </h3>
-      {% autoescape off %}
-      {{ lifetime_plt_div }}
-      {% endautoescape %}
+            <div class="row">
+          <div class=" col-sm-6 col-md-7 col-lg-8">
+              {% if log_name != ':notset:' %}
+                <p style="color:green;"> {{log_name}} is used as input.</p>
+              {% else %}
+                <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
+              {% endif %}
 
+            {% csrf_token %}
+
+          </div>
+        </div>
+        <br>
+
+
+
+        </form>
+          <form action="" method="get">
+            {% csrf_token %}
+            <div id="mynetwork1"></div>
+       </form>
+      </div>
+    </div>
     </div>
 
   </div>
 
-  <div class="tab-pane fade" id="concurrency" role="tabpanel" aria-labelledby="concurrency-tab">
-
-
-  <div class="container-fluid">
-        <h3 class="mt-4" style="color:#00529F;">None Event Logs</h3>
+  <div class="tab-pane fade" id="doctor" role="tabpanel" aria-labelledby="concurrency-tab">
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-4">
         <br>
-        <div class="row">
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Overview</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cases:</th>
+              <td>100</td>
+            </tr>
+            <tr>
+              <th scope="row">Trace:</th>
+              <td>1000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-8">
+        <form  name="perspective_view" action="perspective_view" method = "POST">
+
+            <div class="row">
           <div class=" col-sm-6 col-md-7 col-lg-8">
-                <form  name="n_choice" action="upload_eventlog" method = "POST">
-                    {% csrf_token %}
+              {% if log_name != ':notset:' %}
+                <p style="color:green;"> {{log_name}} is used as input.</p>
+              {% else %}
+                <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
+              {% endif %}
 
-                    <select name="n_log_list" class="custom-select" size="10">
-                        {% for n_eventlog in n_eventlog_list %}
-                            <option value="{{n_eventlog}}">{{n_eventlog}}</option>
-                        {% endfor %}
-                    </select>
-
-                    <input style="margin-top: 10px;" type = "submit" class="btn btn-danger" value = "Delete" name= "n_deleteButton" id ='n_deleteButton'/>
-                    <input style="float: right; margin-top: 10px;" type = "submit" class="btn btn-info" value = "Download" name= "n_downloadButton" id ='n_downloadButton'/>
-
-                </form>
+            {% csrf_token %}
 
           </div>
         </div>
+        <br>
 
+
+
+        </form>
+          <form action="" method="get">
+            {% csrf_token %}
+            <div id="mynetwork2"></div>
+       </form>
       </div>
+    </div>
+    </div>
 
+  </div>
+
+  <div class="tab-pane fade" id="disease" role="tabpanel" aria-labelledby="concurrency-tab">
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-4">
+        <br>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Overview</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cases:</th>
+              <td>100</td>
+            </tr>
+            <tr>
+              <th scope="row">Trace:</th>
+              <td>1000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-8">
+        <form  name="perspective_view" action="perspective_view" method = "POST">
+
+            <div class="row">
+          <div class=" col-sm-6 col-md-7 col-lg-8">
+              {% if log_name != ':notset:' %}
+                <p style="color:green;"> {{log_name}} is used as input.</p>
+              {% else %}
+                <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
+              {% endif %}
+
+            {% csrf_token %}
+
+          </div>
+        </div>
+        <br>
+
+
+
+        </form>
+          <form action="" method="get">
+            {% csrf_token %}
+            <div id="mynetwork3"></div>
+       </form>
+      </div>
+    </div>
+    </div>
 
   </div>
 </div>
+</body>
 
 
 
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+
+  var data = "{{data | escapejs}}";
+  data = JSON.parse(data);
+
+
+const options = {
+    layout: { randomSeed: 2 },
+    interaction:{
+        hover: true,
+        dragNodes:false,
+        multiselect: true,
+        selectable: true,
+    },
+    edges: {
+         arrows: {
+          to:     {enabled: true, scaleFactor:1, type:'arrow'},
+          from:   {enabled: false, scaleFactor:1, type:'arrow'},
+          length: 1000
+          }
+      },
+    manipulation: {
+    enabled: true
+    }
+};
+
+// Everything is in there
+const makeMeMultiSelect = (container, network, nodes) => {
+		const NO_CLICK = 0;
+		const RIGHT_CLICK = 3;
+
+    // Disable default right-click dropdown menu
+    container[0].oncontextmenu = () => false;
+
+    // State
+
+    let drag = false, DOMRect = {};
+
+    // Selector
+
+    const canvasify = (DOMx, DOMy) => {
+    		const { x, y } = network.DOMtoCanvas({ x: DOMx, y: DOMy });
+      	return [x, y];
+    };
+
+    const correctRange = (start, end) =>
+        start < end ? [start, end] : [end, start];
+
+    const selectFromDOMRect = () => {
+        const [sX, sY] = canvasify(DOMRect.startX, DOMRect.startY);
+        const [eX, eY] = canvasify(DOMRect.endX, DOMRect.endY);
+        const [startX, endX] = correctRange(sX, eX);
+        const [startY, endY] = correctRange(sY, eY);
+
+        network.selectNodes(nodes.get().reduce(
+            (selected, { id }) => {
+                const { x, y } = network.getPositions(id)[id];
+                return (startX <= x && x <= endX && startY <= y && y <= endY) ?
+                    selected.concat(id) : selected;
+            }, []
+
+        ));
+    }
+    // Listeners
+
+    var mySelectionOrder = [];
+    var previouslySelected = {};
+network.on('click', function (properties) {
+
+  selection = properties.nodes
+  document.getElementById('values').value = selection;
+
+  drag = false;
+
+  if (selection > 0) {
+    var node_sel = nodes.get([selection])[0];
+    if(node_sel['selected']){
+      alert('add you buttons');
+    }
+    else{
+      alert('change the style here');
+      node_sel['selected'] = true;
+      node_sel['shape'] = 'box';
+      nodes.update(node_sel);
+      var msg = JSON.stringify(nodes.get([selection]))
+      alert(msg);
+    }
+  }
+});
+
+    network.on("deselectNode", function (params) {
+        console.log('deselectNode Event:', params.nodes[0]);
+    });
+
+
+
+    // Drawer
+
+    network.on('afterDrawing', ctx => {
+        if(drag) {
+            const [startX, startY] = canvasify(DOMRect.startX, DOMRect.startY);
+            const [endX, endY] = canvasify(DOMRect.endX, DOMRect.endY);
+
+            ctx.setLineDash([5]);
+            ctx.strokeStyle = 'rgba(78, 146, 237, 0.75)';
+            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+            ctx.setLineDash([]);
+            ctx.fillStyle = 'rgba(151, 194, 252, 0.45)';
+            ctx.fillRect(startX, startY, endX - startX, endY - startY);
+        }
+    });
+}; // end makeMeMultiSelect
+
+$(document).ready(() => {
+		const container = $("#mynetwork1");
+    const network = new vis.Network(container[0],data, options);
+		makeMeMultiSelect(container, network, data.nodes);
+});
+$(document).ready(() => {
+		const container = $("#mynetwork2");
+    const network = new vis.Network(container[0],data, options);
+		makeMeMultiSelect(container, network, data.nodes);
+});
+$(document).ready(() => {
+		const container = $("#mynetwork3");
+    const network = new vis.Network(container[0],data, options);
+		makeMeMultiSelect(container, network, data.nodes);
+});
+
+function getSelectedNodes(){
+    alert(selection);
+    document.getElementById('values').value = selection;
+    return selection;
+
+}
+
+</script>
 
 {% endblock %}

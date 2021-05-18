@@ -4,6 +4,9 @@ from pm4py.algo.filtering.log.attributes import attributes_filter
 from functools import partial
 from pm4py.util import constants
 import numpy as np
+from pm4py.objects.log.importer.xes import importer as xes_import_factory
+from pm4py.algo.discovery.dfg import algorithm as dfg_factory
+from pm4py.visualization.dfg import visualizer as dfg_vis_factory
 
 import os
 

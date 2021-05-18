@@ -1,8 +1,17 @@
+from logging import Logger, LoggerAdapter
 import shutil
 
-
+import re
 import os
+import json
 from datetime import datetime
+
+
+from pm4py.objects.log.importer.xes import importer as xes_importer
+from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
+
+from pm4py.visualization.dfg import visualizer as dfg_visualization
+
 
 # Django Dependencies
 from django.http import HttpResponseRedirect, HttpResponse
@@ -30,6 +39,9 @@ import pandas as pd
 def perspective(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     load_log_succes = False
+    
+    
+    
 
     # TODO Running Example, on how to display Plot
 
@@ -56,37 +68,45 @@ def perspective(request):
         if settings.EVENT_LOG_NAME == ':notset:':
             return HttpResponseRedirect(request.path_info)
 
-        return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME, 'data':this_data})
+        return render(request,'perspective_view.html', {'log_name': settings.EVENT_LOG_NAME, 'data':this_data})
 
     else:
 
         if load_log_succes:
-            
-            #TODO Extend this to CSV Data
-            Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']),
-                      Group(name = "Emergency Room", members = ['ER Triage', 'ER Registration', 'ER Sepsis Triage']),
-                      Group(name = "Admission", members = ['Admission NC', 'Admission IC']),
-                      Group(name = "IV", members = ['IV Antibiotics', 'IV Liquid']), 
-                      Group(name = "Treat", members = ['LacticAcid', 'Leucocytes'])
-                      ]   
-                       
-            min_time, max_time = dt_utils.xes_compute_min_max_time(log)
-            date_frame = log_import.xes_create_date_range_frame(log, Groups, min_time, max_time, parameters = None, freq = 'D', interval = False)
-
-            concurrency_plt_div = plotting.concurrency_plot_factory(date_frame, Groups, freq = "W")
-            timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)           
-            bar_timeframe_plt_div =  plotting.timeframe_plot_factory(date_frame, Groups)
-            df_lifetime = log_import.create_group_lifetime_dataframe_from_dateframe(date_frame, Groups)
-            lifetime_plt_div = plotting.lifetime_plot_factory(df_lifetime)
-
-            return render(request, "perrpective_view.html", context={'concurrency_plt_div': concurrency_plt_div,
-                                                                   'timeframe_plt_div': timeframe_plt_div,
-                                                                   'bar_timeframe_plt_div' : bar_timeframe_plt_div,
-                                                                   'lifetime_plt_div' : lifetime_plt_div})
+            dfg = dfg_discovery.apply(log)
+            this_data, temp_file = dfg_to_g6(dfg)
+            re.escape(temp_file)
+            network = {}   
+            return render(request, 'perspective_view.html', {'log_name': settings.EVENT_LOG_NAME, 'json_file': temp_file, 'data':json.dumps(this_data)})
 
         else:
 
-             return render(request, "perspective_view.html")
+             return render(request, 'perspective_view.html')
+
+def dfg_to_g6(dfg):
+    unique_nodes = []
+
+    for i in dfg:
+        unique_nodes.extend(i)
+    unique_nodes = list(set(unique_nodes))
+
+    unique_nodes_dict = {}
+
+    for index, node in enumerate(unique_nodes):
+        unique_nodes_dict[node] = "node_" + str(index)
+
+    nodes = [{'id': unique_nodes_dict[i], 'label': i} for i in unique_nodes_dict]
+    edges = [{'from': unique_nodes_dict[i[0]], 'to': unique_nodes_dict[i[1]], "data": {"freq": dfg[i]}} for i in
+             dfg]
+    data = {
+        "nodes": nodes,
+        "edges": edges,
+    }
+    temp_path = os.path.join(settings.MEDIA_ROOT, "temp")
+    temp_file = os.path.join(temp_path, 'data.json')
+    with open(temp_file, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+    return data, temp_file
 
        
             
