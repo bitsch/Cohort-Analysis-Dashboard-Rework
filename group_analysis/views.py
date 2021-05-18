@@ -27,11 +27,14 @@ def group_analysis(request):
 
     # Use this to include it in the UI
 
-    if settings.EVENT_LOG_NAME != ":notset:":
 
-        
-        event_log = os.path.join(event_logs_path, settings.EVENT_LOG_NAME)
-        log_format = log_import.get_log_format(settings.EVENT_LOG_NAME)
+    log_information = request.session["current_log"]
+
+    if log_information is not None:
+
+        print()
+        event_log = os.path.join(event_logs_path, log_information["log_name"])
+        log_format = log_import.get_log_format(log_information["log_name"])
 
         print(log_format)
 

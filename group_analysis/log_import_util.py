@@ -39,9 +39,7 @@ def log_import(file_path, file_format, interval = False):
         #TODO imporve on Handling of Ill-Formed Data
         log  = pm4py.format_dataframe(log, case_id="Patient", activity_key="Activity", timestamp_key="Timestamp")
 
-
     elif file_format == "xes": 
-
 
         log = xes_importer.apply(file_path, parameters = {'show_progress_bar': False})
         

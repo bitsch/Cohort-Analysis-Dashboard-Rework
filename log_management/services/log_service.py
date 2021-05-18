@@ -26,6 +26,12 @@ class LogService:
 
 
     """
+    Sorts the attributes based on Key attributes (Containin ":") and in Lexigographic Ordering
+    """
+
+
+
+    """
     Returns the corresponding log with basic information about it
     """
     def getLogInfo(self, log_name):
@@ -43,13 +49,21 @@ class LogService:
             for trace in xes_log: 
                 trace_attributes = trace_attributes.intersection(trace.attributes)
                 event_attributes = event_attributes.intersection(set(flatten([event.keys() for event in trace])))
-    
+
+            sort_attributes = lambda ls : sorted([x for x in ls if ":" in x]) + sorted([x for x in ls if ":" not in x])
+
+            trace_attributes = sort_attributes(trace_attributes)
+            event_attributes = sort_attributes(event_attributes)
+
             return LogDto(log_name, trace_attributes, event_attributes)
-            
+
         else:
             event_log = pandas.read_csv(file_dir, sep=',')
             columns = list(event_log.columns)
             return LogDto(log_name, columns, columns)
+
+
+
 
     """
     Returns the log file
