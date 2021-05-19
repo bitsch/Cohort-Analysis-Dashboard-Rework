@@ -106,7 +106,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = ( STATIC_DIR,)
-EVENT_LOG_NAME = ':notset:'
+EVENT_LOG_NAME = 'hospital_sepsis.xes'
 
 INTERVAL_GRANULARITY = "2T"
 DEFAULT_PLOT_STYLE = "plotly_white"
