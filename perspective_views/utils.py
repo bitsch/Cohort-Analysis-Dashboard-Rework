@@ -10,97 +10,6 @@ from pm4py.visualization.dfg import visualizer as dfg_vis_factory
 
 import os
 
-
-def import_csv(file):
-    '''
-    import csv and it adds classifiers
-    input file path
-    output log object
-    '''
-    try:
-        event_stream = csv_importer.import_event_stream(file)
-        log = conversion_factory.apply(event_stream)
-        log = add_classifier(log)
-
-    # handling the exceptions occuring during the import and converting
-    except Exception as e:
-        print("Error occur, please check the csv file", e)
-        return None
-    return log
-
-
-def add_classifier(log):
-    '''
-    check the column names and add them as classifier of log object
-    input log object from pm4py
-    output log with clasisfier attributes
-    '''
-    activity = None
-    timestamp = None
-
-    # check if the columns includes the keyword for activity / timestamps
-    for k in log[0][0].keys():
-        if activity is None:
-            if ('concept:name' == k) or ('activity' in k.lower()):
-                activity = k
-        if timestamp is None:
-            if 'timestamp' in k.lower() or ('time:timestamp' in k.lower()):
-                timestamp = k
-
-	# there is no candidates
-    if (activity is None) or (timestamp is None):
-        print("activity and/or timestamp cannot be found in the given log")
-        return None
-
-    # adding clasisifer attributes to log objects
-    log.classifiers['activity classifier'] = activity
-    log.classifiers['timestamp'] = timestamp
-    print("successful in adding classifier")
-    return log
-
-
-def import_log_XES(path_to_xes_file):
-    '''
-    Description: to import xes file using pm4py library function
-    Used: get the file path and call import method of library
-    Input: path_to_xes_file
-    Output: return imported log file
-    '''
-    try:
-        log = xes_import_factory.apply(path_to_xes_file)
-        log = add_classifier(log)
-
-
-    except Exception as e:
-        print(
-            '''error occured during the loading the xes file. '''
-            '''Please check if the file is valid XES\n\n''', e)
-        exit(0)
-        return
-
-    return log
-
-
-def clean_lifecycle_events(log):
-    '''recives a log and checks if it contains multiple
-    lifecycle events per activity. Returns a log that
-    only contains the starting events. If the log has no
-    lifecycle events it is returned without any changes'''
-
-    try:
-        if 'lifecycle:transition' in log[0][0].keys():
-            if len(set([e['lifecycle:transition'] for e in log[0]])) > 1:
-                log = attributes_filter.apply_events(log, ["start"],
-                                                  parameters={constants.PARAMETER_CONSTANT_ATTRIBUTE_KEY:
-                                                              "lifecycle:transition",
-                                                              "positive": True})
-    except Exception as e:
-        print('An exception occured during cleaning of lifecycle events')
-        print(e)
-
-    return log
-
-
 def import_pattern_json(path):
     '''
     Returns the pattern.json specified in the path argument
@@ -183,17 +92,6 @@ def is_valid_user_input(patterns):
     return True
 
 
-def export_log(log, filename):
-    '''
-    Description: to export xes file using pm4py library function
-    Used: get the log and call export method of library to
-          export under provided file name
-    Input: log file, file name
-    Output: N/A
-    '''
-    xes_exporter.export_log(log, filename)
-
-
 def export_process_model(dfgModel, log, filename):
     '''
     Description: to export graphical process model in .svg format
@@ -212,7 +110,6 @@ def export_process_model(dfgModel, log, filename):
                                 )
     dfg_vis_factory.save(gviz, filename)
 
-
 def generate_process_model(log):
     '''
     Description: to generate graphical process model in
@@ -227,8 +124,6 @@ def generate_process_model(log):
     gviz = dfg_vis_factory.apply(dfg, log=log, variant="frequency")
     dfg_vis_factory.view(gviz)
     return dfg
-
-
 
 def flatten(ls):
     """

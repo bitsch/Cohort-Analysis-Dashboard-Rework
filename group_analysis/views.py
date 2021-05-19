@@ -27,10 +27,13 @@ def group_analysis(request):
 
     # Use this to include it in the UI
 
+    #TODO Load the Log Information, else throw/redirect to Log Selection
+    if "current_log" in request.session and request.session["current_log"] is not None: 
+        log_information = request.session["current_log"]
+        print(log_information)
 
-    log_information = request.session["current_log"]
 
-    print(log_information)
+    
     # TODO Get the Groups, from the Post
     Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']),
                       Group(name = "Emergency Room", members = ['ER Triage', 'ER Registration', 'ER Sepsis Triage']),
@@ -46,7 +49,7 @@ def group_analysis(request):
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log = log_import.log_import(event_log, log_format, log_information)
+        log, activites = log_import.log_import(event_log, log_format, log_information)
         date_frame = log_import.create_plotting_data(log, Groups, log_format, log_information, floor_freq = "H")
         load_log_succes = True
 

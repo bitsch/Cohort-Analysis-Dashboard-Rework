@@ -5,13 +5,11 @@ from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.objects.log.util import interval_lifecycle
 from pm4py.util import xes_constants as xes
-import pm4py
+from pm4py import format_dataframe
 from functools import partial
 
 import group_analysis.datetime_utils as dt_utils
 import group_analysis.utils as utils
-from group_analysis.group_managment import Group
-
 
 def get_log_format(file_path):
 
@@ -28,13 +26,15 @@ def get_log_format(file_path):
 
 def log_import(file_path, file_format, log_information):
     """ 
-    Imports the file using PM4PY functionalitites
+    Imports the file using PM4PY functionalitites, formats it in a processable fashion, accoding to the Log information, if it is an CSV
     input: file_path str, file_format str, interval bool
-    output: PM4PY default object dependent on Filetype
+    output: PM4PY default object dependent on Filetype, fromatted in case of csv
+            The Set of all trace activities
     """
 
-    if file_format == "csv":
+    activites = set()
 
+    if file_format == "csv":
 
         # TODO Apply further file integrity check
         log  = pd.read_csv(file_path)
@@ -42,7 +42,7 @@ def log_import(file_path, file_format, log_information):
         if log_information["log_type"] == "noninterval": 
 
             # Format it PM4PY conform
-            log  = pm4py.format_dataframe(log, case_id = log_information["case_id"],
+            log  = format_dataframe(log, case_id = log_information["case_id"],
                                                activity_key = log_information["case_concept_name"],
                                                timestamp_key = log_information["timestamp"])
 
@@ -53,15 +53,13 @@ def log_import(file_path, file_format, log_information):
             log[log_information["timestamp"]] = pd.to_datetime(log[log_information["timestamp"]], utc = True)
 
             # Format it PM4PY conform
-            log  = pm4py.format_dataframe(log, case_id=log_information["case_id"],
+            log  = format_dataframe(log, case_id=log_information["case_id"],
                                                activity_key=log_information["case_concept_name"],
                                                timestamp_key= log_information["timestamp"])
         
             # Rename the Columns to the XES defaults
             log = log.rename({log_information["lifecycle"] : xes.DEFAULT_TRANSITION_KEY}, axis = 1)
             
-            # Convert the Lifecycle Log into an Interval Log using the PM4PY Functionality
-            log = interval_lifecycle.to_interval(log)
 
         elif log_information["log_type"] == "timestamp":
 
@@ -70,27 +68,31 @@ def log_import(file_path, file_format, log_information):
             log[log_information["start_timestamp"]] = pd.to_datetime(log[log_information["start_timestamp"]],  utc = True)
 
             # Format it PM4PY conform
-            log  = pm4py.format_dataframe(log, case_id=log_information["case_id"],
+            log  = format_dataframe(log, case_id=log_information["case_id"],
                                                activity_key=log_information["case_concept_name"],
                                                timestamp_key= log_information["end_timestamp"])
            
             # Rename the Columns to the XES defaults
             log = log.rename({log_information["start_timestamp"] : xes.DEFAULT_START_TIMESTAMP_KEY}, axis = 1)
-        
+            activites = set(log[xes.DEFAULT_NAME_KEY].unique())
 
     # Simply load the log using XES
     elif file_format == "xes": 
         
         log = xes_importer.apply(file_path, parameters = {'show_progress_bar': False})
 
+        for trace in log:
+            for event in trace:
+                 activites.add(event[log_information["case_concept_name"]])
+        
+       
+
     else:
 
         #TODO Throw some Warning / Show a warning Message in the Console
         print("Invalid Filepath")
 
-
-    
-    return log
+    return log, activites
 
 
 def count_group_activities(df, groups): 
@@ -178,18 +180,24 @@ def create_plotting_data(log, Groups, file_format, log_information, floor_freq):
             max_time = log[log[xes.DEFAULT_TRANSITION_KEY] == "complete"][xes.DEFAULT_TIMESTAMP_KEY].max() 
 
             log = log[["case:concept:name", xes.DEFAULT_TIMESTAMP_KEY, xes.DEFAULT_TRACEID_KEY, xes.DEFAULT_TRANSITION_KEY]]
-            
+            log = log_converter.apply(log)
+            log = interval_lifecycle.to_interval(log)
+
         elif log_information["log_type"] == "timestamp":
 
             min_time = log[xes.DEFAULT_START_TIMESTAMP_KEY].min() 
             max_time = log[xes.DEFAULT_TIMESTAMP_KEY].max() 
 
             log = log[["case:concept:name", xes.DEFAULT_TIMESTAMP_KEY, xes.DEFAULT_TRACEID_KEY, xes.DEFAULT_START_TIMESTAMP_KEY ]]
-            print(log.head())
-
+            
+            log = log_converter.apply(log)
+        
         attribute_names["start_timestamp"] = xes.DEFAULT_START_TIMESTAMP_KEY
         attribute_names["time:timestamp"] = xes.DEFAULT_TIMESTAMP_KEY
         attribute_names["concept:name"] = xes.DEFAULT_NAME_KEY
+
+        # Convert the Lifecycle Log into an Interval Log using the PM4PY Functionality
+        
 
 
     # Simply load the log using XES

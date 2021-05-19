@@ -20,17 +20,11 @@ from django.conf import settings
 from django.contrib import messages
 
 # Application Modules
-import group_analysis.utils as utils
-import group_analysis.group_managment as gm
-import group_analysis.plotting as plotting
-import group_analysis.log_import_util as log_import
-import group_analysis.datetime_utils as dt_utils
-from group_analysis.group_managment import Group
+import perspective_views.utils as utils
+import perspective_views.plotting as plotting
+import perspective_views.log_import_util as log_import
 
 import pandas as pd
-
-
-
 
 
 
@@ -39,36 +33,28 @@ import pandas as pd
 def perspective(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     load_log_succes = False
-    
-    
-    
 
-    # TODO Running Example, on how to display Plot
 
-    # Use this to include it in the UI
+    #TODO Load the Log Information, else throw/redirect to Log Selection
+    if "current_log" in request.session and request.session["current_log"] is not None: 
+        log_information = request.session["current_log"]
+        print(log_information)
 
-    if settings.EVENT_LOG_NAME != ":notset:":
+    if log_information is not None:
 
-        
-        event_log = os.path.join(event_logs_path, settings.EVENT_LOG_NAME)
-        log_format = log_import.get_log_format(settings.EVENT_LOG_NAME)
-
-        print(log_format)
+        event_log = os.path.join(event_logs_path, log_information["log_name"])
+        log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log = log_import.log_import(event_log, log_format)
+        log = log_import.log_import(event_log, log_format, log_information)
         load_log_succes = True
 
 
+
     if request.method == 'POST':
-        if "uploadButton" in request.POST:
-            print("in request")
-        event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
+        # TODO Throw some error 
+        print("Not yet implemented")
 
-        if settings.EVENT_LOG_NAME == ':notset:':
-            return HttpResponseRedirect(request.path_info)
-
-        return render(request,'perspective_view.html', {'log_name': settings.EVENT_LOG_NAME, 'data':this_data})
 
     else:
 
