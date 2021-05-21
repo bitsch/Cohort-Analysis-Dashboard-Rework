@@ -1,8 +1,8 @@
 import os
 import shutil
 from datetime import datetime
-
 import pandas as pd
+
 # Django Dependencies
 from django.conf import settings
 from django.contrib import messages
@@ -10,12 +10,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Application Modules
-import group_analysis.datetime_utils as dt_utils
-import group_analysis.group_managment as gm
-import group_analysis.log_import_util as log_import
-import group_analysis.plotting as plotting
-import group_analysis.utils as utils
-from group_analysis.group_managment import Group
+import core.data_loading.data_loading as log_import
 from group_analysis.demo import demo_hospital
 
 # Create your views here.
@@ -32,7 +27,6 @@ def group_analysis(request):
     if "current_log" in request.session and request.session["current_log"] is not None: 
         log_information = request.session["current_log"]
         print(log_information)
-
 
     
     # TODO Get the Groups, from the Post
@@ -56,7 +50,7 @@ def group_analysis(request):
         if settings.EVENT_LOG_NAME == ':notset:':
             return HttpResponseRedirect(request.path_info)
 
-        return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME, 'data':this_data})
+        return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME})
 
     else:
 
@@ -65,7 +59,7 @@ def group_analysis(request):
             context = None
 
             # Run the Hospital Sepsis Demo
-            if log_information["log_name"].lower() == "hospital_sepsis.xes": 
+            if log_information["log_name"].lower() == "life_cycle_log.csv": 
                 context = demo_hospital(log, log_format, log_information)
 
             return render(request, "group_analysis.html", context=context)
