@@ -1,11 +1,11 @@
 import json
-import traceback
-from pm4py.algo.filtering.log.attributes import attributes_filter
-from functools import partial
-from pm4py.util import constants
-import numpy as np
-
 import os
+import traceback
+from functools import partial
+
+import numpy as np
+from pm4py.algo.filtering.log.attributes import attributes_filter
+from pm4py.util import constants
 
 
 def import_csv(file):

@@ -85,8 +85,6 @@ def log_import(file_path, file_format, log_information):
             for event in trace:
                  activites.add(event[log_information["case_concept_name"]])
         
-       
-
     else:
 
         #TODO Throw some Warning / Show a warning Message in the Console
@@ -119,7 +117,6 @@ def csv_create_date_range_frame(log, Groups, parameters = None, freq = 'H'):
     output: daterange Dataframe used for Plotting
     """
    
-
     # Prefiltering by Projecting on Group Activites 
     log = log[log[xes.DEFAULT_NAME_KEY].isin(utils.flatten([group.members for group in Groups]))]
 
@@ -144,7 +141,7 @@ def xes_create_date_range_frame(log, Groups, min_time, max_time, attribute_names
                 #TODO Replace default Concept Name
                 if event[attribute_names["concept:name"]] in group.members:
                     
-                    if interval: 
+                    if interval:
                         #TODO Replace default Name
                         date_frame.loc[event[attribute_names["start_timestamp"]]:event[attribute_names["time:timestamp"]], group.name] += 1
 
@@ -211,7 +208,7 @@ def create_plotting_data(log, Groups, file_format, log_information, floor_freq):
             attribute_names["time:timestamp"] = log_information["timestamp"]
             attribute_names["concept:name"] = log_information["case_concept_name"]
 
-            return xes_create_date_range_frame(log, Groups, min_time, max_time, attribute_names, interval_freq = 'H', floor_freq= floor_freq,  interval = False)
+            return xes_create_date_range_frame(log, Groups, min_time, max_time, attribute_names, interval_freq = floor_freq, floor_freq = floor_freq,  interval = False)
         
         elif log_information["log_type"] == "lifecycle":
 
