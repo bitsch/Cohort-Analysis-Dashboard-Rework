@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block content  %}
+
+  {% if message %}
+          <script>
+              alert({{message}})
+          </script>
+  {% endif %}
+  <style>
+
+    .link {
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+    
+    .node {
+      cursor: move;
+      fill: #ccc;
+      stroke: #000;
+      stroke-width: 1.5px;
+    }
+    
+    .node.fixed {
+      fill: #f00;
+    }
+    
+            #mynetwork1 {
+                width: 800px;
+                height: 800px;
+                background-color: #ffffff;
+                border: 1px solid lightgray;
+                position: relative;
+                float: left;
+            }
+    
+            #mynetwork2 {
+                width: 800px;
+                height: 800px;
+                background-color: #ffffff;
+                border: 1px solid lightgray;
+                position: relative;
+                float: left;
+            }
+            
+            #mynetwork3 {
+                width: 800px;
+                height: 800px;
+                background-color: #ffffff;
+                border: 1px solid lightgray;
+                position: relative;
+                float: left;
+            }
+    
+    .canvas {
+        width:800px;
+        height:800px;
+    }
+
+
+
+
+</style>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.css" type="text/css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"> </script>
+
+</head>
+<body>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Create group</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="group_list_lab" data-toggle="tab" href="#group_list" role="tab" aria-controls="disease" aria-selected="false">Group List</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="create_group" role="tabpanel" aria-labelledby="timeframe-tab">
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-5">
+        <br>
+        <form  name="create_group" action="" method = "POST">
+
+          <div class="form-group row">
+            <label for="" class="col-lg-5 control-label">Group Name<span class="text-danger">*</span></label>
+            <div class="col-lg-7">
+              <input type="text" class="form-control" id="group_name" placeholder="Please enter group name!">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-lg-5 control-label">Select Activities<span class="text-danger">*</span></label>
+            <div class="col-lg-7">
+              <select id="example-getting-started" multiple="multiple">
+                <option value="cheese">Cheese</option>
+                <option value="tomatoes">Tomatoes</option>
+                <option value="mozarella">Mozzarella</option>
+                <option value="mushrooms">Mushrooms</option>
+                <option value="pepperoni">Pepperoni</option>
+                <option value="onions">Onions</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="" class="col-lg-5 control-label"></label>
+            <div class="col-lg-7">
+              <button type="button" class="btn btn-primary">Create New Group</button>
+            </div>
+          </div>
+          
+        </form>
+        
+
+
+      </div>
+      <div class="col-7">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">SL#</th>
+              <th scope="col">Group Name</th>
+              <th scope="col">Number of Activities</th>
+              <th scope="col" style="text-align: center;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>5</td>
+              <td>
+                <button type="button" class="btn btn-warning edit">Edit</button>
+                <button type="button" class="btn btn-danger delete">Delete</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>10</td>
+              <td>
+                <button type="button" class="btn btn-warning edit">Edit</button>
+                <button type="button" class="btn btn-danger delete">Delete</button>
+              </td>
+            </tr>
+            <tr>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+
+  <div class="tab-pane fade" id="doctor" role="tabpanel" aria-labelledby="concurrency-tab">
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-4">
+        <br>
+        
+      </div>
+      <div class="col-8">
+        <form  name="perspective_view" action="perspective_view" method = "POST">
+
+            <div class="row">
+          <div class=" col-sm-6 col-md-7 col-lg-8">
+              {% if log_name != ':notset:' %}
+              {% else %}
+                <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
+              {% endif %}
+
+            {% csrf_token %}
+
+          </div>
+        </div>
+        <br>
+        </form>
+          <form action="" method="get">
+            {% csrf_token %}
+            <div id="mynetwork2"></div>
+       </form>
+      </div>
+    </div>
+    </div>
+
+  </div>
+
+  
+</div>
+</body>
+
+
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+  $(document).ready(function() {
+        $('#example-getting-started').multiselect();
+    });
+</script>
+
+{% endblock %}

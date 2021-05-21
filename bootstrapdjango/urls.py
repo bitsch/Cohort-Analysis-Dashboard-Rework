@@ -29,5 +29,6 @@ urlpatterns = [
     path('filter', include('log_filtering.urls')),
     path('group_analysis', include('group_analysis.urls')),
     path('views', include('perspective_views.urls')),
+    path('group_manage', include('group_management_views.urls')),
 ]
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)

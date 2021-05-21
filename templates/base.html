@@ -17,6 +17,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
+ 
   <!-- Custom styles for this template -->
 
 
@@ -25,6 +26,10 @@
   <link href="{% static 'css/mystyle.css' %}" rel="stylesheet">
 
 
+  <!-- Bootstrap multiselect temporary css add -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css" type="text/css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.min.css" integrity="sha512-wHTuOcR1pyFeyXVkwg3fhfK46QulKXkLq1kxcEEpjnAPv63B/R49bBqkJHLvoGFq6lvAEKlln2rE1JfIPeQ+iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- Bootstrap multiselect css end -->
 
 </head>
 
@@ -40,6 +45,7 @@
         <a href="/logmanagement/" class="list-group-item list-group-item-action bg-light">Log Management</a>
         <a href="/group_analysis" class="list-group-item list-group-item-action bg-light">Cohort Analysis</a>
         <a href="/views" class="list-group-item list-group-item-action bg-light">Views</a>
+        <a href="/group_manage" class="list-group-item list-group-item-action bg-light">Group Management</a>
          <!--<a href="/role_mining" class="list-group-item list-group-item-action bg-light">Conformance Checking</a>
         <a href="/coming_main" class="list-group-item list-group-item-action bg-light">Coming Soon...</a>  -->
       </div>
@@ -96,7 +102,15 @@
   <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+
+  
   <!-- Menu Toggle Script -->
+
+
+
+  <!-- Bootstrap multiselect temporary js add -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.min.js"></script>
+  <!-- Bootstrap multiselect js end -->
 
   {% block script %}
 
