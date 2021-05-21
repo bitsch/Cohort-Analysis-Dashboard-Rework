@@ -73,6 +73,11 @@
   <li class="nav-item">
     <a class="nav-link" id="disease-tab" data-toggle="tab" href="#disease" role="tab" aria-controls="disease" aria-selected="false">Disease View</a>
   </li>
+  <form class="navbar-text border-0">
+      <select class="form-select border-0" aria-label="Default select example">
+      <option selected>{{log_name}}</option>
+    </select>
+  </form>
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="organisation" role="tabpanel" aria-labelledby="timeframe-tab">
@@ -95,6 +100,10 @@
               <th scope="row">Trace:</th>
               <td>1000</td>
             </tr>
+            <tr>
+              <th scope="row">Variants:</th>
+              <td>{{variant_count}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -104,7 +113,7 @@
             <div class="row">
           <div class=" col-sm-6 col-md-7 col-lg-8">
               {% if log_name != ':notset:' %}
-                <p style="color:green;"> {{log_name}} is used as input.</p>
+            
               {% else %}
                 <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
               {% endif %}
@@ -136,20 +145,33 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">Overview</th>
+              <th scope="col">Case</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">Cases:</th>
-              <td>100</td>
+              <th scope="row">1</th>
             </tr>
             <tr>
-              <th scope="row">Trace:</th>
-              <td>1000</td>
+              <th scope="row">2</th>
             </tr>
           </tbody>
         </table>
+        <table class="table table-sm table-hover">
+          <div class="fixed-bottom">
+          <thead>
+            <tr>
+              <th scope="col">
+                <select class="form-select " aria-label="Default select example">
+                  <option selected>Directly Follows Graph</option>
+                  <option value="1">Case Overview</option>
+                </select>
+              </th>
+            </tr>
+          </thead>
+        </div>
+        </table>
+        
       </div>
       <div class="col-8">
         <form  name="perspective_view" action="perspective_view" method = "POST">
@@ -157,7 +179,6 @@
             <div class="row">
           <div class=" col-sm-6 col-md-7 col-lg-8">
               {% if log_name != ':notset:' %}
-                <p style="color:green;"> {{log_name}} is used as input.</p>
               {% else %}
                 <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
               {% endif %}
@@ -189,19 +210,31 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">Overview</th>
+              <th scope="col">Variant</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <th scope="row">Cases:</th>
-              <td>100</td>
+              <th scope="row">1</th>
             </tr>
             <tr>
-              <th scope="row">Trace:</th>
-              <td>1000</td>
+              <th scope="row">2</th>
             </tr>
           </tbody>
+        </table>
+        <table class="table table-sm table-hover">
+          <div class="fixed-bottom">
+          <thead>
+            <tr>
+              <th scope="col">
+                <select class="form-select " aria-label="Default select example">
+                  <option selected>Directly Follows Graph</option>
+                  <option value="1">Variant Overview</option>
+                </select>
+              </th>
+            </tr>
+          </thead>
+        </div>
         </table>
       </div>
       <div class="col-8">
@@ -210,8 +243,7 @@
             <div class="row">
           <div class=" col-sm-6 col-md-7 col-lg-8">
               {% if log_name != ':notset:' %}
-                <p style="color:green;"> {{log_name}} is used as input.</p>
-              {% else %}
+             {% else %}
                 <p style="color:red;"> You have not set any event log as input. Use "Event Data" tab to set an event log as input!</p>
               {% endif %}
 
