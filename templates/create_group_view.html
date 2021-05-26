@@ -69,89 +69,79 @@
 <body>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Create group</a>
+    <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Group Details</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" id="group_list_lab" data-toggle="tab" href="#group_list" role="tab" aria-controls="disease" aria-selected="false">Group List</a>
-  </li>
+  <!--
+    <li class="nav-item">
+      <a class="nav-link" id="group_list_lab" data-toggle="tab" href="#group_list" role="tab" aria-controls="disease" aria-selected="false">Group List</a>
+    </li>
+  -->
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="create_group" role="tabpanel" aria-labelledby="timeframe-tab">
     <div class="container-fluid" id="graph">
       <div class="row">
-      <div class="col-5">
+      <div class="col-6">
         <br>
+        <div class="success_alert_message"></div>
         <form  name="create_group" action="" method = "POST">
-
+          {% csrf_token %}
           <div class="form-group row">
-            <label for="" class="col-lg-5 control-label">Group Name<span class="text-danger">*</span></label>
+            <label for="" class="col-lg-5 control-label">Group Name <span class="text-danger">*</span></label>
             <div class="col-lg-7">
-              <input type="text" class="form-control" id="group_name" placeholder="Please enter group name!">
+              <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Please enter group name!">
             </div>
           </div>
           <div class="form-group row">
+            <input type="hidden" value="" name="store_selected_activities" class="store_selected_activities" id="store_selected_activities">
             <label for="" class="col-lg-5 control-label">Select Activities<span class="text-danger">*</span></label>
             <div class="col-lg-7">
-              <select id="example-getting-started" multiple="multiple">
-                <option value="cheese">Cheese</option>
-                <option value="tomatoes">Tomatoes</option>
-                <option value="mozarella">Mozzarella</option>
-                <option value="mushrooms">Mushrooms</option>
-                <option value="pepperoni">Pepperoni</option>
-                <option value="onions">Onions</option>
+              <select id="list_of_activities" name="list_of_selected_activities" multiple="multiple">
+                {% for activities in activites %}
+                      <option value="{{activities}}">{{activities}}</option>
+                  {% endfor %}
               </select>
             </div>
           </div>
           <div class="form-group row">
             <label for="" class="col-lg-5 control-label"></label>
             <div class="col-lg-7">
-              <button type="button" class="btn btn-primary">Create New Group</button>
+              <input type = "button" class="btn btn-primary" value = "Create New Group" name = "create_new_group" id ='create_new_group'/>
+              <input type = "button" class="btn btn-danger" value = "Cancel" name="cancel" id ='cancel'/>
             </div>
           </div>
-          
         </form>
-        
 
 
       </div>
-      <div class="col-7">
-        <table class="table table-hover">
+      <div class="col-6 border rounded">
+        <br>
+        <table id="dtBasicExample" class="table table-striped table-sm" cellspacing="0" width="100%">
           <thead>
             <tr>
               <th scope="col">SL#</th>
               <th scope="col">Group Name</th>
               <th scope="col">Number of Activities</th>
-              <th scope="col" style="text-align: center;">Action</th>
+              <th scope="col" >Action</th>
             </tr>
           </thead>
           <tbody>
+            {% for key, value in active_group_details.items %}
             <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>5</td>
+              <td scope="row">{{key}}</td>
+              <td>{{value.group_name}}</td>
+              <td style="text-align: center;">{{value.number_of_activities}}</td>
               <td>
-                <button type="button" class="btn btn-warning edit">Edit</button>
-                <button type="button" class="btn btn-danger delete">Delete</button>
+                <input type = "button" group_name={{value.group_name}} class="btn btn-danger unset_group" value = "Delete" name="delete" id ='delete'/>
               </td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>10</td>
-              <td>
-                <button type="button" class="btn btn-warning edit">Edit</button>
-                <button type="button" class="btn btn-danger delete">Delete</button>
-              </td>
-            </tr>
-            <tr>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
       </div>
     </div>
     </div>
-
   </div>
 
   <div class="tab-pane fade" id="doctor" role="tabpanel" aria-labelledby="concurrency-tab">
@@ -197,8 +187,73 @@
 {% block script %}
 <script type="text/javascript">
   $(document).ready(function() {
-        $('#example-getting-started').multiselect();
+        $('#list_of_activities').multiselect();
+  });
+
+
+  // Basic example
+  $(document).ready(function () {
+    $('.dataTables_length').addClass('bs-select');
+  });
+
+
+$(document).ready(function(){
+  $(this).find(".multiselect-selected-text").attr('name', 'sample_name');
+  $("input[name='create_new_group']").click(function(){
+    var selected_activitity_list = $('.multiselect-selected-text').text();
+    $('.store_selected_activities').val(selected_activitity_list)
+    var selected_activities = $('.store_selected_activities').val()
+    var group_name = $('#group_name').val()
+    var token = '{{csrf_token}}';
+    var home_url = "/groupmanagement/"
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      url: "/groupmanagement/ajax/savegroupinfo/",
+      type: 'POST',
+      data: {'selected_activities': selected_activities,'group_name':group_name,'X-CSRFToken':token},
+      dataType:'json',
+    }).done(function(result) {
+      if (result.success) {
+          location.reload(true);
+      }else{
+        alert(result.responseText)
+      }
     });
+  });
+});
+
+
+$(document).ready(function(){
+  $("input[name='cancel']").click(function(){
+    location.reload(true);
+  });
+});
+
+
+
+$(document).ready(function(){
+  $("input[name='delete']").click(function(){
+    var group_name = $(this).attr("group_name");
+    var token = '{{csrf_token}}';
+    var home_url = "/groupmanagement/"
+    $.ajax({
+      headers: { "X-CSRFToken": token },
+      url: "/groupmanagement/ajax/changegroupstatus/",
+      type: 'POST',
+      data: {'group_name':group_name,'X-CSRFToken':token},
+      dataType:'json',
+    }).done(function(result) {
+      if (result.success) {
+          location.reload(true);
+      }else{
+        alert(result.responseText)
+      }
+    });
+  });
+});
+
+
+
 </script>
 
 {% endblock %}

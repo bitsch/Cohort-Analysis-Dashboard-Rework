@@ -16,6 +16,7 @@ import group_analysis.log_import_util as log_import
 import group_analysis.plotting as plotting
 import group_analysis.utils as utils
 from group_analysis.group_managment import Group
+from group_analysis.demo import demo_hospital
 
 # Create your views here.
 
@@ -27,29 +28,25 @@ def group_analysis(request):
 
     # Use this to include it in the UI
 
+    #TODO Load the Log Information, else throw/redirect to Log Selection
+    if "current_log" in request.session and request.session["current_log"] is not None: 
+        log_information = request.session["current_log"]
+        print(log_information)
 
-    log_information = request.session["current_log"]
 
-    print(log_information)
+    
     # TODO Get the Groups, from the Post
-    Groups = [Group(name = "Release", members = ['Release B','Release A','Release D','Release C', 'Release E']),
-                      Group(name = "Emergency Room", members = ['ER Triage', 'ER Registration', 'ER Sepsis Triage']),
-                      Group(name = "Admission", members = ['Admission NC', 'Admission IC']),
-                      Group(name = "IV", members = ['IV Antibiotics', 'IV Liquid']), 
-                      Group(name = "Treat", members = ['LacticAcid', 'Leucocytes'])
-                      ]  
-
-
     if log_information is not None:
 
         event_log = os.path.join(event_logs_path, log_information["log_name"])
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log = log_import.log_import(event_log, log_format, log_information)
-        date_frame = log_import.create_plotting_data(log, Groups, log_format, log_information, floor_freq = "H")
-        load_log_succes = True
+        log, activites = log_import.log_import(event_log, log_format, log_information)
 
+        # Set the activites to the activities of the loaded log.
+        request.session["activites"] = list(activites)
+        load_log_succes = True
 
     if request.method == 'POST':
         if "uploadButton" in request.POST:
@@ -64,17 +61,14 @@ def group_analysis(request):
     else:
 
         if load_log_succes:
-                               
-            concurrency_plt_div = plotting.concurrency_plot_factory(date_frame, Groups, freq = "W", aggregate = max)
-            timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)           
-            bar_timeframe_plt_div =  plotting.timeframe_plot_factory(date_frame, Groups)
-            df_lifetime = log_import.create_group_lifetime_dataframe_from_dateframe(date_frame, Groups)
-            lifetime_plt_div = plotting.lifetime_plot_factory(df_lifetime)
 
-            return render(request, "group_analysis.html", context={'concurrency_plt_div': concurrency_plt_div,
-                                                                   'timeframe_plt_div': timeframe_plt_div,
-                                                                   'bar_timeframe_plt_div' : bar_timeframe_plt_div,
-                                                                   'lifetime_plt_div' : lifetime_plt_div})
+            context = None
+
+            # Run the Hospital Sepsis Demo
+            if log_information["log_name"].lower() == "hospital_sepsis.xes": 
+                context = demo_hospital(log, log_format, log_information)
+
+            return render(request, "group_analysis.html", context=context)
 
         else:
 

@@ -2,6 +2,7 @@
     "nodes": [
         {
             "id": "node_0",
+<<<<<<< HEAD
             "label": "ER Triage"
         },
         {
@@ -63,10 +64,74 @@
         {
             "id": "node_15",
             "label": "Return ER"
+=======
+            "label": "Admission NC"
+        },
+        {
+            "id": "node_1",
+            "label": "IV Antibiotics"
+        },
+        {
+            "id": "node_2",
+            "label": "Release C"
+        },
+        {
+            "id": "node_3",
+            "label": "Release D"
+        },
+        {
+            "id": "node_4",
+            "label": "IV Liquid"
+        },
+        {
+            "id": "node_5",
+            "label": "Release E"
+        },
+        {
+            "id": "node_6",
+            "label": "CRP"
+        },
+        {
+            "id": "node_7",
+            "label": "ER Registration"
+        },
+        {
+            "id": "node_8",
+            "label": "Release B"
+        },
+        {
+            "id": "node_9",
+            "label": "Return ER"
+        },
+        {
+            "id": "node_10",
+            "label": "ER Sepsis Triage"
+        },
+        {
+            "id": "node_11",
+            "label": "Release A"
+        },
+        {
+            "id": "node_12",
+            "label": "LacticAcid"
+        },
+        {
+            "id": "node_13",
+            "label": "Admission IC"
+        },
+        {
+            "id": "node_14",
+            "label": "Leucocytes"
+        },
+        {
+            "id": "node_15",
+            "label": "ER Triage"
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
         }
     ],
     "edges": [
         {
+<<<<<<< HEAD
             "from": "node_5",
             "to": "node_13",
             "data": {
@@ -267,10 +332,17 @@
             "to": "node_14",
             "data": {
                 "freq": 62
+=======
+            "from": "node_7",
+            "to": "node_14",
+            "data": {
+                "freq": 21
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_14",
+<<<<<<< HEAD
             "to": "node_1",
             "data": {
                 "freq": 52
@@ -351,10 +423,16 @@
             "to": "node_1",
             "data": {
                 "freq": 102
+=======
+            "to": "node_6",
+            "data": {
+                "freq": 1778
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_6",
+<<<<<<< HEAD
             "to": "node_14",
             "data": {
                 "freq": 124
@@ -379,10 +457,16 @@
             "to": "node_14",
             "data": {
                 "freq": 22
+=======
+            "to": "node_12",
+            "data": {
+                "freq": 629
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_12",
+<<<<<<< HEAD
             "to": "node_7",
             "data": {
                 "freq": 48
@@ -393,10 +477,23 @@
             "to": "node_10",
             "data": {
                 "freq": 20
+=======
+            "to": "node_15",
+            "data": {
+                "freq": 14
+            }
+        },
+        {
+            "from": "node_15",
+            "to": "node_10",
+            "data": {
+                "freq": 905
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_10",
+<<<<<<< HEAD
             "to": "node_6",
             "data": {
                 "freq": 41
@@ -491,6 +588,46 @@
             "to": "node_9",
             "data": {
                 "freq": 11
+=======
+            "to": "node_4",
+            "data": {
+                "freq": 285
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_1",
+            "data": {
+                "freq": 501
+            }
+        },
+        {
+            "from": "node_1",
+            "to": "node_0",
+            "data": {
+                "freq": 489
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_6",
+            "data": {
+                "freq": 369
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_14",
+            "data": {
+                "freq": 1445
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_14",
+            "data": {
+                "freq": 458
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
@@ -518,13 +655,49 @@
             "from": "node_1",
             "to": "node_6",
             "data": {
-                "freq": 27
+                "freq": 317
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_11",
+            "data": {
+                "freq": 225
+            }
+        },
+        {
+            "from": "node_7",
+            "to": "node_15",
+            "data": {
+                "freq": 971
+            }
+        },
+        {
+            "from": "node_15",
+            "to": "node_6",
+            "data": {
+                "freq": 48
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_14",
+            "data": {
+                "freq": 565
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_10",
+            "data": {
+                "freq": 36
             }
         },
         {
             "from": "node_6",
-            "to": "node_2",
+            "to": "node_11",
             "data": {
+<<<<<<< HEAD
                 "freq": 3
             }
         },
@@ -554,10 +727,35 @@
             "to": "node_15",
             "data": {
                 "freq": 10
+=======
+                "freq": 322
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_14",
+            "data": {
+                "freq": 269
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_4",
+            "data": {
+                "freq": 111
             }
         },
         {
             "from": "node_0",
+            "to": "node_0",
+            "data": {
+                "freq": 175
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            }
+        },
+        {
+            "from": "node_0",
+<<<<<<< HEAD
             "to": "node_5",
             "data": {
                 "freq": 5
@@ -582,10 +780,44 @@
             "to": "node_14",
             "data": {
                 "freq": 22
+=======
+            "to": "node_14",
+            "data": {
+                "freq": 408
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_6",
+            "data": {
+                "freq": 192
             }
         },
         {
             "from": "node_14",
+            "to": "node_4",
+            "data": {
+                "freq": 102
+            }
+        },
+        {
+            "from": "node_11",
+            "to": "node_9",
+            "data": {
+                "freq": 276
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_6",
+            "data": {
+                "freq": 46
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            }
+        },
+        {
+            "from": "node_14",
+<<<<<<< HEAD
             "to": "node_0",
             "data": {
                 "freq": 23
@@ -631,10 +863,65 @@
             "to": "node_14",
             "data": {
                 "freq": 11
+=======
+            "to": "node_12",
+            "data": {
+                "freq": 435
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_1",
+            "data": {
+                "freq": 89
+            }
+        },
+        {
+            "from": "node_1",
+            "to": "node_4",
+            "data": {
+                "freq": 62
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_0",
+            "data": {
+                "freq": 52
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_11",
+            "data": {
+                "freq": 117
+            }
+        },
+        {
+            "from": "node_1",
+            "to": "node_12",
+            "data": {
+                "freq": 28
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_6",
+            "data": {
+                "freq": 404
             }
         },
         {
             "from": "node_14",
+            "to": "node_0",
+            "data": {
+                "freq": 153
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            }
+        },
+        {
+            "from": "node_14",
+<<<<<<< HEAD
             "to": "node_9",
             "data": {
                 "freq": 7
@@ -659,10 +946,16 @@
             "to": "node_7",
             "data": {
                 "freq": 14
+=======
+            "to": "node_13",
+            "data": {
+                "freq": 18
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_13",
+<<<<<<< HEAD
             "to": "node_4",
             "data": {
                 "freq": 14
@@ -715,10 +1008,65 @@
             "to": "node_15",
             "data": {
                 "freq": 1
+=======
+            "to": "node_0",
+            "data": {
+                "freq": 4
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_0",
+            "data": {
+                "freq": 187
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_8",
+            "data": {
+                "freq": 17
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_1",
+            "data": {
+                "freq": 76
+            }
+        },
+        {
+            "from": "node_1",
+            "to": "node_14",
+            "data": {
+                "freq": 53
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_0",
+            "data": {
+                "freq": 102
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_4",
+            "data": {
+                "freq": 124
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_12",
+            "data": {
+                "freq": 148
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_14",
+<<<<<<< HEAD
             "to": "node_4",
             "data": {
                 "freq": 1
@@ -729,17 +1077,141 @@
             "to": "node_0",
             "data": {
                 "freq": 5
+=======
+            "to": "node_1",
+            "data": {
+                "freq": 73
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_4",
+            "data": {
+                "freq": 22
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             }
         },
         {
             "from": "node_1",
+<<<<<<< HEAD
             "to": "node_11",
             "data": {
                 "freq": 1
+=======
+            "to": "node_6",
+            "data": {
+                "freq": 48
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_13",
+            "data": {
+                "freq": 20
+            }
+        },
+        {
+            "from": "node_13",
+            "to": "node_12",
+            "data": {
+                "freq": 41
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_8",
+            "data": {
+                "freq": 19
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_14",
+            "data": {
+                "freq": 55
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_1",
+            "data": {
+                "freq": 81
             }
         },
         {
             "from": "node_1",
+            "to": "node_13",
+            "data": {
+                "freq": 46
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_12",
+            "data": {
+                "freq": 83
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_12",
+            "data": {
+                "freq": 36
+            }
+        },
+        {
+            "from": "node_15",
+            "to": "node_14",
+            "data": {
+                "freq": 52
+            }
+        },
+        {
+            "from": "node_12",
+            "to": "node_10",
+            "data": {
+                "freq": 42
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_13",
+            "data": {
+                "freq": 17
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_2",
+            "data": {
+                "freq": 13
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_0",
+            "data": {
+                "freq": 19
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_7",
+            "data": {
+                "freq": 15
+            }
+        },
+        {
+            "from": "node_7",
+            "to": "node_10",
+            "data": {
+                "freq": 11
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            }
+        },
+        {
+            "from": "node_1",
+<<<<<<< HEAD
             "to": "node_12",
             "data": {
                 "freq": 2
@@ -769,39 +1241,349 @@
         {
             "from": "node_12",
             "to": "node_4",
+=======
+            "to": "node_15",
             "data": {
-                "freq": 1
+                "freq": 6
             }
         },
         {
-            "from": "node_4",
-            "to": "node_1",
+            "from": "node_14",
+            "to": "node_2",
             "data": {
-                "freq": 1
+                "freq": 8
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_3",
+            "data": {
+                "freq": 11
             }
         },
         {
             "from": "node_0",
             "to": "node_12",
             "data": {
-                "freq": 1
+                "freq": 27
             }
         },
         {
-            "from": "node_13",
+            "from": "node_12",
+            "to": "node_11",
+            "data": {
+                "freq": 3
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_15",
+            "data": {
+                "freq": 16
+            }
+        },
+        {
+            "from": "node_15",
+            "to": "node_12",
+            "data": {
+                "freq": 29
+            }
+        },
+        {
+            "from": "node_12",
             "to": "node_8",
             "data": {
-                "freq": 2
+                "freq": 4
             }
         },
         {
-            "from": "node_1",
+            "from": "node_3",
             "to": "node_9",
+            "data": {
+                "freq": 10
+            }
+        },
+        {
+            "from": "node_15",
+            "to": "node_7",
             "data": {
                 "freq": 5
             }
         },
         {
+            "from": "node_12",
+            "to": "node_13",
+            "data": {
+                "freq": 10
+            }
+        },
+        {
+            "from": "node_13",
+            "to": "node_6",
+            "data": {
+                "freq": 32
+            }
+        },
+        {
+            "from": "node_7",
+            "to": "node_4",
+            "data": {
+                "freq": 22
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_15",
+            "data": {
+                "freq": 23
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_7",
+            "data": {
+                "freq": 14
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_10",
+            "data": {
+                "freq": 35
+            }
+        },
+        {
+            "from": "node_7",
+            "to": "node_12",
+            "data": {
+                "freq": 10
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_15",
+            "data": {
+                "freq": 11
+            }
+        },
+        {
+            "from": "node_13",
+            "to": "node_14",
+            "data": {
+                "freq": 38
+            }
+        },
+        {
+            "from": "node_15",
+            "to": "node_4",
+            "data": {
+                "freq": 11
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_10",
+            "data": {
+                "freq": 7
+            }
+        },
+        {
+            "from": "node_13",
+            "to": "node_13",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_7",
+            "data": {
+                "freq": 5
+            }
+        },
+        {
+            "from": "node_7",
+            "to": "node_6",
+            "data": {
+                "freq": 14
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_8",
+            "data": {
+                "freq": 14
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_3",
+            "data": {
+                "freq": 12
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_11",
+            "data": {
+                "freq": 2
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_13",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_7",
+            "data": {
+                "freq": 14
+            }
+        },
+        {
+            "from": "node_11",
+            "to": "node_6",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_6",
+            "to": "node_5",
+            "data": {
+                "freq": 3
+            }
+        },
+        {
+            "from": "node_5",
+            "to": "node_9",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_4",
+<<<<<<< HEAD
+            "to": "node_1",
+=======
+            "to": "node_8",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_10",
+            "to": "node_15",
+            "data": {
+                "freq": 5
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_3",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_1",
+            "data": {
+                "freq": 2
+            }
+        },
+        {
+            "from": "node_0",
+            "to": "node_2",
+            "data": {
+                "freq": 4
+            }
+        },
+        {
+            "from": "node_4",
+            "to": "node_13",
+            "data": {
+                "freq": 3
+            }
+        },
+        {
+            "from": "node_2",
+            "to": "node_9",
+            "data": {
+                "freq": 6
+            }
+        },
+        {
+            "from": "node_1",
+            "to": "node_8",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_8",
+            "to": "node_0",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+<<<<<<< HEAD
+            "from": "node_0",
+            "to": "node_12",
+=======
+            "from": "node_15",
+            "to": "node_1",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+<<<<<<< HEAD
+            "from": "node_13",
+            "to": "node_8",
+=======
+            "from": "node_14",
+            "to": "node_5",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            "data": {
+                "freq": 2
+            }
+        },
+        {
+<<<<<<< HEAD
+            "from": "node_1",
+            "to": "node_9",
+=======
+            "from": "node_0",
+            "to": "node_10",
+            "data": {
+                "freq": 5
+            }
+        },
+        {
+            "from": "node_1",
+            "to": "node_11",
+            "data": {
+                "freq": 2
+            }
+        },
+        {
+            "from": "node_9",
+            "to": "node_6",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            "data": {
+                "freq": 5
+            }
+        },
+        {
+<<<<<<< HEAD
             "from": "node_12",
             "to": "node_2",
             "data": {
@@ -818,18 +1600,35 @@
         {
             "from": "node_12",
             "to": "node_5",
+=======
+            "from": "node_1",
+            "to": "node_7",
             "data": {
                 "freq": 1
             }
         },
         {
+            "from": "node_7",
+            "to": "node_13",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+<<<<<<< HEAD
             "from": "node_5",
             "to": "node_10",
+=======
+            "from": "node_12",
+            "to": "node_5",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             "data": {
                 "freq": 1
             }
         },
         {
+<<<<<<< HEAD
             "from": "node_6",
             "to": "node_8",
             "data": {
@@ -839,11 +1638,16 @@
         {
             "from": "node_10",
             "to": "node_9",
+=======
+            "from": "node_13",
+            "to": "node_10",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             "data": {
                 "freq": 1
             }
         },
         {
+<<<<<<< HEAD
             "from": "node_6",
             "to": "node_5",
             "data": {
@@ -853,20 +1657,41 @@
         {
             "from": "node_1",
             "to": "node_0",
+=======
+            "from": "node_12",
+            "to": "node_7",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             "data": {
                 "freq": 1
             }
         },
         {
+<<<<<<< HEAD
             "from": "node_2",
             "to": "node_13",
+=======
+            "from": "node_0",
+            "to": "node_15",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             "data": {
                 "freq": 1
             }
         },
         {
+<<<<<<< HEAD
             "from": "node_13",
             "to": "node_15",
+=======
+            "from": "node_11",
+            "to": "node_14",
+            "data": {
+                "freq": 1
+            }
+        },
+        {
+            "from": "node_14",
+            "to": "node_9",
+>>>>>>> b9ce102580eae47266103046b5ba5634d595f6ef
             "data": {
                 "freq": 1
             }
