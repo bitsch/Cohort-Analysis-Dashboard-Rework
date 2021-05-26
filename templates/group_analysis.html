@@ -18,46 +18,103 @@
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="timeframe" role="tabpanel" aria-labelledby="timeframe-tab">
-
-    <div class="container-fluid">
-      <h3> Concurrency Plot </h3>
-      {% autoescape off %}
-      {{ concurrency_plt_div }}
-      {% endautoescape %}
-      <h3> Amplitude Plot </h3>
-      {% autoescape off %}
-      {{ timeframe_plt_div }}
-      {% endautoescape %}
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-4">
+        <br>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Group Name</th>
+              <th scope="col">Number of Activities</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if  active_group_details.items %}
+            {% for key, value in active_group_details.items %}
+            {% with group_name=value.group_name %}   
+            <tr>
+              <td><label class="checkbox-inline"> <input type="checkbox" name="group_name" class="group_name" value=""></label> {{group_name}}</td>
+              <td style="text-align: center;">{{value.number_of_activities}}</td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_timeframe" id ='cohort_analysis_timeframe'/>
+      </div>
+      <div class="col-8">
+        <div class="container-fluid">
+          <h3> Concurrency Plot </h3>
+          {% autoescape off %}
+          {{ concurrency_plt_div }}
+          {% endautoescape %}
+          <h3> Amplitude Plot </h3>
+          {% autoescape off %}
+          {{ timeframe_plt_div }}
+          {% endautoescape %}
+        </div>
+      </div>
+      </div>
     </div>
+    
+    
 
   </div>
 
   <div class="tab-pane fade" id="concurrency" role="tabpanel" aria-labelledby="concurrency-tab">
-
-
-  <div class="container-fluid">
-        <h3 class="mt-4" style="color:#00529F;">None Event Logs</h3>
+    <div class="container-fluid" id="graph">
+      <div class="row">
+      <div class="col-4">
         <br>
-        <div class="row">
-          <div class=" col-sm-6 col-md-7 col-lg-8">
-                <form  name="n_choice" action="upload_eventlog" method = "POST">
-                    {% csrf_token %}
-
-                    <select name="n_log_list" class="custom-select" size="10">
-                        {% for n_eventlog in n_eventlog_list %}
-                            <option value="{{n_eventlog}}">{{n_eventlog}}</option>
-                        {% endfor %}
-                    </select>
-
-                    <input style="margin-top: 10px;" type = "submit" class="btn btn-danger" value = "Delete" name= "n_deleteButton" id ='n_deleteButton'/>
-                    <input style="float: right; margin-top: 10px;" type = "submit" class="btn btn-info" value = "Download" name= "n_downloadButton" id ='n_downloadButton'/>
-
-                </form>
-
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Group Name</th>
+              <th scope="col">Number of Activities</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if  active_group_details.items %}
+            {% for key, value in active_group_details.items %}
+            {% with group_name=value.group_name %}   
+            <tr>
+              <td><label class="checkbox-inline"> <input type="checkbox" name="group_name" class="group_name" value=""></label> {{group_name}}</td>
+              <td style="text-align: center;">{{value.number_of_activities}}</td>
+            </tr>
+            {% endwith %}
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_concurrency" id ='cohort_analysis_concurrency'/>
+      </div>
+      <div class="col-8">
+        <div class="container-fluid">
+          <h3 class="mt-4" style="color:#00529F;">None Event Logs</h3>
+          <br>
+          <div class="row">
+            <div class=" col-sm-6 col-md-7 col-lg-8">
+                  <form  name="n_choice" action="upload_eventlog" method = "POST">
+                      {% csrf_token %}
+  
+                      <select name="n_log_list" class="custom-select" size="10">
+                          {% for n_eventlog in n_eventlog_list %}
+                              <option value="{{n_eventlog}}">{{n_eventlog}}</option>
+                          {% endfor %}
+                      </select>
+  
+                      <input style="margin-top: 10px;" type = "submit" class="btn btn-danger" value = "Delete" name= "n_deleteButton" id ='n_deleteButton'/>
+                      <input style="float: right; margin-top: 10px;" type = "submit" class="btn btn-info" value = "Download" name= "n_downloadButton" id ='n_downloadButton'/>
+                  </form>
+            </div>
           </div>
         </div>
-
       </div>
+      </div>
+    </div>
+  
 
 
   </div>

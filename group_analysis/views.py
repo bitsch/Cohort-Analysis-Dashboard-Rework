@@ -12,6 +12,9 @@ from django.shortcuts import render
 # Application Modules
 import core.data_loading.data_loading as log_import
 from group_analysis.demo import demo_hospital
+from group_analysis.demo import get_active_groups
+
+
 
 # Create your views here.
 
@@ -49,11 +52,13 @@ def group_analysis(request):
 
         if settings.EVENT_LOG_NAME == ':notset:':
             return HttpResponseRedirect(request.path_info)
+        
 
-        return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME})
+        active_group_details = get_active_groups(request)
+        return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME,'active_group_details':active_group_details})
 
     else:
-
+        active_group_details = get_active_groups(request)
         if load_log_succes:
 
             context = None
@@ -62,11 +67,12 @@ def group_analysis(request):
             if log_information["log_name"].lower() == "life_cycle_log.csv": 
                 context = demo_hospital(log, log_format, log_information)
 
-            return render(request, "group_analysis.html", context=context)
+            
+            return render(request, "group_analysis.html", {'context': context,'active_group_details':active_group_details})
 
         else:
 
-             return render(request, "group_analysis.html")
+             return render(request, "group_analysis.html",{'active_group_details':active_group_details})
 
        
             
