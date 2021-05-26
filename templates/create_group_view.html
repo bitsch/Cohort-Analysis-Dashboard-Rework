@@ -126,16 +126,20 @@
             </tr>
           </thead>
           <tbody>
+            {% if  active_group_details.items %}
             {% for key, value in active_group_details.items %}
+            {% with group_name=value.group_name %}   
             <tr>
               <td scope="row">{{key}}</td>
-              <td>{{value.group_name}}</td>
+              <td>{{group_name}}</td>
               <td style="text-align: center;">{{value.number_of_activities}}</td>
               <td>
-                <input type = "button" group_name={{value.group_name}} class="btn btn-danger unset_group" value = "Delete" name="delete" id ='delete'/>
+                <input type = "button" group_name="{{group_name}}" class="btn btn-danger unset_group" value = "Delete" name="delete" id ='delete'/>
               </td>
             </tr>
+            {% endwith %}
             {% endfor %}
+            {% endif %}
           </tbody>
         </table>
       </div>
@@ -199,26 +203,29 @@
 
 $(document).ready(function(){
   $(this).find(".multiselect-selected-text").attr('name', 'sample_name');
+  
   $("input[name='create_new_group']").click(function(){
-    var selected_activitity_list = $('.multiselect-selected-text').text();
-    $('.store_selected_activities').val(selected_activitity_list)
-    var selected_activities = $('.store_selected_activities').val()
+    var selected_activities = $(this).parent().parent().parent().find(".custom-select").attr('title');
     var group_name = $('#group_name').val()
     var token = '{{csrf_token}}';
     var home_url = "/groupmanagement/"
-    $.ajax({
-      headers: { "X-CSRFToken": token },
-      url: "/groupmanagement/ajax/savegroupinfo/",
-      type: 'POST',
-      data: {'selected_activities': selected_activities,'group_name':group_name,'X-CSRFToken':token},
-      dataType:'json',
-    }).done(function(result) {
-      if (result.success) {
-          location.reload(true);
-      }else{
-        alert(result.responseText)
-      }
-    });
+    if(group_name != '' && selected_activities != ''){
+      $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/groupmanagement/ajax/savegroupinfo/",
+        type: 'POST',
+        data: {'selected_activities': selected_activities,'group_name':group_name,'X-CSRFToken':token},
+        dataType:'json',
+      }).done(function(result) {
+        if (result.success) {
+            location.reload(true);
+        }else{
+          alert(result.responseText)
+        }
+      });
+    }else{
+      alert("* fields are required!")
+    }
   });
 });
 

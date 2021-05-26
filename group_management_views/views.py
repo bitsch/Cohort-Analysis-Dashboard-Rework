@@ -40,7 +40,6 @@ def save_group_info(request):
     if request.method == 'POST':
         if "create_new_group" in request.POST:
             print(dict(request.POST.items()))
-
         group_name = request.POST['group_name']
         selected_activities = request.POST['selected_activities']
         status = 'active'
@@ -96,6 +95,7 @@ def change_group_status(request):
         'success': True,
         'responseText': 'Inactivated successfully!'
     }
+    print(request.POST)
     return JsonResponse(message);
 
 
