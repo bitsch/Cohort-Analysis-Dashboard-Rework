@@ -67,9 +67,9 @@ def set_log(request, logname):
     if request.method == 'POST':
         name = request.POST['logName']
         case_id = request.POST['caseId']
-        case_concept_name = request.POST['caseConcept']
+        concept_name = request.POST['caseConcept']
         
-        selected_log = SelectedLog(name, case_id, case_concept_name)
+        selected_log = SelectedLog(name, case_id, concept_name)
         
         selected_log.log_type = request.POST['inlineRadioOptions']
         if(selected_log.log_type == 'noninterval'):
