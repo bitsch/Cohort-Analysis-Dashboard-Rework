@@ -12,7 +12,7 @@ from django.shortcuts import render
 # Application Modules
 import core.data_loading.data_loading as log_import
 from group_analysis.demo import demo_hospital
-from group_analysis.demo import get_active_groups
+from group_analysis.group_managment.group_managment_utils import get_active_groups, check_group_managment
 
 
 
@@ -21,6 +21,8 @@ from group_analysis.demo import get_active_groups
 def group_analysis(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     load_log_succes = False
+    log_information = None
+    active_group_details = None
 
     # TODO Running Example, on how to display Plot
 
@@ -58,7 +60,12 @@ def group_analysis(request):
         return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME,'active_group_details':active_group_details})
 
     else:
-        active_group_details = get_active_groups(request)
+
+
+        if check_group_managment(request):
+            
+            active_group_details = get_active_groups(request)
+
         if load_log_succes:
 
             context = None

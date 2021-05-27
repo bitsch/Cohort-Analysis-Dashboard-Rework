@@ -23,20 +23,3 @@ def demo_hospital(log, log_format, log_information):
 
     return context
 
-
-
-def get_active_groups(request):
-    existing_groups = request.session['group_details']
-    datas = {}
-    counter = 1
-    for key, value in existing_groups.items():
-        if(existing_groups[key]['status'] == "active"):
-            group_name = key
-            number_of_activities = format(len(existing_groups[key]['selected_activities'].split(',')))
-            data = {
-                'group_name' : group_name,
-                'number_of_activities' : number_of_activities
-            }
-            datas[counter] = data
-            counter = counter+1
-    return datas
