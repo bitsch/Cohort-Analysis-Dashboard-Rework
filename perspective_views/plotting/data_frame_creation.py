@@ -177,8 +177,9 @@ def create_df_variant(log, file_format, log_information):
         print("Invalid Filepath")
     
     # Aggregate the base dataframes to the variant level
-    df = df.groupby("variant").agg({"Start" : min, "End": max, "Name": lambda x : list(x)})
-    df = df.reset_index().rename({"Name" : "Cases"}, axis = 1)
-    df["Name"] = ["Variant " + str(x) for x in df.index]
+    df_variant = df.groupby("variant").agg({"Start" : min, "End": max, "Name": lambda x : list(x)})
+    df_variant = df_variant.reset_index().rename({"Name" : "Cases"}, axis = 1)
+    df_variant["Name"] = ["Variant " + str(x) for x in df_variant.index]
     
-    return df
+    # Returns the variant dataframe and a dataframe containing case level information
+    return df_variant, df

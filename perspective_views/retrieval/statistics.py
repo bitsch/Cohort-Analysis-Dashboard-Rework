@@ -1,5 +1,4 @@
 from perspective_views.plotting.data_frame_creation import create_df_variant
-from core.utils.utils import flatten
 
 
 def get_log_statistics(log, file_format, log_information): 
@@ -9,16 +8,17 @@ def get_log_statistics(log, file_format, log_information):
     """
     result = {}
 
-    activites = set()
+    variants, case = create_df_variant(log, file_format, log_information)
 
-    variants = create_df_variant(log, file_format, log_information)
-    cases =  set(flatten(variants["Cases"]))
-
-    result["variant"] = variants["variant"]
+    variants["Cases"] = variants["Cases"].apply(len)
+    result["variant"] = variants[["Cases", "Name"]].to_dict(orient = "records")
     result["Nvariant"] = variants.shape[0]
-    result["case"] = cases
-    result["Ncase"] = len(cases)
-    result["Nactivities"] = variants.apply(lambda x : len(x["variant"]) * len(x["Cases"]), axis = 1).sum()
+
+    case["variant"] = case["variant"].apply(len)
+    result["case"] = case[["variant", "Name"]].to_dict(orient = "records")
+
+    result["Ncase"] = case.shape[0]
+    result["Nactivities"] = variants.apply(lambda x : len(x["variant"]) * x["Cases"], axis = 1).sum()
     
     start_time = variants["Start"].min()
     end_time = variants["End"].max()
