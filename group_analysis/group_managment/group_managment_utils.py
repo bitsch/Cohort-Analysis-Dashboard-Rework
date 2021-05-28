@@ -2,6 +2,9 @@
 
 def get_active_groups(request):
 
+    if request.session['group_details'] is None: 
+        return None
+    
     existing_groups = request.session['group_details']
     datas = {}
     counter = 1

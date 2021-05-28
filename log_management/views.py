@@ -82,6 +82,11 @@ def set_log(request, logname):
             selected_log.end_timestamp = request.POST['endTimestamp']
 
         request.session['current_log'] = selected_log.__dict__
+
+        # (Re)Initialize Group and Activities
+        request.session["activites"] = None
+        request.session["group_details"] = None
+
         return redirect('/logmanagement/')
 
 

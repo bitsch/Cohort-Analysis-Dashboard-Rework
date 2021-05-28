@@ -46,14 +46,19 @@
       </div>
       <div class="col-8">
         <div class="container-fluid">
-          <h3> Concurrency Plot </h3>
-          {% autoescape off %}
-          {{ plots.concurrency_plt_div }}
-          {% endautoescape %}
-          <h3> Amplitude Plot </h3>
-          {% autoescape off %}
-          {{ plots.timeframe_plt_div }}
-          {% endautoescape %}
+          {% if plots.concurrency_plt_div %}
+            <h3> Concurrency Plot </h3>
+            {% autoescape off %}
+            {{ plots.concurrency_plt_div }}
+            {% endautoescape %}
+          {% endif %}
+
+          {% if plots.concurrency_plt_div %}
+            <h3> Amplitude Plot </h3>
+            {% autoescape off %}
+            {{ plots.timeframe_plt_div }}
+            {% endautoescape %}
+          {% endif %}
         </div>
       </div>
       </div>
@@ -90,28 +95,7 @@
         </table>
         <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_concurrency" id ='cohort_analysis_concurrency'/>
       </div>
-      <div class="col-8">
-        <div class="container-fluid">
-          <h3 class="mt-4" style="color:#00529F;">None Event Logs</h3>
-          <br>
-          <div class="row">
-            <div class=" col-sm-6 col-md-7 col-lg-8">
-                  <form  name="n_choice" action="upload_eventlog" method = "POST">
-                      {% csrf_token %}
-  
-                      <select name="n_log_list" class="custom-select" size="10">
-                          {% for n_eventlog in n_eventlog_list %}
-                              <option value="{{n_eventlog}}">{{n_eventlog}}</option>
-                          {% endfor %}
-                      </select>
-  
-                      <input style="margin-top: 10px;" type = "submit" class="btn btn-danger" value = "Delete" name= "n_deleteButton" id ='n_deleteButton'/>
-                      <input style="float: right; margin-top: 10px;" type = "submit" class="btn btn-info" value = "Download" name= "n_downloadButton" id ='n_downloadButton'/>
-                  </form>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       </div>
     </div>
   
