@@ -3,9 +3,9 @@ from plotly.offline import plot
 
 def create_div_block(fig):
     """
-    Creates a DIV block containing an plotly figure for displaying inside of an HTML
+    Creates a DIV block containing an plotly figure for displaying on the Website
     """
-    return plot(fig, output_type='div', show_link=False, link_text="")
+    return plot(fig, output_type='div')
 
 
 

@@ -14,6 +14,10 @@ def demo_hospital(log, log_format, log_information):
     df = plotting_data.create_plotting_data(log, "csv", log_information)
     date_frame = plotting_data.create_concurrency_frame(df, Groups)
 
+    print(df.head(5))
+
+    print(date_frame.head(5))
+    
     concurrency_plt_div = plotting.concurrency_plot_factory(date_frame, Groups, freq = "D", aggregate = max)    
     timeframe_plt_div =  plotting.amplitude_plot_factory(date_frame, Groups)
 

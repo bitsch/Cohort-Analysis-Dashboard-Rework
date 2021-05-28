@@ -17,17 +17,17 @@ from django.conf import settings
 
 # Application Modules
 import perspective_views.plotting.plot_creation as plotting
+import perspective_views.retrieval.statistics as stats 
 import core.data_loading.data_loading as log_import
 
 from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.objects.log.util import interval_lifecycle, dataframe_utils
 from pm4py.algo.filtering.log.attributes import attributes_filter
 from pm4py.algo.filtering.log.variants import variants_filter
-from pm4py.objects.log.exporter.xes import exporter as xes_exporter
-from pm4py.statistics.traces.log import case_statistics
 from pm4py import get_trace_attributes
 from pm4py import get_attributes
 from pm4py.objects.log.util.sampling import sample
+
 
 
 # Create your views here.
@@ -65,20 +65,12 @@ def perspective(request):
             this_data, temp_file = plotting.dfg_to_g6(dfg)
             re.escape(temp_file)
             network = {}
-            variants = variants_filter.get_variants(log)
-            activities = attributes_filter.get_attribute_values(log, "concept:name")
-            resources = attributes_filter.get_attribute_values(log, "org:resource")
-            result={
-                "Ncase":len(log),
-                "Nvariant":len(variants),
-                "Nactivities":len(activities),
-                "Nresources":len(resources),
-                "case":log,
-                "variant":variants,
-                "activities":activities,
-                "resources":resources
-                }
-            
+
+            result = stats.get_log_statistics(log, log_format, log_information)
+
+            result["Nunique_Activities"] = len(activites)
+
+
             return render(request, 'perspective_view.html', {'log_name': settings.EVENT_LOG_NAME, 'json_file': temp_file, 'data':json.dumps(this_data),'result':result})
 
         else:

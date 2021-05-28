@@ -28,8 +28,6 @@ def concurrency_plot_factory(date_frame, Groups, aggregate, freq):
     
     #TODO Add the Legend in a Place of Convenience
     
-    
-    
     ## Add a timerange selector 
     fig.update_layout(
     xaxis=dict(
@@ -70,7 +68,6 @@ def amplitude_plot_factory(date_frame, Groups, freq = "M", Unified = True):
     Produces an div Block containing an Plotly Graphobject in the Style of a Amplitude Plot. 
     Used in the Timeframe view as a way to represent     
     """
-
 
     pio.templates.default = settings.DEFAULT_PLOT_STYLE
     fig = go.Figure()

@@ -52,10 +52,6 @@ def group_analysis(request):
             print("in request")
         event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
 
-        if settings.EVENT_LOG_NAME == ':notset:':
-            return HttpResponseRedirect(request.path_info)
-        
-
         active_group_details = get_active_groups(request)
         return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME,'active_group_details':active_group_details})
 
@@ -68,14 +64,15 @@ def group_analysis(request):
 
         if load_log_succes:
 
-            context = None
+            plots = None
 
             # Run the Hospital Sepsis Demo
             if log_information["log_name"].lower() == "life_cycle_log.csv": 
-                context = demo_hospital(log, log_format, log_information)
-
+                print("Starting Demo")
+                plots = demo_hospital(log, log_format, log_information)
+                return render(request, "group_analysis.html", {'plots': plots,'active_group_details':active_group_details})
             
-            return render(request, "group_analysis.html", {'context': context,'active_group_details':active_group_details})
+            return render(request, "group_analysis.html", {'plots': plots,'active_group_details':active_group_details})
 
         else:
 

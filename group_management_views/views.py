@@ -21,14 +21,21 @@ from django.contrib.sessions.backends.db import SessionStore
 # Create your views here.
 
 def group_management(request):
-    active_groups = get_active_groups(request)
-    context = {
-        'activites' : request.session["activites"],
-        'active_group_details' : active_groups
-    }
-    #print(request.session["group_details"])
-    
-    #print(active_groups)
+    active_groups = None
+    activites = None
+
+    ## Export this into a general function checking existance of the values in the session, for activities, we might assume this
+    # But better be safe than sorry 
+    if 'activites' in request.session: 
+        activites = request.session["activites"]
+
+    if 'group_details' in request.session:
+        active_groups = get_active_groups(request)
+        
+    context = {'activites' : activites,
+               'active_group_details' : active_groups
+              }
+
     return render(request, 'create_group_view.html', context)
 
 
