@@ -35,6 +35,7 @@ from pm4py.objects.log.util.sampling import sample
 def perspective(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     load_log_succes = False
+    log_information = None
 
 
     #TODO Load the Log Information, else throw/redirect to Log Selection
