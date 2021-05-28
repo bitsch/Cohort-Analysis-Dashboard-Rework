@@ -12,13 +12,13 @@ def get_log_statistics(log, file_format, log_information):
 
     variants["Cases"] = variants["Cases"].apply(len)
 
-    result["variant"] = variants[["Cases", "Name"]].sort_values("Cases").to_dict(orient = "records")
+    result["variant"] = variants[["Cases", "Name"]].sort_values("Cases", ascending=False).to_dict(orient = "records")
     result["Nvariant"] = variants.shape[0]
     result["Nactivities"] = variants.apply(lambda x : len(x["variant"]) * x["Cases"], axis = 1).sum()
 
     case["variant"] = case["variant"].apply(len)
 
-    result["case"] = case[["variant", "Name"]].sort_values("variant").to_dict(orient = "records")
+    result["case"] = case[["variant", "Name"]].sort_values("variant", ascending=False).to_dict(orient = "records")
     result["Ncase"] = case.shape[0]
 
     start_time = variants["Start"].min()
