@@ -103,6 +103,12 @@
               <th scope="row">Unique Activities:</th>
               <td>{{result.Nunique_Activities}}</td>
             </tr>
+            <thead>
+              <tr>
+                <th scope="col">Log Performance</th>
+              </tr>
+            </thead>
+
              <tr>
               <th scope="row">Start Time:</th>
               <td>{{result.StartTime}}</td>
@@ -113,9 +119,29 @@
             </tr>
              <tr>
               <th scope="row">Duration</th>
-              <td>{{result.Duration}}</td>
+              <td>{{result.TotalDuration}}</td>
             </tr>
-
+            <thead>
+              <tr>
+                <th scope="col">Case Performance</th>
+              </tr>
+            </thead>
+              <tr>
+              <th scope="row">Median Case Duration:</th>
+              <td>{{result.MedianCaseDuration}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mean Case Duration:</th>
+              <td>{{result.MeanCaseDuration}}</td>
+            </tr>
+             <tr>
+              <th scope="row">Max Case Duration</th>
+              <td>{{result.MaxCaseDuration}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Min Case Durtation</th>
+              <td>{{result.MinCaseDuration}}</td>
+            </tr>
           </tbody>
         </table>
       </div>
