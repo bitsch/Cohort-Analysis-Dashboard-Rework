@@ -94,15 +94,19 @@
           <tbody>
             <tr>
               <th scope="row">Cases:</th>
-              <td>100</td>
+              <td>{{result.Ncase}}</td>
             </tr>
             <tr>
-              <th scope="row">Trace:</th>
-              <td>1000</td>
+              <th scope="row">Traces:</th>
+              <td>{{result.Nactivities}}</td>
             </tr>
             <tr>
               <th scope="row">Variants:</th>
-              <td>{{variant_count}}</td>
+              <td>{{result.Nvariant}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Resources:</th>
+              <td>{{result.Nresources}}</td>
             </tr>
           </tbody>
         </table>
@@ -142,6 +146,7 @@
       <div class="row">
       <div class="col-4">
         <br>
+        <div class="overflow-auto" style="height: 550px;">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -149,14 +154,14 @@
             </tr>
           </thead>
           <tbody>
+            {% for value in result.case %}
             <tr>
-              <th scope="row">1</th>
+              <a href="#"> <td scope="row">Case {{forloop.counter}}</td></a>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        </div>
         <table class="table table-sm table-hover">
           <div class="fixed-bottom">
           <thead>
@@ -207,6 +212,7 @@
       <div class="row">
       <div class="col-4">
         <br>
+        <div class="overflow-auto" style="height: 550px;">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
@@ -214,14 +220,14 @@
             </tr>
           </thead>
           <tbody>
+            {% for value in result.variant %}
             <tr>
-              <th scope="row">1</th>
+              <a href="#"> <td scope="row">Variant {{forloop.counter}}</td></a>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        </div>
         <table class="table table-sm table-hover">
           <div class="fixed-bottom">
           <thead>
