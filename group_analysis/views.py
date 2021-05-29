@@ -12,11 +12,14 @@ from django.shortcuts import render
 # Application Modules
 import core.data_loading.data_loading as log_import
 from group_analysis.demo import demo_hospital
-from group_analysis.group_managment.group_managment_utils import get_active_groups, check_group_managment
-
+from group_analysis.group_managment.group_managment_utils import (
+    get_active_groups,
+    check_group_managment,
+)
 
 
 # Create your views here.
+
 
 def group_analysis(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
@@ -28,12 +31,11 @@ def group_analysis(request):
 
     # Use this to include it in the UI
 
-    #TODO Load the Log Information, else throw/redirect to Log Selection
-    if "current_log" in request.session and request.session["current_log"] is not None: 
+    # TODO Load the Log Information, else throw/redirect to Log Selection
+    if "current_log" in request.session and request.session["current_log"] is not None:
         log_information = request.session["current_log"]
         print(log_information)
 
-    
     # TODO Get the Groups, from the Post
     if log_information is not None:
 
@@ -47,19 +49,25 @@ def group_analysis(request):
         request.session["activites"] = list(activites)
         load_log_succes = True
 
-    if request.method == 'POST':
+    if request.method == "POST":
         if "uploadButton" in request.POST:
             print("in request")
         event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
 
         active_group_details = get_active_groups(request)
-        return render(request,'group_analysis.html', {'log_name': settings.EVENT_LOG_NAME,'active_group_details':active_group_details})
+        return render(
+            request,
+            "group_analysis.html",
+            {
+                "log_name": settings.EVENT_LOG_NAME,
+                "active_group_details": active_group_details,
+            },
+        )
 
     else:
 
-
         if check_group_managment(request):
-            
+
             active_group_details = get_active_groups(request)
 
         if load_log_succes:
@@ -67,47 +75,25 @@ def group_analysis(request):
             plots = None
 
             # Run the Hospital Sepsis Demo
-            if log_information["log_name"].lower() == "life_cycle_log.csv": 
+            if log_information["log_name"].lower() == "life_cycle_log.csv":
                 print("Starting Demo")
                 plots = demo_hospital(log, log_format, log_information)
-                return render(request, "group_analysis.html", {'plots': plots,'active_group_details':active_group_details})
-            
-            return render(request, "group_analysis.html", {'plots': plots,'active_group_details':active_group_details})
+                return render(
+                    request,
+                    "group_analysis.html",
+                    {"plots": plots, "active_group_details": active_group_details},
+                )
+
+            return render(
+                request,
+                "group_analysis.html",
+                {"plots": plots, "active_group_details": active_group_details},
+            )
 
         else:
 
-             return render(request, "group_analysis.html",{'active_group_details':active_group_details})
-
-       
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            return render(
+                request,
+                "group_analysis.html",
+                {"active_group_details": active_group_details},
+            )

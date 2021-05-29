@@ -18,9 +18,24 @@ A Tool for Cohort Based Process Analysis powered by [PM4PY](https://pm4py.fit.fr
 
 1. Installing necessary project dependencies:
 
-    `python3 -m pip install -r requirements.txt`
+   `python3 -m pip install -r requirements.txt`
+
 2. In order to start the application, you can use:
 
-    `python manage.py runserver`
+   `python manage.py runserver`
 
 3. You application is up and running. Navigate to `http://127.0.0.1:8000/` to start using CAD
+
+### Linters and Fixes
+
+1. CAD is using `flake` for detecting basic lint issues. You can find all lint constraints by running: `flake ./`
+
+2. Most lint issues, such as incorrect indentations, can be fixed by `black` library. Just run `black ./`
+
+3. The rest of the mising lint issues will have to be fixed manually
+
+4. Additionally, it's possible to get a detailed overview and rating of each module
+
+   Run `pylint ./{directory-name}`
+
+NOTE: pylint and black are following pep8 styling standard.

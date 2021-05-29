@@ -23,12 +23,14 @@ from django.conf.urls.static import static
 from bootstrapdjango import settings
 
 urlpatterns = [
-    path('',views.home, name= 'home'),
-    url(r'^logmanagement/', include('log_management.urls')),
-    #url(r'^rolemining/', include(role_mining.urls))
-    path('filter', include('log_filtering.urls')),
-    path('group_analysis', include('group_analysis.urls')),
-    path('views', include('perspective_views.urls')),
-    url(r'^groupmanagement/', include('group_management_views.urls')),
+    path("", views.home, name="home"),
+    url(r"^logmanagement/", include("log_management.urls")),
+    # url(r'^rolemining/', include(role_mining.urls))
+    path("filter", include("log_filtering.urls")),
+    path("group_analysis", include("group_analysis.urls")),
+    path("views", include("perspective_views.urls")),
+    url(r"^groupmanagement/", include("group_management_views.urls")),
 ]
-urlpatterns = urlpatterns + static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
+urlpatterns = urlpatterns + static(
+    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+)
