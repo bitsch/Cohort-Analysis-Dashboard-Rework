@@ -184,13 +184,13 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">Case</th>
+              <th scope="col">Case Id : No of event</th>
             </tr>
           </thead>
           <tbody>
             {% for value in result.case %}
             <tr>
-              <td scope="row"><a href="#disease">Case {{value.Name}} {{value.variant}}</a></td>
+              <td scope="row"><a href="?caseID={{value.Name}}">Case {{value.Name}} : {{value.variant}}</a></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -250,13 +250,13 @@
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">Variant </th>
+              <th scope="col">Variant Id : No of Cases</th>
             </tr>
           </thead>
           <tbody>
             {% for value in result.variant %}
             <tr>
-              <td scope="row"> <a href="#doctor"> {{value.Name}} {{value.Cases}} </a></td>
+              <td scope="row"> <a href="?variantID={{value.Name}}">{{value.Name}} : {{value.Cases}}</a> </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -448,6 +448,12 @@ function getSelectedNodes(){
 
 }
 
+function filterCase(){
+  const container = $("#mynetwork2");
+  const network = new vis.Network(container[0],data, options);
+	makeMeMultiSelect(container, network, data.nodes);
+  return 0;
+}
 </script>
 
 {% endblock %}

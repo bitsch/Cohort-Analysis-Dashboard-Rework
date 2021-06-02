@@ -29,6 +29,7 @@ from pm4py import get_attributes
 from pm4py.objects.log.util.sampling import sample
 
 
+
 # Create your views here.
 
 
@@ -58,8 +59,16 @@ def perspective(request):
     else:
 
         if load_log_succes:
-
-            dfg = dfg_discovery.apply(log)
+            caseID=request.GET.get('caseID', '')
+            print(caseID)
+            listCaseID=[caseID]
+            if caseID!='':
+                filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", listCaseID, level='case', retain=True)
+                dfg = dfg_discovery.apply(filtered_log)
+                
+            else :
+                dfg = dfg_discovery.apply(log)
+            
             this_data, temp_file = plotting.dfg_to_g6(dfg)
             re.escape(temp_file)
             network = {}
