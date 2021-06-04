@@ -1,16 +1,15 @@
 import os
-from core.models import SelectedLog
-from log_management.services.log_service import LogService
+import re
+
+from wsgiref.util import FileWrapper
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
-import re
-from django.http import JsonResponse
-from wsgiref.util import FileWrapper
+from django.template import loader
+
+from log_management.services.log_service import LogService
+from core.models import SelectedLog
 
 LOGMANAGEMENT_DIR = "log_management"
-
-# Create your views here.
-
 
 def index(request):
     '''Returns the index views. Supports both GET and POST methods.'''
@@ -20,8 +19,8 @@ def index(request):
         if "uploadButton" in request.POST:
             print("here!")
             # check if the file is missing
-            eventLogIsMissing = "event_log" not in request.FILES
-            if eventLogIsMissing:
+            event_log_is_missing = "event_log" not in request.FILES
+            if event_log_is_missing:
                 return HttpResponseRedirect(request.path_info)
 
             log = request.FILES["event_log"]
@@ -108,11 +107,12 @@ def set_log(request, logname):
 
 def get_log_info(request):
     '''Returns information about a log. WIP'''
-    # TODO: Allow user checking log info prior to selecting a log
-    # log_service = LogService()
+    log_service = LogService()
 
-    # log_name = request.GET.get('log_name', None)
-    # data = log_service.getLogInfo(log_name).__dict__
-    data = {"todo": "todo"}
-    print(request)
-    return JsonResponse(data)
+    log_name = request.GET.get('log_name', None)
+
+    data = log_service.getLogInfo(log_name).__dict__
+    print(data)
+    html = loader.render_to_string(LOGMANAGEMENT_DIR + "/log_info.html", data)
+    print(html)
+    return HttpResponse(html)
