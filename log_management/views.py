@@ -1,3 +1,4 @@
+import os
 from core.models import SelectedLog
 from log_management.services.log_service import LogService
 from django.shortcuts import redirect, render
@@ -5,7 +6,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 import re
 from django.http import JsonResponse
 from wsgiref.util import FileWrapper
-import os
 
 LOGMANAGEMENT_DIR = "log_management"
 
@@ -13,10 +13,12 @@ LOGMANAGEMENT_DIR = "log_management"
 
 
 def index(request):
-    log_service = LogService()
+    '''Returns the index views. Supports both GET and POST methods.'''
 
+    log_service = LogService()
     if request.method == "POST":
         if "uploadButton" in request.POST:
+            print("here!")
             # check if the file is missing
             eventLogIsMissing = "event_log" not in request.FILES
             if eventLogIsMissing:
@@ -31,6 +33,8 @@ def index(request):
                 return HttpResponseRedirect(request.path_info)
             log_service.saveLog(log)
         elif "deleteButton" in request.POST:
+            if "log_list" not in request.POST:
+                return HttpResponseRedirect(request.path_info)
             logname = request.POST["log_list"]
             log_service.deleteLog(logname)
         elif "downloadButton" in request.POST:
@@ -70,6 +74,7 @@ def index(request):
 
 
 def set_log(request, logname):
+    '''Sets the specified log as current using session memory'''
     log_service = LogService()
 
     if request.method == "POST":
@@ -102,15 +107,12 @@ def set_log(request, logname):
 
 
 def get_log_info(request):
+    '''Returns information about a log. WIP'''
     # TODO: Allow user checking log info prior to selecting a log
     # log_service = LogService()
 
     # log_name = request.GET.get('log_name', None)
     # data = log_service.getLogInfo(log_name).__dict__
     data = {"todo": "todo"}
+    print(request)
     return JsonResponse(data)
-
-
-def log_response(request, log):
-    response = HttpResponse("Setting current log")
-    response.set_cookie(key="current_log", value=log.log_name)
