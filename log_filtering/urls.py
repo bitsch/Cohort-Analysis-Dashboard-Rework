@@ -3,7 +3,4 @@ from django.urls import path
 
 from . import views
 
-urlpatterns = [
-    path('', views.filter, name='filter')
-
-]
+urlpatterns = [path("", views.filter, name="filter")]

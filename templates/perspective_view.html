@@ -73,11 +73,6 @@
   <li class="nav-item">
     <a class="nav-link" id="disease-tab" data-toggle="tab" href="#disease" role="tab" aria-controls="disease" aria-selected="false">Disease View</a>
   </li>
-  <form class="navbar-text border-0">
-      <select class="form-select border-0" aria-label="Default select example">
-      <option selected>{{log_name}}</option>
-    </select>
-  </form>
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="organisation" role="tabpanel" aria-labelledby="timeframe-tab">
@@ -94,15 +89,58 @@
           <tbody>
             <tr>
               <th scope="row">Cases:</th>
-              <td>100</td>
+              <td>{{result.Ncase}}</td>
             </tr>
             <tr>
-              <th scope="row">Trace:</th>
-              <td>1000</td>
+              <th scope="row">Events:</th>
+              <td>{{result.Nactivities}}</td>
             </tr>
             <tr>
               <th scope="row">Variants:</th>
-              <td>{{variant_count}}</td>
+              <td>{{result.Nvariant}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Unique Activities:</th>
+              <td>{{result.Nunique_Activities}}</td>
+            </tr>
+            <thead>
+              <tr>
+                <th scope="col">Log Performance</th>
+              </tr>
+            </thead>
+
+             <tr>
+              <th scope="row">Start Time:</th>
+              <td>{{result.StartTime}}</td>
+            </tr>
+            <tr>
+              <th scope="row">End Time:</th>
+              <td>{{result.EndTime}}</td>
+            </tr>
+             <tr>
+              <th scope="row">Duration</th>
+              <td>{{result.TotalDuration}}</td>
+            </tr>
+            <thead>
+              <tr>
+                <th scope="col">Case Performance</th>
+              </tr>
+            </thead>
+              <tr>
+              <th scope="row">Median Case Duration:</th>
+              <td>{{result.MedianCaseDuration}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mean Case Duration:</th>
+              <td>{{result.MeanCaseDuration}}</td>
+            </tr>
+             <tr>
+              <th scope="row">Max Case Duration</th>
+              <td>{{result.MaxCaseDuration}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Min Case Durtation</th>
+              <td>{{result.MinCaseDuration}}</td>
             </tr>
           </tbody>
         </table>
@@ -142,21 +180,22 @@
       <div class="row">
       <div class="col-4">
         <br>
+        <div class="overflow-auto" style="height: 550px;">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">Case</th>
+              <th scope="col">Case Id : No of event</th>
             </tr>
           </thead>
           <tbody>
+            {% for value in result.case %}
             <tr>
-              <th scope="row">1</th>
+              <td scope="row"><a href="?caseID={{value.Name}}">Case {{value.Name}} : {{value.variant}}</a></td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        </div>
         <table class="table table-sm table-hover">
           <div class="fixed-bottom">
           <thead>
@@ -207,21 +246,22 @@
       <div class="row">
       <div class="col-4">
         <br>
+        <div class="overflow-auto" style="height: 550px;">
         <table class="table table-sm table-hover">
           <thead>
             <tr>
-              <th scope="col">Variant</th>
+              <th scope="col">Variant Id : No of Cases</th>
             </tr>
           </thead>
           <tbody>
+            {% for value in result.variant %}
             <tr>
-              <th scope="row">1</th>
+              <td scope="row"> <a href="?variantID={{value.Name}}">{{value.Name}} : {{value.Cases}}</a> </td>
             </tr>
-            <tr>
-              <th scope="row">2</th>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
+        </div>
         <table class="table table-sm table-hover">
           <div class="fixed-bottom">
           <thead>
@@ -408,6 +448,12 @@ function getSelectedNodes(){
 
 }
 
+function filterCase(){
+  const container = $("#mynetwork2");
+  const network = new vis.Network(container[0],data, options);
+	makeMeMultiSelect(container, network, data.nodes);
+  return 0;
+}
 </script>
 
 {% endblock %}
