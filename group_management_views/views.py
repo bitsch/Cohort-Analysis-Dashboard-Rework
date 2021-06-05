@@ -85,3 +85,17 @@ def change_group_status(request):
     message = {"success": True, "responseText": "Inactivated successfully!"}
     print(request.POST)
     return JsonResponse(message)
+
+
+
+def cohort_analysis_data(request):
+    if request.method == "POST":
+        #post_data = dict(request.POST.lists())
+        if(request.POST["operation_type"] == "timeframe"):
+            print("Please implement timeframe plot functionalities!")
+        else:
+            print("Please implement concurrency plot functionalities!")
+
+    message = {"success": True, "responseText": "Search worked successfully!"}
+
+    return JsonResponse(message)

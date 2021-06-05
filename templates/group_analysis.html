@@ -16,95 +16,210 @@
     <a class="nav-link" id="concurrency-tab" data-toggle="tab" href="#concurrency" role="tab" aria-controls="concurrency" aria-selected="false">Concurrency</a>
   </li>
 </ul>
+
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="timeframe" role="tabpanel" aria-labelledby="timeframe-tab">
-    <div class="container-fluid" id="graph">
-      <div class="row">
-      <div class="col-4">
-        <br>
-        <table class="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Group Name</th>
-              <th scope="col">Number of Activities</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if  active_group_details.items %}
-            {% for key, value in active_group_details.items %}
-            {% with group_name=value.group_name %}   
-            <tr>
-              <td><label class="checkbox-inline"> <input type="checkbox" name="group_name" class="group_name" value=""></label> {{group_name}}</td>
-              <td style="text-align: center;">{{value.number_of_activities}}</td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-            {% endif %}
-          </tbody>
-        </table>
-        <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_timeframe" id ='cohort_analysis_timeframe'/>
-      </div>
-      <div class="col-8">
-        <div class="container-fluid">
-          {% if plots.concurrency_plt_div %}
-            <h3> Concurrency Plot </h3>
-            {% autoescape off %}
-            {{ plots.concurrency_plt_div }}
-            {% endautoescape %}
-          {% endif %}
-
-          {% if plots.concurrency_plt_div %}
-            <h3> Amplitude Plot </h3>
-            {% autoescape off %}
-            {{ plots.timeframe_plt_div }}
-            {% endautoescape %}
-          {% endif %}
-        </div>
-      </div>
-      </div>
-    </div>
-    
-    
-
+     <div class="container-fluid" id="graph">
+        
+           <div class="row">
+              <div class="col-4">
+                 <br>
+                 <table class="table table-sm table-hover">
+                    <thead>
+                       <tr>
+                          <th scope="col">Group Name</th>
+                          <th scope="col">Number of Activities</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                       {% if  active_group_details.items %}
+                       {% for key, value in active_group_details.items %}
+                       {% with group_name=value.group_name %}   
+                       <tr>
+                          <td>
+                             <label class="radio-inline">
+                             <input type="radio" name="timeframe_group_name" class="timeframe_group_name" id="timeframe_group_name" value="{{group_name}}">
+                             {{group_name}}
+                             </label>
+                          </td>
+                          <td style="text-align: center;">{{value.number_of_activities}}</td>
+                       </tr>
+                       {% endwith %}
+                       {% endfor %}
+                       {% endif %}
+                    </tbody>
+                 </table>
+                 <form  name="cohort_analysis_timeframe_form" action="" method = "POST">
+                  {% csrf_token %}
+                 <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_timeframe" id ='cohort_analysis_timeframe'/>
+                 </form>
+              </div>
+              <div class="col-8">
+                 <div class="btn-group btn-group-toggle timeframe-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active" timeframe_type="hourly">
+                    <input type="radio" name="timeframe_option_hourly" class="timeframe_option_hourly" id="timeframe_option_hourly"> Hourly
+                    </label>
+                    <label class="btn btn-secondary" timeframe_type="daily">
+                    <input type="radio" name="timeframe_option_daily" id="timeframe_option_daily"> Daily
+                    </label>
+                    <label class="btn btn-secondary timeframe_weekly" timeframe_type="Weekly">
+                    <input type="radio" name="timeframe_option_weekly" id="timeframe_option_weekly"> Weekly
+                    </label>
+                    <label class="btn btn-secondary" timeframe_type="monthly">
+                    <input type="radio" name="timeframe_option_monthly" id="timeframe_option_monthly"> Monthly
+                    </label>
+                    <label class="btn btn-secondary" timeframe_type="yearly">
+                    <input type="radio" name="timeframe_option_yearly" id="timeframe_option_yearly"> Yearly
+                    </label>
+                 </div>
+                 <div class="container-fluid">
+                    {% if plots.concurrency_plt_div %}
+                    <h3> Concurrency Plot </h3>
+                    {% autoescape off %}
+                    {{ plots.concurrency_plt_div }}
+                    {% endautoescape %}
+                    {% endif %}
+                    {% if plots.concurrency_plt_div %}
+                    <h3> Amplitude Plot </h3>
+                    {% autoescape off %}
+                    {{ plots.timeframe_plt_div }}
+                    {% endautoescape %}
+                    {% endif %}
+                 </div>
+              </div>
+           </div>
+     </div>
   </div>
-
   <div class="tab-pane fade" id="concurrency" role="tabpanel" aria-labelledby="concurrency-tab">
-    <div class="container-fluid" id="graph">
-      <div class="row">
-      <div class="col-4">
-        <br>
-        <table class="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Group Name</th>
-              <th scope="col">Number of Activities</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if  active_group_details.items %}
-            {% for key, value in active_group_details.items %}
-            {% with group_name=value.group_name %}   
-            <tr>
-              <td><label class="checkbox-inline"> <input type="checkbox" name="group_name" class="group_name" value=""></label> {{group_name}}</td>
-              <td style="text-align: center;">{{value.number_of_activities}}</td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-            {% endif %}
-          </tbody>
-        </table>
-        <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_concurrency" id ='cohort_analysis_concurrency'/>
-      </div>
-      
-      </div>
-    </div>
-  
-
-
+     <div class="container-fluid" id="graph">
+        
+           <div class="row">
+              <div class="col-4">
+                 <br>
+                 <table class="table table-sm table-hover">
+                    <thead>
+                       <tr>
+                          <th scope="col">Group Name</th>
+                          <th scope="col">Number of Activities</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                       {% if  active_group_details.items %}
+                       {% for key, value in active_group_details.items %}
+                       {% with group_name=value.group_name %}   
+                       <tr>
+                          <td>
+                            <label class="checkbox-inline"> <input type="checkbox" name="concurrency_group_name" class="concurrency_group_name" value="{{group_name}}">
+                             {{group_name}}
+                            </label>
+                          </td>
+                          <td style="text-align: center;">{{value.number_of_activities}}</td>
+                       </tr>
+                       {% endwith %}
+                       {% endfor %}
+                       {% endif %}
+                    </tbody>
+                 </table>
+                 <form  name="cohort_analysis_concurrency_form" action="" method = "POST">
+                  {% csrf_token %}
+                 <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_concurrency" id ='cohort_analysis_concurrency'/>
+                </form>
+              </div>
+              <div class="col-8">
+                 <div class="btn-group btn-group-toggle concurrency-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active" concurrency_type="hourly">
+                    <input type="radio" name="concurrency_option_hourly" class="concurrency_option_hourly" id="concurrency_option_hourly"> Hourly
+                    </label>
+                    <label class="btn btn-secondary" concurrency_type="daily">
+                    <input type="radio" name="concurrency_option_daily" id="concurrency_option_daily"> Daily
+                    </label>
+                    <label class="btn btn-secondary concurrency_weekly" concurrency_type="Weekly">
+                    <input type="radio" name="concurrency_option_weekly" id="concurrency_option_weekly"> Weekly
+                    </label>
+                    <label class="btn btn-secondary" concurrency_type="monthly">
+                    <input type="radio" name="concurrency_option_monthly" id="concurrency_option_monthly"> Monthly
+                    </label>
+                    <label class="btn btn-secondary" concurrency_type="yearly">
+                    <input type="radio" name="concurrency_option_yearly" id="concurrency_option_yearly"> Yearly
+                    </label>
+                 </div>
+              </div>
+           </div>
+     </div>
   </div>
 </div>
 
 
 
+
+{% endblock %}
+{% block script %}
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $("input[name='cohort_analysis_timeframe']").click(function(){
+    selected_time = '';
+    $('.timeframe-toggle .btn-secondary').each(function() {
+      if($(this).hasClass("active")) {
+        selected_time = $(this).attr("timeframe_type");
+      }
+    });
+    var selected_group_name = $("input[name='timeframe_group_name']:checked").val();
+    var operation_type = "timeframe"
+    var token = '{{csrf_token}}';
+    alert(selected_time)
+    if(selected_time != '' && selected_group_name != ''){
+      $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/groupmanagement/ajax/cohortanalysisdata/",
+        type: 'POST',
+        data: {'selected_group_name': selected_group_name,'selected_time':selected_time,'operation_type':operation_type,'X-CSRFToken':token},
+        dataType:'json',
+      }).done(function(result) {
+        
+      });
+    }else{
+      alert("Please select Groupname!")
+    }
+  });
+
+
+
+  
+
+  $("input[name='cohort_analysis_concurrency']").click(function(){
+    selected_time = '';
+    $('.concurrency-toggle .btn-secondary').each(function() {
+      if($(this).hasClass("active")) {
+        selected_time = $(this).attr("concurrency_type");
+      }
+    });
+    var groups = [];
+    $('.concurrency_group_name').each(function() {
+      if ($(this).is(":checked") != false) {
+        groups.push($(this).val());
+      }
+    });
+    var operation_type = "concurrency"
+    var token = '{{csrf_token}}';
+    if(selected_time != '' && groups != ''){
+      $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/groupmanagement/ajax/cohortanalysisdata/",
+        type: 'POST',
+        data: {'selected_group_names': groups,'selected_time':selected_time,'operation_type':operation_type,'X-CSRFToken':token},
+        dataType:'json',
+      }).done(function(result) {
+        
+      });
+    }else{
+      alert("Please select Groupname!")
+    }
+  });
+
+});
+
+
+</script>
 
 {% endblock %}

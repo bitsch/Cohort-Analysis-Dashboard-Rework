@@ -15,4 +15,9 @@ urlpatterns = [
         views.change_group_status,
         name="change_group_status",
     ),
+    url(
+        r"^ajax/cohortanalysisdata/$",
+        views.cohort_analysis_data,
+        name="cohort_analysis_data",
+    ),
 ]
