@@ -89,6 +89,7 @@ def group_analysis(request):
                 "group_analysis.html",
                 {"plots": plots, "active_group_details": active_group_details},
             )
+#
 
         else:
 

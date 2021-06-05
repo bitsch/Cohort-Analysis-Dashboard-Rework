@@ -7,6 +7,15 @@ import core.data_transformation.data_transform_utils as data_transform
 
 
 def create_concurrency_frame(df, Groups, freq="5T"):
+    """
+    Compute a dataframe for plotting of concurrent events used in the associated plotting functions
+
+    input:  pandas df log in a double timestamp format
+            list-like of Group Objects
+            pandsa freq str   
+
+    output: pandas df containing the count of concurrent activities per group on a freq-level
+    """
     df = df.copy()
     df = df.loc[
         df[xes.DEFAULT_TRACEID_KEY].isin(
@@ -45,7 +54,15 @@ def create_concurrency_frame(df, Groups, freq="5T"):
 
 
 def create_plotting_data(log, file_format, log_information):
+    """
+    Transofrms a log, such that it can be easer used for plotting, removes unnecessary data, creates df from xes data, and renames columns
 
+    input: XES/CSV log ,
+           file_format str,
+           log_information django session dict
+
+    output: pandas df with pm4py default names for attributes in a two timestamp format       
+    """
     # Stores the Attribut Names for later references, makes renaming attributes inside the XES unnecessary
     attribute_names = {}
 
