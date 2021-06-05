@@ -8,6 +8,7 @@ from pm4py.objects.log.importer.xes import importer as xes_import_factory
 from pm4py.algo.discovery.dfg import algorithm as dfg_factory
 from pm4py.visualization.dfg import visualizer as dfg_vis_factory
 
+
 def import_csv(file):
     """
     import csv and it adds classifiers
