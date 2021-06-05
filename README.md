@@ -39,3 +39,9 @@ A Tool for Cohort Based Process Analysis powered by [PM4PY](https://pm4py.fit.fr
    Run `pylint ./{directory-name}`
 
 NOTE: pylint and black are following pep8 styling standard.
+
+### Running the Unit Tests
+
+You can trigger the unit tests of an application by running `python manage.py test`
+E.g. `python manage.py test log_management`
+   
