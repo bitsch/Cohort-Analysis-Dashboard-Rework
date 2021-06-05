@@ -114,5 +114,5 @@ def get_log_info(request):
     data = log_service.getLogInfo(log_name).__dict__
     print(data)
     html = loader.render_to_string(LOGMANAGEMENT_DIR + "/log_info.html", data)
-    print(html)
+    #print(html)
     return HttpResponse(html)
