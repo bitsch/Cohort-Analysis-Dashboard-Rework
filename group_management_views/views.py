@@ -1,7 +1,7 @@
 # Django Dependencies
-from django.shortcuts import render
-from django.http import JsonResponse
-
+from django.shortcuts import redirect, render
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
+from django.template import loader
 # Application Modules
 
 # Create your views here.
@@ -90,12 +90,16 @@ def change_group_status(request):
 
 def cohort_analysis_data(request):
     if request.method == "POST":
-        #post_data = dict(request.POST.lists())
+        post_data = dict(request.POST.lists())
         if(request.POST["operation_type"] == "timeframe"):
             print("Please implement timeframe plot functionalities!")
         else:
             print("Please implement concurrency plot functionalities!")
 
     message = {"success": True, "responseText": "Search worked successfully!"}
+    print(post_data)
 
-    return JsonResponse(message)
+    html = loader.render_to_string("cohort_analysis_plot.html", post_data)
+    
+    return HttpResponse(html)
+

@@ -55,6 +55,7 @@
                  </form>
               </div>
               <div class="col-8">
+                <br>
                  <div class="btn-group btn-group-toggle timeframe-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary active" timeframe_type="hourly">
                     <input type="radio" name="timeframe_option_hourly" class="timeframe_option_hourly" id="timeframe_option_hourly"> Hourly
@@ -86,6 +87,7 @@
                     {% endautoescape %}
                     {% endif %}
                  </div>
+                 <div id="timeframe-cohort-analysis-container"></div>
               </div>
            </div>
      </div>
@@ -126,6 +128,7 @@
                 </form>
               </div>
               <div class="col-8">
+                <br>
                  <div class="btn-group btn-group-toggle concurrency-toggle" data-toggle="buttons">
                     <label class="btn btn-secondary active" concurrency_type="hourly">
                     <input type="radio" name="concurrency_option_hourly" class="concurrency_option_hourly" id="concurrency_option_hourly"> Hourly
@@ -143,6 +146,7 @@
                     <input type="radio" name="concurrency_option_yearly" id="concurrency_option_yearly"> Yearly
                     </label>
                  </div>
+                 <div id="concurrency-cohort-analysis-container"></div>
               </div>
            </div>
      </div>
@@ -174,10 +178,12 @@ $(document).ready(function(){
         url: "/groupmanagement/ajax/cohortanalysisdata/",
         type: 'POST',
         data: {'selected_group_name': selected_group_name,'selected_time':selected_time,'operation_type':operation_type,'X-CSRFToken':token},
-        dataType:'json',
-      }).done(function(result) {
-        
-      });
+        dataType:'html',
+        success: function(result) {
+            // Parse the html response into the correct div
+           $('#timeframe-cohort-analysis-container').html(result);
+        }
+      })
     }else{
       alert("Please select Groupname!")
     }
@@ -208,10 +214,12 @@ $(document).ready(function(){
         url: "/groupmanagement/ajax/cohortanalysisdata/",
         type: 'POST',
         data: {'selected_group_names': groups,'selected_time':selected_time,'operation_type':operation_type,'X-CSRFToken':token},
-        dataType:'json',
-      }).done(function(result) {
-        
-      });
+        dataType:'html',
+        success: function(result) {
+            // Parse the html response into the correct div
+           $('#concurrency-cohort-analysis-container').html(result);
+        }
+      })
     }else{
       alert("Please select Groupname!")
     }
