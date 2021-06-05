@@ -50,6 +50,14 @@
   
                   </form>
             </div>
+            <div class="col-sm-6 col-md-5 col-lg-4">
+              <div id="log-info-container"></div>
+              <div  class="d-flex justify-content-center align-items-center">
+                <div id="loading-spinner" class="spinner-grow" style="width: 5em; height: 5em; display: none;" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
+            </div>
           </div>
             <br>
   
@@ -96,21 +104,30 @@
         $.ajax({
           headers: { "X-CSRFToken": token },
           url: "/logmanagement/ajax/loginfo/",
-          data: { 'log_name': selectedlog},
-          dataType:'json',
-        }).done(function(result) {
-            console.log(result)
-           no_trace = result.no_traces
-           $('#no_trace').text("No of traces: " + no_trace)
-
-           no_event = result.no_events
-           $('#no_event').text("No of events: " + no_event)
-        });
-        });
+          data: { 
+            'log_name': selectedlog,
+          },
+          dataType:'html',
+          success: function(result) {
+            // Parse the html response into the correct div
+           $('#log-info-container').html(result);
+          }
+        })
+      });
     });
 
     $(document).ready(function(){
       $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(document).ajaxStart(function() {
+      $('#log-info-container').hide();
+      $("#loading-spinner").show();
+    });
+
+    $(document).ajaxStop(function() {
+      $("#loading-spinner").hide();
+      $('#log-info-container').show();
     });
 
   </script>
