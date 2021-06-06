@@ -9,7 +9,7 @@ def get_log_statistics(log, file_format, log_information):
     result = {}
 
     variants, case = create_df_variant(log, file_format, log_information)
-
+    result["df_variant"]=variants
     variants["Cases"] = variants["Cases"].apply(len)
 
     result["variant"] = (
