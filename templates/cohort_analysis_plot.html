@@ -1,4 +1,5 @@
 <div class="myDiv">
-  <p>Operation type:{{operation_type}} </p>
-  <p>Time: {{selected_time}}</p>
+  {% autoescape off %}
+  {{ plot_div }}
+  {% endautoescape %}
 </div>

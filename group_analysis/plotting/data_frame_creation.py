@@ -178,3 +178,9 @@ def create_plotting_data(log, file_format, log_information):
             )
 
     return log
+
+
+def create_timeframe_dataframe(df, Group, start_time, end_time): 
+    
+    return(df.loc[(df[xes.DEFAULT_TRACEID_KEY].isin(Group.members)) & (df[xes.DEFAULT_START_TIMESTAMP_KEY].between(start_time, end_time))])
+    

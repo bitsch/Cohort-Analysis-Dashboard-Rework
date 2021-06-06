@@ -2,7 +2,6 @@ from perspective_views.plotting.data_frame_creation import create_df_variant
 
 
 def get_log_statistics(log, file_format, log_information):
-
     """
     Computes Log Statisitcs from the Variant Dataframe in a log type insensitive Way
     """

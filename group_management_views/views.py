@@ -87,19 +87,91 @@ def change_group_status(request):
     return JsonResponse(message)
 
 
+from django.conf import settings
+import os 
+import core.data_loading.data_loading as log_import
+from group_analysis.group_managment.group_managment_utils import (
+    get_active_groups,
+    check_group_managment,
+)
+
+import group_analysis.plotting.data_frame_creation as plotting_data
+import group_analysis.plotting.plot_creation as plotting
+from group_analysis.group_managment.group import Group
+
+
+
 
 def cohort_analysis_data(request):
+
     if request.method == "POST":
+        event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
         post_data = dict(request.POST.lists())
+
+        
+        log_information = request.session["current_log"]
+    
+        event_log = os.path.join(event_logs_path, log_information["log_name"])
+        log_format = log_import.get_log_format(log_information["log_name"])
+        
+
+        # Loading Group details
+        group_details = request.session["group_details"]
+
+        # Loading the Log
+        log, activites = log_import.log_import(event_log, log_format, log_information)
+        
+        # Creating the Plotting Data
+        df = plotting_data.create_plotting_data(log, log_format, log_information)
+
+        # Consider Pickeling the Data for a quick performance boost after the first load
+     
+        
+
+
         if(request.POST["operation_type"] == "timeframe"):
-            print("Please implement timeframe plot functionalities!")
+
+
+
+            # TODO Replace this with the Interval picker values covered by the UI
+            start_time = df["start_timestamp"].min()
+            end_time = df["time:timestamp"].max()
+
+            group = Group(group_details[request.POST["selected_group_name"]]["group_name"], group_details[request.POST["selected_group_name"]]["selected_activities"].split(","))
+
+            df = plotting_data.create_timeframe_dataframe(df, group, start_time, end_time)
+            plot_div = plotting.timeframe_plot_factory(df)
+
         else:
+
+
+            Groups = [Group(group_details[name]["group_name"], group_details[name]["selected_activities"].split(","))
+                                    for name in group_details.keys()
+                                    if name in request.POST["selected_group_names[]"]
+                     ]
+
+            request.POST["selected_group_names[]"]
+            freq = request.POST["selected_time"]
+
+            date_frame = plotting_data.create_concurrency_frame(df, Groups)
+
+            plot_div = plotting.concurrency_plot_factory(
+                date_frame, Groups, freq=freq, aggregate=max
+            )
+
+
+            ## TODO ADD CHOICE FOR AMPLITUDE PLOT timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)
+
+
+
             print("Please implement concurrency plot functionalities!")
 
-    message = {"success": True, "responseText": "Search worked successfully!"}
-    print(post_data)
+    
+    post_data["plot_div"] = plot_div
 
     html = loader.render_to_string("cohort_analysis_plot.html", post_data)
     
+
+
     return HttpResponse(html)
 
