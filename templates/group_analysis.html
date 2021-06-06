@@ -171,7 +171,7 @@ $(document).ready(function(){
   
   $("input[name='cohort_analysis_concurrency']").click(function(){
     selected_time = '';
-    $('.concurrency-toggle .btn-secondary').each(function() {
+    $('.concurrency-toggle .btn-primary').each(function() {
       if($(this).hasClass("active")) {
         selected_time = $(this).attr("concurrency_type");
       }
