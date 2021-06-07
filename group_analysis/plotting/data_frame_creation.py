@@ -16,40 +16,27 @@ def create_concurrency_frame(df, Groups, freq="5T"):
 
     output: pandas df containing the count of concurrent activities per group on a freq-level
     """
+
     df = df.copy()
-    df = df.loc[
-        df[xes.DEFAULT_TRACEID_KEY].isin(
-            utils.flatten([group.members for group in Groups])
-        ),
-        :,
-    ]
+    df = df.loc[df[xes.DEFAULT_TRACEID_KEY].isin(utils.flatten([group.members for group in Groups])), :]
 
-    for group in Groups:
-        df.loc[:, group.name] = df["concept:name"].isin(group.members)
+    for group in Groups: 
+        df.loc[:, group.name] = df[xes.DEFAULT_TRACEID_KEY].isin(group.members)
 
-    df = df.drop(["case:concept:name", "concept:name"], axis=1)
+    df = df.drop(["case:concept:name", xes.DEFAULT_TRACEID_KEY], axis = 1)
 
-    df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY] = pd.to_datetime(
-        df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY], utc=True
-    )
-    df.loc[:, xes.DEFAULT_TIMESTAMP_KEY] = pd.to_datetime(
-        df.loc[:, xes.DEFAULT_TIMESTAMP_KEY], utc=True
-    )
+    df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY] = pd.to_datetime(df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY],  utc = True)
+    df.loc[:, xes.DEFAULT_TIMESTAMP_KEY] = pd.to_datetime(df.loc[:, xes.DEFAULT_TIMESTAMP_KEY],  utc = True)
 
-    df.loc[:, "interpolate_date"] = [
-        pd.date_range(s, e, freq=freq)
-        for s, e in zip(
-            pd.to_datetime(df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY]),
-            pd.to_datetime(df.loc[:, xes.DEFAULT_TIMESTAMP_KEY]),
-        )
-    ]
+    df.loc[:,'interpolate_date'] = [pd.date_range(s, e, freq = freq) for s, e in
+                  zip(pd.to_datetime(df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY]), pd.to_datetime(df.loc[:, xes.DEFAULT_TIMESTAMP_KEY]))]
 
-    df = df.drop(
-        [xes.DEFAULT_START_TIMESTAMP_KEY, xes.DEFAULT_TIMESTAMP_KEY], axis=1
-    ).explode("interpolate_date")
-
-    date_frame = df.groupby(pd.Grouper(key="interpolate_date", freq=freq)).sum()
-
+    df = df.drop([xes.DEFAULT_START_TIMESTAMP_KEY, xes.DEFAULT_TIMESTAMP_KEY], axis = 1).explode("interpolate_date")
+    
+    agg_func = {group.name : sum for group in Groups}
+    
+    date_frame = df.groupby(pd.Grouper(key = "interpolate_date", freq = freq)).agg(agg_func)
+    
     return date_frame
 
 
