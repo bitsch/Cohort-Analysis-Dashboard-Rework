@@ -108,7 +108,7 @@ def cohort_analysis_data(request):
         event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
         post_data = dict(request.POST.lists())
 
-        
+
         log_information = request.session["current_log"]
     
         event_log = os.path.join(event_logs_path, log_information["log_name"])
@@ -126,11 +126,7 @@ def cohort_analysis_data(request):
 
         # Consider Pickeling the Data for a quick performance boost after the first load
      
-        
-
-
         if(request.POST["operation_type"] == "timeframe"):
-
 
 
             # TODO Replace this with the Interval picker values covered by the UI
@@ -144,13 +140,11 @@ def cohort_analysis_data(request):
 
         else:
 
-
             Groups = [Group(group_details[name]["group_name"], group_details[name]["selected_activities"].split(","))
                                     for name in group_details.keys()
-                                    if name in request.POST["selected_group_names[]"]
+                                    if name in post_data["selected_group_names[]"]
                      ]
 
-            request.POST["selected_group_names[]"]
             freq = request.POST["selected_time"]
 
             date_frame = plotting_data.create_concurrency_frame(df, Groups)
@@ -161,10 +155,6 @@ def cohort_analysis_data(request):
 
 
             ## TODO ADD CHOICE FOR AMPLITUDE PLOT timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)
-
-
-
-            print("Please implement concurrency plot functionalities!")
 
     
     post_data["plot_div"] = plot_div
