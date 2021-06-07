@@ -125,7 +125,7 @@ def cohort_analysis_data(request):
         df = plotting_data.create_plotting_data(log, log_format, log_information)
 
         # Consider Pickeling the Data for a quick performance boost after the first load
-     
+
         if(request.POST["operation_type"] == "timeframe"):
 
 
@@ -133,14 +133,14 @@ def cohort_analysis_data(request):
             start_time = df["start_timestamp"].min()
             end_time = df["time:timestamp"].max()
 
-            group = Group(group_details[request.POST["selected_group_name"]]["group_name"], group_details[request.POST["selected_group_name"]]["selected_activities"].split(","))
+            group = Group(group_details[request.POST["selected_group_name"]]["group_name"], group_details[request.POST["selected_group_name"]]["selected_activities"].split(", "))
 
             df = plotting_data.create_timeframe_dataframe(df, group, start_time, end_time)
             plot_div = plotting.timeframe_plot_factory(df)
 
         else:
 
-            Groups = [Group(group_details[name]["group_name"], group_details[name]["selected_activities"].split(","))
+            Groups = [Group(group_details[name]["group_name"], group_details[name]["selected_activities"].split(", "))
                                     for name in group_details.keys()
                                     if name in post_data["selected_group_names[]"]
                      ]
@@ -161,7 +161,5 @@ def cohort_analysis_data(request):
 
     html = loader.render_to_string("cohort_analysis_plot.html", post_data)
     
-
-
     return HttpResponse(html)
 
