@@ -11,7 +11,6 @@ from django.shortcuts import render
 
 # Application Modules
 import core.data_loading.data_loading as log_import
-from group_analysis.demo import demo_hospital
 from group_analysis.group_managment.group_managment_utils import (
     get_active_groups,
     check_group_managment,
@@ -70,30 +69,8 @@ def group_analysis(request):
 
             active_group_details = get_active_groups(request)
 
-        if load_log_succes:
-
-            plots = None
-
-            # Run the Hospital Sepsis Demo
-            if log_information["log_name"].lower() == "life_cycle_log.csv":
-                print("Starting Demo")
-                plots = demo_hospital(log, log_format, log_information)
-                return render(
-                    request,
-                    "group_analysis.html",
-                    {"plots": plots, "active_group_details": active_group_details},
-                )
-
-            return render(
-                request,
-                "group_analysis.html",
-                {"plots": plots, "active_group_details": active_group_details},
-            )
-
-        else:
-
-            return render(
-                request,
-                "group_analysis.html",
-                {"active_group_details": active_group_details},
-            )
+        return render(
+            request,
+            "group_analysis.html",
+            {"active_group_details": active_group_details},
+        )

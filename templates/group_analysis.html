@@ -57,38 +57,14 @@
               </div>
               <div class="col-8">
                 <br>
-                 <div class="btn-group btn-group-toggle timeframe-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active" timeframe_type="hourly">
-                    <input type="radio" name="timeframe_option_hourly" class="timeframe_option_hourly" id="timeframe_option_hourly"> Hourly
-                    </label>
-                    <label class="btn btn-secondary" timeframe_type="daily">
-                    <input type="radio" name="timeframe_option_daily" id="timeframe_option_daily"> Daily
-                    </label>
-                    <label class="btn btn-secondary timeframe_weekly" timeframe_type="Weekly">
-                    <input type="radio" name="timeframe_option_weekly" id="timeframe_option_weekly"> Weekly
-                    </label>
-                    <label class="btn btn-secondary" timeframe_type="monthly">
-                    <input type="radio" name="timeframe_option_monthly" id="timeframe_option_monthly"> Monthly
-                    </label>
-                    <label class="btn btn-secondary" timeframe_type="yearly">
-                    <input type="radio" name="timeframe_option_yearly" id="timeframe_option_yearly"> Yearly
-                    </label>
-                 </div>
-                 <div class="container-fluid">
-                    {% if plots.concurrency_plt_div %}
-                    <h3> Concurrency Plot </h3>
-                    {% autoescape off %}
-                    {{ plots.concurrency_plt_div }}
-                    {% endautoescape %}
-                    {% endif %}
-                    {% if plots.concurrency_plt_div %}
-                    <h3> Amplitude Plot </h3>
-                    {% autoescape off %}
-                    {{ plots.timeframe_plt_div }}
-                    {% endautoescape %}
-                    {% endif %}
-                 </div>
-                 <div id="timeframe-cohort-analysis-container"></div>
+               
+                   <div id="timeframe-cohort-analysis-container"></div>
+                   <div  class="d-flex justify-content-center align-items-center">
+                      <div id="loading-spinner-timeframe" class="spinner-grow" style="width: 5em; height: 5em; display: none;" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                   </div>
+                 
               </div>
            </div>
      </div>
@@ -132,23 +108,33 @@
               <div class="col-8">
                 <br>
                  <div class="btn-group btn-group-toggle concurrency-toggle" data-toggle="buttons">
-                    <label class="btn btn-secondary active" concurrency_type="hourly">
-                    <input type="radio" name="concurrency_option_hourly" class="concurrency_option_hourly" id="concurrency_option_hourly"> Hourly
-                    </label>
-                    <label class="btn btn-secondary" concurrency_type="daily">
+                    <label class="btn btn-primary active" concurrency_type="D">
                     <input type="radio" name="concurrency_option_daily" id="concurrency_option_daily"> Daily
                     </label>
-                    <label class="btn btn-secondary concurrency_weekly" concurrency_type="Weekly">
+                    <label class="btn btn-primary concurrency_weekly" concurrency_type="W">
                     <input type="radio" name="concurrency_option_weekly" id="concurrency_option_weekly"> Weekly
                     </label>
-                    <label class="btn btn-secondary" concurrency_type="monthly">
+                    <label class="btn btn-primary concurrency_weekly" concurrency_type="SM">
+                    <input type="radio" name="concurrency_option_weekly" id="concurrency_option_weekly"> Bi-Weekly
+                    </label>
+                    <label class="btn btn-primary" concurrency_type="M">
                     <input type="radio" name="concurrency_option_monthly" id="concurrency_option_monthly"> Monthly
                     </label>
-                    <label class="btn btn-secondary" concurrency_type="yearly">
+                    <label class="btn btn-primary concurrency_weekly" concurrency_type="Q">
+                    <input type="radio" name="concurrency_option_weekly" id="concurrency_option_weekly"> Quarterly
+                    </label>
+                    <label class="btn btn-primary" concurrency_type="Y">
                     <input type="radio" name="concurrency_option_yearly" id="concurrency_option_yearly"> Yearly
                     </label>
                  </div>
-                 <div id="concurrency-cohort-analysis-container"></div>
+
+                  <div id="concurrency-cohort-analysis-container"></div>
+                  <div  class="d-flex justify-content-center align-items-center">
+                    <div id="loading-spinner-concurrency" class="spinner-grow" style="width: 5em; height: 5em; display: none;" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                  
               </div>
            </div>
      </div>
@@ -164,22 +150,15 @@
 <script type="text/javascript">
 $(document).ready(function(){
   $("input[name='cohort_analysis_timeframe']").click(function(){
-    selected_time = '';
-    $('.timeframe-toggle .btn-secondary').each(function() {
-      if($(this).hasClass("active")) {
-        selected_time = $(this).attr("timeframe_type");
-      }
-    });
     var selected_group_name = $("input[name='timeframe_group_name']:checked").val();
     var operation_type = "timeframe"
     var token = '{{csrf_token}}';
-    alert(selected_time)
-    if(selected_time != '' && selected_group_name != ''){
+    if(selected_group_name != ''){
       $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/groupmanagement/ajax/cohortanalysisdata/",
         type: 'POST',
-        data: {'selected_group_name': selected_group_name,'selected_time':selected_time,'operation_type':operation_type,'X-CSRFToken':token},
+        data: {'selected_group_name': selected_group_name, 'operation_type':operation_type,'X-CSRFToken':token},
         dataType:'html',
         success: function(result) {
             // Parse the html response into the correct div
@@ -191,13 +170,10 @@ $(document).ready(function(){
     }
   });
 
-
-
   
-
   $("input[name='cohort_analysis_concurrency']").click(function(){
     selected_time = '';
-    $('.concurrency-toggle .btn-secondary').each(function() {
+    $('.concurrency-toggle .btn-primary').each(function() {
       if($(this).hasClass("active")) {
         selected_time = $(this).attr("concurrency_type");
       }
@@ -227,6 +203,24 @@ $(document).ready(function(){
     }
   });
 
+});
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(document).ajaxStart(function() {
+  $('#concurrency-cohort-analysis-container').hide();
+  $('#timeframe-cohort-analysis-container').hide();
+  $("#loading-spinner-timeframe").show();
+  $("#loading-spinner-concurrency").show();
+});
+
+$(document).ajaxStop(function() {
+  $("#loading-spinner-timeframe").hide();
+  $("#loading-spinner-concurrency").hide();
+  $('#concurrency-cohort-analysis-container').show();
+  $('#timeframe-cohort-analysis-container').show();
 });
 
 

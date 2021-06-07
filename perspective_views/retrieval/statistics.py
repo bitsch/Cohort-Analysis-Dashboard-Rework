@@ -2,14 +2,13 @@ from perspective_views.plotting.data_frame_creation import create_df_variant
 
 
 def get_log_statistics(log, file_format, log_information):
-
     """
     Computes Log Statisitcs from the Variant Dataframe in a log type insensitive Way
     """
     result = {}
 
     variants, case = create_df_variant(log, file_format, log_information)
-
+    result["df_variant"]=variants
     variants["Cases"] = variants["Cases"].apply(len)
 
     result["variant"] = (
