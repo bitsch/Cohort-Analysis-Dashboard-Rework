@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import pandas as pd
+from scipy.stats import iqr
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
@@ -30,6 +32,14 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+
+AGGREGATE_FUNCTIONS = {
+    "max" : max, 
+    "min" : min, 
+    "iqr" : iqr, 
+    "avg" : pd.DataFrame.mean, 
+    "median" :  pd.DataFrame.median
+}
 
 INSTALLED_APPS = (
     "django.contrib.admin",
@@ -123,3 +133,5 @@ TLKC_FILE = ""
 # FILE_UPLOAD_HANDLERS = [
 #     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 # ]
+
+

@@ -112,8 +112,7 @@
                   {% csrf_token %}
                   <div>
                     <select name="select_plot_type" class="select_plot_type custom-select custom-select-md mb-3">
-                      <option selected disabled>Plot type<span class="text-danger">*</span></label></option>
-                      <option value="standard">Standard</option>
+                      <option selected value="standard">Standard</option>
                       <option value="amplitude">Amplitude</option>
                     </select>
                   </div>
@@ -126,17 +125,14 @@
               <div class="col-8">
                 <br>
                 <div class="btn-group btn-group-toggle aggregation-toggle" id="aggregation-toggle" data-toggle="buttons">
-                  <label class="btn btn-secondary active" aggregation_type="sum">
-                  <input type="radio" name="aggregation_option_sum" id="aggregation_option_sum"> SUM
-                  </label>
-                  <label class="btn btn-secondary" aggregation_type="avg">
+                  <label class="btn btn-secondary active" aggregation_type="avg">
                     <input type="radio" name="aggregation_option_avg" id="aggregation_option_avg"> AVG
                   </label>
                   <label class="btn btn-secondary" aggregation_type="max">
-                  <input type="radio" name="aggregation_option_max" id="aggregation_option_max"> MAX
+                   <input type="radio" name="aggregation_option_max" id="aggregation_option_max"> MAX
                   </label>
                   <label class="btn btn-secondary" aggregation_type="min">
-                  <input type="radio" name="aggregation_option_min" id="aggregation_option_min"> MIN
+                   <input type="radio" name="aggregation_option_min" id="aggregation_option_min"> MIN
                   </label>
                   <label class="btn btn-secondary" aggregation_type="median">
                     <input type="radio" name="aggregation_option_median" id="aggregation_option_median"> MEDIAN

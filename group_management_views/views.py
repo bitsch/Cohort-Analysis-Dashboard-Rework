@@ -107,6 +107,7 @@ def cohort_analysis_data(request):
     if request.method == "POST":
         event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
         post_data = dict(request.POST.lists())
+        print(post_data)
 
 
         log_information = request.session["current_log"]
@@ -130,8 +131,7 @@ def cohort_analysis_data(request):
 
 
             # TODO Replace this with the Interval picker values covered by the UI
-            start_time = df["start_timestamp"].min()
-            end_time = df["time:timestamp"].max()
+            start_time, end_time = tuple(request.POST["start_end_time"].split(" - "))
 
             group = Group(group_details[request.POST["selected_group_name"]]["group_name"], group_details[request.POST["selected_group_name"]]["selected_activities"].split(", "))
 
@@ -149,14 +149,16 @@ def cohort_analysis_data(request):
 
             date_frame = plotting_data.create_concurrency_frame(df, Groups)
 
-            plot_div = plotting.concurrency_plot_factory(
-                date_frame, Groups, freq=freq, aggregate=max
-            )
+            if request.POST["plot_type"] == 'standard': 
+                
+                plot_div = plotting.concurrency_plot_factory(
+                    date_frame, Groups, freq=freq, aggregate= settings.AGGREGATE_FUNCTIONS[request.POST["selected_aggregation"]]
+                )
 
-
-            ## TODO ADD CHOICE FOR AMPLITUDE PLOT timeframe_plt_div = plotting.amplitude_plot_factory(date_frame, Groups)
-
-    
+            else: 
+                uniform = True if request.POST["amplitude_plot_type"] == "uniform" else False
+                plot_div = plotting.amplitude_plot_factory(date_frame, Groups, uniform)
+            
     post_data["plot_div"] = plot_div
 
     html = loader.render_to_string("cohort_analysis_plot.html", post_data)

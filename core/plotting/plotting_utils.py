@@ -8,6 +8,7 @@ def create_div_block(fig):
     return plot(fig, output_type="div")
 
 
+
 def trace_plotting_styler(variant_tuple, offset=3):
 
     sublists = [
