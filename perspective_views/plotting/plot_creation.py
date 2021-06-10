@@ -132,7 +132,8 @@ def dfg_to_g6(dfg):
         {
             "from": unique_nodes_dict[i[0]],
             "to": unique_nodes_dict[i[1]],
-            "data": {"freq": dfg[i]},
+            "value": dfg[i],
+            "title": dfg[i]
         }
         for i in dfg
     ]
