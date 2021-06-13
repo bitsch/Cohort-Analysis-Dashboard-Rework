@@ -201,9 +201,9 @@
           <thead>
             <tr>
               <th scope="col">
-                <select class="form-select " aria-label="Default select example">
-                  <option selected>Directly Follows Graph</option>
-                  <option value="1">Case Overview</option>
+                <select class="form-select " id="p2" aria-label="Default select example">
+                  <option selected value="dfg_overview">Directly Follows Graph</option>
+                  <option value="case_overview">Case Overview</option>
                 </select>
               </th>
             </tr>
@@ -245,9 +245,25 @@
     <div class="container-fluid" id="graph">
       <div class="row">
       <div class="col-4">
+        <table class="table table-sm table-hover">
+          <div class="fixed-bottom">
+          <thead>
+            <tr>
+              <th scope="col">
+                <select class="form-select" id="p3" aria-label="Default select example">
+                  {% for value in activities %}
+                  <option value="{{value}}">{{value}}</option>
+                  {% endfor %}
+                 
+                </select>
+              </th>
+            </tr>
+          </thead>
+        </div>
+        </table>
         <br>
         <div class="overflow-auto" style="height: 550px;">
-        <table class="table table-sm table-hover">
+        <!---<table class="table table-sm table-hover">
           <thead>
             <tr>
               <th scope="col">Variant Id : No of Cases</th>
@@ -260,6 +276,70 @@
             </tr>
             {% endfor %}
           </tbody>
+        </table>--->
+        <table class="table table-sm table-hover" id="p3details">
+          <thead>
+            <tr>
+              <th scope="col">Overview</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cases:</th>
+              <td>{{filteredresult.Ncase}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Events:</th>
+              <td>{{filteredresult.Nactivities}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Variants:</th>
+              <td>{{filteredresult.Nvariant}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Unique Activities:</th>
+              <td>{{filteredresult.Nunique_Activities}}</td>
+            </tr>
+            <thead>
+              <tr>
+                <th scope="col">Log Performance</th>
+              </tr>
+            </thead>
+
+             <tr>
+              <th scope="row">Start Time:</th>
+              <td>{{filteredresult.StartTime}}</td>
+            </tr>
+            <tr>
+              <th scope="row">End Time:</th>
+              <td>{{filteredresult.EndTime}}</td>
+            </tr>
+             <tr>
+              <th scope="row">Duration</th>
+              <td>{{filteredresult.TotalDuration}}</td>
+            </tr>
+            <thead>
+              <tr>
+                <th scope="col">Case Performance</th>
+              </tr>
+            </thead>
+              <tr>
+              <th scope="row">Median Case Duration:</th>
+              <td>{{filteredresult.MedianCaseDuration}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mean Case Duration:</th>
+              <td>{{filteredresult.MeanCaseDuration}}</td>
+            </tr>
+             <tr>
+              <th scope="row">Max Case Duration</th>
+              <td>{{filteredresult.MaxCaseDuration}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Min Case Durtation</th>
+              <td>{{filteredresult.MinCaseDuration}}</td>
+            </tr>
+          </tbody>
         </table>
         </div>
         <table class="table table-sm table-hover">
@@ -267,15 +347,16 @@
           <thead>
             <tr>
               <th scope="col">
-                <select class="form-select " aria-label="Default select example">
-                  <option selected>Directly Follows Graph</option>
-                  <option value="1">Variant Overview</option>
+                <select class="form-select " id="p32" aria-label="Default select example">
+                  <option selected value="dfg_overview">Directly Follows Graph</option>
+                  <option value="disease_overview">Disease Overview</option>
                 </select>
               </th>
             </tr>
           </thead>
         </div>
         </table>
+       
       </div>
       <div class="col-8">
         <form  name="perspective_view" action="perspective_view" method = "POST">
@@ -316,7 +397,7 @@
 
   var data = "{{data | escapejs}}";
   data = JSON.parse(data);
-
+  console.log(data);
 
 const options = {
     layout: { randomSeed: 2 },
@@ -454,6 +535,66 @@ function filterCase(){
 	makeMeMultiSelect(container, network, data.nodes);
   return 0;
 }
+//tobeupdated
+var token = '{{csrf_token}}';
+$(document).ready(function(){
+    $("#p3").change(function(){
+        $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/views/ajax/activityfilter/",
+        type: 'POST',
+        data: {'selected_activity': this.value, 'X-CSRFToken':token},
+        dataType:'html',
+        success: function(result) { 
+            // Parse the html response into the correct div
+          var data = "{{data | escapejs}}";
+          data = JSON.parse(data);
+          console.log(data);
+          const container = $("#mynetwork3");
+          const network = new vis.Network(container[0],data, options);
+		      makeMeMultiSelect(container, network, data.nodes);
+        }
+      });
+    });
+});
+//tobeupdated case view
+$(document).ready(function(){
+    $('#p2').change(function(){
+        $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/views/ajax/changeView/",
+        type: 'POST',
+        data: {'selected_view': this.value, 'X-CSRFToken':token},
+        dataType:'html',
+        success: function(result) {
+          
+          const container = $("#mynetwork2");
+          const network = new vis.Network(container[0],newdata, options);
+		      makeMeMultiSelect(container, network, newdata.nodes);
+        }
+      })
+    });
+});
+
+//tobeupdated disease view
+$(document).ready(function(){
+    $('#p32').change(function(){
+        $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/views/ajax/changeView/",
+        type: 'POST',
+        data: {'selected_view': this.value, 'X-CSRFToken':token},
+        dataType:'html',
+        success: function(result) {
+          
+          const container = $("#mynetwork2");
+          const network = new vis.Network(container[0],newdata, options);
+		      makeMeMultiSelect(container, network, newdata.nodes);
+        }
+      })
+    });
+});
+
 </script>
 
 {% endblock %}
