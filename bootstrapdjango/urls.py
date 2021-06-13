@@ -31,6 +31,7 @@ urlpatterns = [
     #path("views", include("perspective_views.urls")),
     url(r"^views/", include("perspective_views.urls")),
     url(r"^groupmanagement/", include("group_management_views.urls")),
+    url(r"^documentation/", include("documentation.urls")),
 ]
 urlpatterns = urlpatterns + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

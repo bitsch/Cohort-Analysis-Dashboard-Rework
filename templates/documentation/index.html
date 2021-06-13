@@ -1,0 +1,354 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title>Cohort Analysis Dashboard: Documentation</title>
+
+    <link
+      href="{% static 'css/vendor/bootstrap/css/bootstrap.min.css' %}"
+      rel="stylesheet"
+    />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Custom styles for this template -->
+
+    <link href="{% static 'css/documentation.css' %}" rel="stylesheet" />
+
+    <!-- Bootstrap multiselect temporary css add -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.min.css"
+      integrity="sha512-wHTuOcR1pyFeyXVkwg3fhfK46QulKXkLq1kxcEEpjnAPv63B/R49bBqkJHLvoGFq6lvAEKlln2rE1JfIPeQ+iw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Bootstrap icons css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <!-- Sidebar Holder -->
+      <nav id="sidebar">
+        <div class="sidebar-header">
+          <h3>Cohort Analysis Dashboard</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+          <p>Documentation</p>
+          <li class="active">
+            <a
+              href="#userGuidSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle">
+              User Guide
+            </a>
+            <ul class="collapse list-unstyled" id="userGuidSubmenu">
+              <li>
+                <a href="#introduction">Introduction</a>
+              </li>
+              <li>
+                <a href="#usageFlow">Usage Flow</a>
+              </li>
+              <li>
+                <a href="#index">Index</a>
+              </li>
+              <li>
+                <a href="#glossary">Glossary</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              href="#dataManagementSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              >Data Management</a
+            >
+            <ul class="collapse list-unstyled" id="dataManagementSubmenu">
+              <li>
+                <a href="#checkingData">Checking in new Data </a>
+              </li>
+              <li>
+                <a href="#uploadingLog">Uploading Log</a>
+              </li>
+              <li>
+                <a href="#selectingLog">Selecting a Log</a>
+              </li>
+              <li>
+                <a href="#selectingLogAttributes">Selecting the Log Attibutes</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              href="#viewsSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              >Views</a
+            >
+            <ul class="collapse list-unstyled" id="viewsSubmenu">
+              <li>
+                <a href="#organisationalView">Organisational View</a>
+              </li>
+              <li>
+                <a href="#doctorsView">Doctor's View</a>
+              </li>
+              <li>
+                <a href="#diseaseView">Disease View</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a
+              href="#cohortAnalysisSubmenu"
+              data-toggle="collapse"
+              aria-expanded="false"
+              class="dropdown-toggle"
+              >Cohort Analysis</a
+            >
+            <ul class="collapse list-unstyled" id="cohortAnalysisSubmenu">
+              <li>
+                <a href="#creatingGroups">Creating a new Group</a>
+              </li>
+              <li>
+                <a href="#changingAggregation">Changing the Aggregation</a>
+              </li>
+              <li>
+                <a href="#changingTimescale">Changing the Timescale</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="#faq">FAQ</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Page Content Holder -->
+      <div id="content">
+        <div class="container section">
+          <div class="title">
+            <h1>User Guide</h1>
+          </div>
+          <div class="sub-section">
+            <h2>
+              Introduction
+              <a href="#introduction" name="introduction" class="href-icon"
+                ><i class="bi bi-hash"></i
+              ></a>
+            </h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+          <div class="sub-section">
+            <h2>
+              Usage Flow
+              <a href="#usageFlow" name="usageFlow" class="href-icon"
+                ><i class="bi bi-hash"></i
+              ></a>
+            </h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+          <div class="sub-section">
+            <h2>
+              Index
+              <a href="#index" name="index" class="href-icon"
+                ><i class="bi bi-hash"></i
+              ></a>
+            </h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+          <div class="sub-section">
+            <h2>
+              Glossary
+              <a href="#glossary" name="glossary" class="href-icon"
+                ><i class="bi bi-hash"></i
+              ></a>
+            </h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="container section">
+            <div class="title">
+                <h1>Data Management</h1>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Checking in new Data 
+                    <a href="#checkingData" name="checkingData" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Uploading Log
+                    <a href="#uploadingLog" name="uploadingLog" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Selecting a Log
+                    <a href="#selectingLog" name="selectingLog" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Selecting the Log Attibutes
+                    <a href="#selectingLogAttributes" name="selectingLogAttributes" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+
+        <div class="container section">
+            <div class="title">
+                <h1>Views</h1>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Organisational View
+                    <a href="#organisationalView" name="organisationalView" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Doctor's View
+                    <a href="#doctorsView" name="doctorsView" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Disease View
+                    <a href="#diseaseView" name="diseaseView" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="container section">
+            <div class="title">
+                <h1>Cohort Analysis</h1>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Creating a new Group
+                    <a href="#creatingGroups" name="creatingGroups" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Changing the Aggregation
+                    <a href="#changingAggregation" name="changingAggregation" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Changing the Timescale
+                    <a href="#changingTimescale" name="changingTimescale" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+        <div class="line"></div>
+
+
+        <div class="container section">
+            <div name="faq" class="title">
+                <h1>FAQ</h1>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    What formats are supported by CAD?
+                    <a href="#supportedFormat" name="supportedFormat" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    I did run into an Error. What should I do?
+                    <a href="#errorHandling" name="errorHandling" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'css/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'css/vendor/jquery/popper.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'css/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </body>
+</html>
