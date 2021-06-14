@@ -20,10 +20,8 @@ import perspective_views.plotting.plot_creation as plotting
 import perspective_views.retrieval.statistics as stats
 import core.data_loading.data_loading as log_import
 
-from pm4py.objects.conversion.log import converter as log_converter
-from pm4py.objects.log.util import interval_lifecycle, dataframe_utils
-from pm4py.algo.filtering.log.attributes import attributes_filter
 from pm4py.algo.filtering.pandas.variants import variants_filter
+from pm4py.algo.filtering.pandas.attributes import attributes_filter
 from pm4py import get_trace_attributes
 from pm4py import get_attributes
 from pm4py.objects.log.util.sampling import sample
@@ -73,12 +71,13 @@ def perspective(request):
                                           parameters={case_statistics.Parameters.CASE_ID_KEY: "case:concept:name",
                                                       case_statistics.Parameters.ACTIVITY_KEY: "concept:name"})
                 variant=[variants.variant[intVariantID]]
-                filtered_log =variants_filter.apply(log, variant,
+                filtered_log = variants_filter.apply(log, variant,
                                           parameters={variants_filter.Parameters.CASE_ID_KEY: "case:concept:name",
                                                       variants_filter.Parameters.ACTIVITY_KEY: "concept:name"})
                 dfg = dfg_discovery.apply(filtered_log)
                 filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
                 filteredresult["Nunique_Activities"]= len(activites)
+
             else :
                 dfg = dfg_discovery.apply(log)
                 
@@ -131,11 +130,10 @@ def  activity_filter(request):
 
     if request.method == "POST":
         selected_activity = request.POST["selected_activity"]
-        listCaseID=['1021']
-        print(listCaseID)
-        
         result = stats.get_log_statistics(log, log_format, log_information)
-        filtered_log=pm4py.filter_event_attribute_values(log, "case:concept:name", listCaseID, level="case", retain=True)
+        filtered_log = pm4py.filter_event_attribute_values(log, log_information["concept_name"], [selected_activity], level="case", retain=True)
+        filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
+
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
@@ -143,6 +141,9 @@ def  activity_filter(request):
         if filteredresult is None:
             filteredresult=result
         result["Nunique_Activities"] = len(activites)
+
+
+
     message = {"success": True ,"responseText": "Inactivated successfully!"}
     return JsonResponse(message)
 
