@@ -121,9 +121,7 @@ def  activity_filter(request):
 
 def  case_filter(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
-    load_log_succes = False
     log_information = None
-    filteredresult=None
     # TODO Load the Log Information, else throw/redirect to Log Selection
     if "current_log" in request.session and request.session["current_log"] is not None:
         log_information = request.session["current_log"]
@@ -136,28 +134,15 @@ def  case_filter(request):
 
         # Import the Log considering the given Format
         log, activites = log_import.log_import(event_log, log_format, log_information)
-        load_log_succes = True
+
 
     if request.method == "POST":
         selected_case = request.POST["selected_case"]
-        result = stats.get_log_statistics(log, log_format, log_information)
-        case_ids=[selected_case]
-        
-        filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", case_ids, level="case", retain=True)
-        filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
+        filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", [selected_case], level="case", retain=True)
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
-        result["Nunique_Activities"] = len(activites)
-        filteredresult["Nunique_Activities"] = len(activites)
-        network = {}
-        if filteredresult is None:
-            filteredresult=result
-        keys_to_extract=['Nvariant','Nunique_Activities','Nactivities','Ncase','StartTime','EndTime','TotalDuration','MedianCaseDuration','MeanCaseDuration','MinCaseDuration','MaxCaseDuration']
-        subsetfilteredresult = {key: str(filteredresult[key]) for key in keys_to_extract}
-        
-    
-    message = {"success": True ,"filtered_result":subsetfilteredresult, "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
+    message = {"success": True , "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
     return JsonResponse(message)
 
 def change_view(request):
