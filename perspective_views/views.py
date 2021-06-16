@@ -1,17 +1,13 @@
 import re
 import os
 import json
-from datetime import datetime
 from django.http.response import JsonResponse
 
 
 from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
-from pm4py.algo.filtering.log.variants import variants_filter
-from pm4py.statistics.traces.pandas import case_statistics
 import pm4py
 
 # Django Dependencies
-from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.conf import settings
 
@@ -20,11 +16,7 @@ import perspective_views.plotting.plot_creation as plotting
 import perspective_views.retrieval.statistics as stats
 import core.data_loading.data_loading as log_import
 
-from pm4py.algo.filtering.pandas.variants import variants_filter
-from pm4py.algo.filtering.pandas.attributes import attributes_filter
-from pm4py import get_trace_attributes
-from pm4py import get_attributes
-from pm4py.objects.log.util.sampling import sample
+
 
 
 # Create your views here.
@@ -103,6 +95,8 @@ def  activity_filter(request):
         case_ids=stats.get_case_ids_by_activity(log,selected_activity, log_format, log_information)
         
         filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", case_ids, level="case", retain=True)
+        if selected_activity=='dfg_overview_DefaultDiseaseZZZ':
+            filtered_log=log
         filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
@@ -139,6 +133,8 @@ def  case_filter(request):
     if request.method == "POST":
         selected_case = request.POST["selected_case"]
         filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", [selected_case], level="case", retain=True)
+        if selected_case=='dfg_overview_DefaultCaseZZZ':
+            filtered_log=log
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)

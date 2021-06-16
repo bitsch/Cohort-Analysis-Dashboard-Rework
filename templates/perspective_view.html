@@ -201,8 +201,8 @@
           <thead>
             <tr>
               <th scope="col">
-                <select class="form-select " id="p2" aria-label="Default select example">
-                  <option selected value="dfg_overview">Directly Follows Graph</option>
+                <select class="form-select " id="CaseOverview" aria-label="Default select example">
+                  <option selected value="dfg_overview_DefaultCaseZZZ">Directly Follows Graph</option>
                   <option value="case_overview">Case Overview</option>
                 </select>
               </th>
@@ -250,7 +250,7 @@
           <thead>
             <tr>
               <th scope="col">
-                <select class="form-select" id="p3" aria-label="Default select example">
+                <select class="form-select" id="VariantFilter" aria-label="Default select example">
                   {% for value in activities %}
                   <option value="{{value}}">{{value}}</option>
                   {% endfor %}
@@ -347,8 +347,8 @@
           <thead>
             <tr>
               <th scope="col">
-                <select class="form-select " id="p32" aria-label="Default select example">
-                  <option selected value="dfg_overview">Directly Follows Graph</option>
+                <select class="form-select " id="DiseaseOverview" aria-label="Default select example">
+                  <option selected value="dfg_overview_DefaultDiseaseZZZ">Directly Follows Graph</option>
                   <option value="disease_overview">Disease Overview</option>
                 </select>
               </th>
@@ -533,15 +533,15 @@ function filterCase(){
 	makeMeMultiSelect(container, network, data.nodes);
   return 0;
 }
-//tobeupdated
+
+
 var token = '{{csrf_token}}';
-$(document).ready(function(){
-    $("#p3").change(function(){
+function refreshVariant(activityId){
         $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/views/ajax/activityfilter/",
         type: 'POST',
-        data: {'selected_activity': this.value, 'X-CSRFToken':token},
+        data: {'selected_activity': activityId, 'X-CSRFToken':token},
         dataType:'html',
         success: function(result) { 
             // Parse the html response into the correct div
@@ -565,6 +565,11 @@ $(document).ready(function(){
 		      makeMeMultiSelect(container, network, data.nodes);
         }
       });
+      return true;
+    }
+$(document).ready(function(){
+    $("#VariantFilter").change(function(){
+      refreshVariant(this.value);
     });
 });
 //tobeupdated case view
@@ -587,7 +592,10 @@ function refreshCase(caseId){
 }
 
 $(document).ready(function(){
-    $('#p2').change(function(){
+    $('#CaseOverview').change(function(){
+      if (this.value=="dfg_overview_DefaultCaseZZZ")
+        refreshCase(this.value);
+      else {
         $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/views/ajax/changeView/",
@@ -597,16 +605,20 @@ $(document).ready(function(){
         success: function(result) {
           
           const container = $("#mynetwork2");
-          const network = new vis.Network(container[0],newdata, options);
-		      makeMeMultiSelect(container, network, newdata.nodes);
+          const network = new vis.Network(container[0],data, options);
+		      makeMeMultiSelect(container, network, data.nodes);
         }
-      })
+        })
+      }
     });
 });
 
 //tobeupdated disease view
 $(document).ready(function(){
-    $('#p32').change(function(){
+    $('#DiseaseOverview').change(function(){
+      if (this.value=="dfg_overview_DefaultDiseaseZZZ")
+      refreshVariant(this.value);
+      else {
         $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/views/ajax/changeView/",
@@ -616,10 +628,11 @@ $(document).ready(function(){
         success: function(result) {
           
           const container = $("#mynetwork2");
-          const network = new vis.Network(container[0],newdata, options);
-		      makeMeMultiSelect(container, network, newdata.nodes);
+          const network = new vis.Network(container[0],data, options);
+		      makeMeMultiSelect(container, network, data.nodes);
         }
       })
+    }
     });
 });
 
