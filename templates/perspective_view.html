@@ -524,7 +524,6 @@ function getSelectedNodes(){
     alert(selection);
     document.getElementById('values').value = selection;
     return selection;
-
 }
 
 function filterCase(){
@@ -534,9 +533,10 @@ function filterCase(){
   return 0;
 }
 
-
 var token = '{{csrf_token}}';
 function refreshVariant(activityId){
+    selectedView=document.getElementById("DiseaseOverview").value;
+    if(selectedView=="dfg_overview_DefaultDiseaseZZZ"){
         $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/views/ajax/activityfilter/",
@@ -565,8 +565,12 @@ function refreshVariant(activityId){
 		      makeMeMultiSelect(container, network, data.nodes);
         }
       });
-      return true;
     }
+    else{
+      return false;
+    }
+  return true;
+}
 $(document).ready(function(){
     $("#VariantFilter").change(function(){
       refreshVariant(this.value);
@@ -574,6 +578,8 @@ $(document).ready(function(){
 });
 //tobeupdated case view
 function refreshCase(caseId){
+    selectedView=document.getElementById("CaseOverview").value;
+    if(selectedView=="dfg_overview_DefaultCaseZZZ"){
         $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/views/ajax/casefilter/",
@@ -588,7 +594,12 @@ function refreshCase(caseId){
 		      makeMeMultiSelect(container, network, data.nodes);
         }
       });
-      return true;
+    }
+    else{
+      //add the case plot view
+      return false;
+    }
+    return true;
 }
 
 $(document).ready(function(){
