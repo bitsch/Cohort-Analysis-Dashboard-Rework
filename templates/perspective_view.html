@@ -526,14 +526,10 @@ function getSelectedNodes(){
     return selection;
 }
 
-function filterCase(){
-  const container = $("#mynetwork2");
-  const network = new vis.Network(container[0],data, options);
-	makeMeMultiSelect(container, network, data.nodes);
-  return 0;
-}
-
 var token = '{{csrf_token}}';
+
+
+//tobeupdated disease view
 function refreshVariant(activityId){
     selectedView=document.getElementById("DiseaseOverview").value;
     if(selectedView=="dfg_overview_DefaultDiseaseZZZ"){
@@ -567,15 +563,12 @@ function refreshVariant(activityId){
       });
     }
     else{
+      //add the disease plot view
       return false;
     }
   return true;
 }
-$(document).ready(function(){
-    $("#VariantFilter").change(function(){
-      refreshVariant(this.value);
-    });
-});
+
 //tobeupdated case view
 function refreshCase(caseId){
     selectedView=document.getElementById("CaseOverview").value;
@@ -602,6 +595,14 @@ function refreshCase(caseId){
     return true;
 }
 
+
+$(document).ready(function(){
+    $("#VariantFilter").change(function(){
+      refreshVariant(this.value);
+    });
+});
+
+
 $(document).ready(function(){
     $('#CaseOverview').change(function(){
       if (this.value=="dfg_overview_DefaultCaseZZZ")
@@ -624,7 +625,6 @@ $(document).ready(function(){
     });
 });
 
-//tobeupdated disease view
 $(document).ready(function(){
     $('#DiseaseOverview').change(function(){
       if (this.value=="dfg_overview_DefaultDiseaseZZZ")
@@ -636,8 +636,7 @@ $(document).ready(function(){
         type: 'POST',
         data: {'selected_view': this.value, 'X-CSRFToken':token},
         dataType:'html',
-        success: function(result) {
-          
+        success: function(result) { 
           const container = $("#mynetwork2");
           const network = new vis.Network(container[0],data, options);
 		      makeMeMultiSelect(container, network, data.nodes);
