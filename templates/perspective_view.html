@@ -190,7 +190,7 @@
           <tbody>
             {% for value in result.case %}
             <tr>
-              <td scope="row"><a href="?caseID={{value.Name}}">Case {{value.Name}} : {{value.variant}}</a></td>
+              <td scope="row"><a href="javascript:refreshCase('{{value.Name}}')" >Case {{value.Name}} : {{value.variant}}</a></td>
             </tr>
             {% endfor %}
           </tbody>
@@ -286,19 +286,19 @@
           <tbody>
             <tr>
               <th scope="row">Cases:</th>
-              <td>{{filteredresult.Ncase}}</td>
+              <td id='Ncase'>{{result.Ncase}}</td>
             </tr>
             <tr>
               <th scope="row">Events:</th>
-              <td>{{filteredresult.Nactivities}}</td>
+              <td id='Nactivities'>{{result.Nactivities}}</td>
             </tr>
             <tr>
               <th scope="row">Variants:</th>
-              <td>{{filteredresult.Nvariant}}</td>
+              <td id='Nvariant'>{{result.Nvariant}}</td>
             </tr>
             <tr>
               <th scope="row">Unique Activities:</th>
-              <td>{{filteredresult.Nunique_Activities}}</td>
+              <td id='Nunique'>{{result.Nunique_Activities}}</td>
             </tr>
             <thead>
               <tr>
@@ -308,15 +308,15 @@
 
              <tr>
               <th scope="row">Start Time:</th>
-              <td>{{filteredresult.StartTime}}</td>
+              <td id="StartTime">{{result.StartTime}}</td>
             </tr>
             <tr>
               <th scope="row">End Time:</th>
-              <td>{{filteredresult.EndTime}}</td>
+              <td id='EndTime'>{{result.EndTime}}</td>
             </tr>
              <tr>
               <th scope="row">Duration</th>
-              <td>{{filteredresult.TotalDuration}}</td>
+              <td id='TotalDuration'>{{result.TotalDuration}}</td>
             </tr>
             <thead>
               <tr>
@@ -325,19 +325,19 @@
             </thead>
               <tr>
               <th scope="row">Median Case Duration:</th>
-              <td>{{filteredresult.MedianCaseDuration}}</td>
+              <td id='MedianCaseDuration'>{{result.MedianCaseDuration}}</td>
             </tr>
             <tr>
               <th scope="row">Mean Case Duration:</th>
-              <td>{{filteredresult.MeanCaseDuration}}</td>
+              <td id='MeanCaseDuration'>{{result.MeanCaseDuration}}</td>
             </tr>
              <tr>
               <th scope="row">Max Case Duration</th>
-              <td>{{filteredresult.MaxCaseDuration}}</td>
+              <td id='MaxCaseDuration'>{{result.MaxCaseDuration}}</td>
             </tr>
             <tr>
               <th scope="row">Min Case Durtation</th>
-              <td>{{filteredresult.MinCaseDuration}}</td>
+              <td id='MinCaseDuration'>{{result.MinCaseDuration}}</td>
             </tr>
           </tbody>
         </table>
@@ -397,8 +397,6 @@
 
   var data = "{{data | escapejs}}";
   data = JSON.parse(data);
-  console.log(data);
-
 const options = {
     layout: { randomSeed: 2 },
     interaction:{
@@ -409,8 +407,8 @@ const options = {
     },
     edges: {
          arrows: {
-          to:     {enabled: true, scaleFactor:1, type:'arrow'},
-          from:   {enabled: false, scaleFactor:1, type:'arrow'},
+          to:     {enabled: true, scaleFactor:0.5, type:'arrow'},
+          from:   {enabled: false, scaleFactor:0.5, type:'arrow'},
           length: 1000
           }
       },
@@ -518,7 +516,7 @@ $(document).ready(() => {
 });
 $(document).ready(() => {
 		const container = $("#mynetwork3");
-    const network = new vis.Network(container[0],data, options);
+   const network = new vis.Network(container[0],data, options);
 		makeMeMultiSelect(container, network, data.nodes);
 });
 
@@ -547,10 +545,22 @@ $(document).ready(function(){
         dataType:'html',
         success: function(result) { 
             // Parse the html response into the correct div
-          var data = "{{data | escapejs}}";
-          data = JSON.parse(data);
-          console.log(data);
-          const container = $("#mynetwork3");
+         
+          result = JSON.parse(result);
+          $("#Ncase").html(result['filtered_result']['Ncase']);
+          $("#Nvariant").html(result['filtered_result']['Nvariant']);
+          $("#Nactivities").html(result['filtered_result']['Nactivities']);
+          $("#Nunique").html(result['filtered_result']['Nunique_Activities']);
+          $("#StartTime").html(result['filtered_result']['StartTime']);
+          $("#EndTime").html(result['filtered_result']['EndTime']);
+          $("#TotalDuration").html(result['filtered_result']['TotalDuration']);
+          $("#MedianCaseDuration").html(result['filtered_result']['MedianCaseDuration']);
+          $("#MeanCaseDuration").html(result['filtered_result']['MeanCaseDuration']);
+          $("#MinCaseDuration").html(result['filtered_result']['MinCaseDuration']);
+          $("#MaxCaseDuration").html(result['filtered_result']['MaxCaseDuration']);
+          
+          data = JSON.parse(result['data']);
+          container=$('#mynetwork3');
           const network = new vis.Network(container[0],data, options);
 		      makeMeMultiSelect(container, network, data.nodes);
         }
@@ -558,6 +568,24 @@ $(document).ready(function(){
     });
 });
 //tobeupdated case view
+function refreshCase(caseId){
+        $.ajax({
+        headers: { "X-CSRFToken": token },
+        url: "/views/ajax/casefilter/",
+        type: 'POST',
+        data: {'selected_case': caseId, 'X-CSRFToken':token},
+        dataType:'html',
+        success: function(result) {
+          result = JSON.parse(result);
+          data = JSON.parse(result['data']);
+          const container = $("#mynetwork2");
+          const network = new vis.Network(container[0],data, options);
+		      makeMeMultiSelect(container, network, data.nodes);
+        }
+      });
+      return true;
+}
+
 $(document).ready(function(){
     $('#p2').change(function(){
         $.ajax({

@@ -16,4 +16,9 @@ urlpatterns = [
         views.change_view,
         name="change_view",
     ),
+    url(
+        r"^ajax/casefilter/$",
+        views.case_filter,
+        name="case_filter",
+    ),
     ]

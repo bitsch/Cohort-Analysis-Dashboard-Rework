@@ -43,3 +43,7 @@ def get_log_statistics(log, file_format, log_information):
     result["MaxCaseDuration"] = str(case_duration.max())
 
     return result
+
+def get_case_ids_by_activity(log,activity,file_format, log_information):
+    variants, case = create_df_variant(log, file_format, log_information)
+    return case[case["variant"].str.contains(activity, regex=False)]['Name'].tolist()

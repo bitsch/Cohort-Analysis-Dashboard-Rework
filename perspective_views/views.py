@@ -56,40 +56,11 @@ def perspective(request):
     else:
 
         if load_log_succes:
-            caseID=request.GET.get('caseID', '')
-            variantID=request.GET.get('variantID', '')
-            listCaseID=[caseID]
             result = stats.get_log_statistics(log, log_format, log_information)
-            filteredresult=None
-            if caseID != "":
-                filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", listCaseID, level="case", retain=True)
-                dfg = dfg_discovery.apply(filtered_log)
-            elif variantID!='':
-                variantID=variantID[8:]
-                intVariantID=int(variantID)
-                variants=case_statistics.get_variants_df(log,
-                                          parameters={case_statistics.Parameters.CASE_ID_KEY: "case:concept:name",
-                                                      case_statistics.Parameters.ACTIVITY_KEY: "concept:name"})
-                variant=[variants.variant[intVariantID]]
-                filtered_log = variants_filter.apply(log, variant,
-                                          parameters={variants_filter.Parameters.CASE_ID_KEY: "case:concept:name",
-                                                      variants_filter.Parameters.ACTIVITY_KEY: "concept:name"})
-                dfg = dfg_discovery.apply(filtered_log)
-                filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
-                filteredresult["Nunique_Activities"]= len(activites)
-
-            else :
-                dfg = dfg_discovery.apply(log)
-                
-
+            dfg = dfg_discovery.apply(log)
             this_data, temp_file = plotting.dfg_to_g6(dfg)
             re.escape(temp_file)
-            network = {}
-
             result["Nunique_Activities"] = len(activites)
-            if filteredresult is None:
-                filteredresult=result
-            
             return render(
                 request,
                 "perspective_view.html",
@@ -99,12 +70,10 @@ def perspective(request):
                     "data": json.dumps(this_data),
                     "activities": activites,
                     "result": result,
-                    "filteredresult": filteredresult,
                 },
             )
 
         else:
-
             return render(request, "perspective_view.html")
 
 
@@ -131,20 +100,64 @@ def  activity_filter(request):
     if request.method == "POST":
         selected_activity = request.POST["selected_activity"]
         result = stats.get_log_statistics(log, log_format, log_information)
-        filtered_log = pm4py.filter_event_attribute_values(log, log_information["concept_name"], [selected_activity], level="case", retain=True)
+        case_ids=stats.get_case_ids_by_activity(log,selected_activity, log_format, log_information)
+        
+        filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", case_ids, level="case", retain=True)
         filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
-
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
+        result["Nunique_Activities"] = len(activites)
+        filteredresult["Nunique_Activities"] = len(activites)
         network = {}
         if filteredresult is None:
             filteredresult=result
+        keys_to_extract=['Nvariant','Nunique_Activities','Nactivities','Ncase','StartTime','EndTime','TotalDuration','MedianCaseDuration','MeanCaseDuration','MinCaseDuration','MaxCaseDuration']
+        subsetfilteredresult = {key: str(filteredresult[key]) for key in keys_to_extract}
+        
+    
+    message = {"success": True ,"filtered_result":subsetfilteredresult, "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
+    return JsonResponse(message)
+
+def  case_filter(request):
+    event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
+    load_log_succes = False
+    log_information = None
+    filteredresult=None
+    # TODO Load the Log Information, else throw/redirect to Log Selection
+    if "current_log" in request.session and request.session["current_log"] is not None:
+        log_information = request.session["current_log"]
+        print(log_information)
+
+    if log_information is not None:
+
+        event_log = os.path.join(event_logs_path, log_information["log_name"])
+        log_format = log_import.get_log_format(log_information["log_name"])
+
+        # Import the Log considering the given Format
+        log, activites = log_import.log_import(event_log, log_format, log_information)
+        load_log_succes = True
+
+    if request.method == "POST":
+        selected_case = request.POST["selected_case"]
+        result = stats.get_log_statistics(log, log_format, log_information)
+        case_ids=[selected_case]
+        
+        filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", case_ids, level="case", retain=True)
+        filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
+        dfg = dfg_discovery.apply(filtered_log)
+        this_data, temp_file = plotting.dfg_to_g6(dfg)
+        re.escape(temp_file)
         result["Nunique_Activities"] = len(activites)
-
-
-
-    message = {"success": True ,"responseText": "Inactivated successfully!"}
+        filteredresult["Nunique_Activities"] = len(activites)
+        network = {}
+        if filteredresult is None:
+            filteredresult=result
+        keys_to_extract=['Nvariant','Nunique_Activities','Nactivities','Ncase','StartTime','EndTime','TotalDuration','MedianCaseDuration','MeanCaseDuration','MinCaseDuration','MaxCaseDuration']
+        subsetfilteredresult = {key: str(filteredresult[key]) for key in keys_to_extract}
+        
+    
+    message = {"success": True ,"filtered_result":subsetfilteredresult, "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
     return JsonResponse(message)
 
 def change_view(request):
