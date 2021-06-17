@@ -162,6 +162,7 @@ def cohort_analysis_data(request):
     post_data["plot_div"] = plot_div
 
     html = loader.render_to_string("cohort_analysis_plot.html", post_data)
-    
+    print("Finished Plot Creation")
+
     return HttpResponse(html)
 
