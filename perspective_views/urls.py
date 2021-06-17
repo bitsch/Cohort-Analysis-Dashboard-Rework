@@ -17,8 +17,13 @@ urlpatterns = [
         name="change_view",
     ),
     url(
-        r"^ajax/casefilter/$",
-        views.case_filter,
-        name="case_filter",
+        r"^ajax/casefilter/dfg$",
+        views.case_filter_dfg,
+        name="case_filter_dfg",
+    ),
+    url(
+        r"^ajax/casefilter/plt$",
+        views.case_filter_plt,
+        name="case_filter_plt",
     ),
     ]

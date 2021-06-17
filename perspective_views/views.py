@@ -1,7 +1,8 @@
 import re
 import os
 import json
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponse
+from django.template import loader
 
 
 from pm4py.algo.discovery.dfg import algorithm as dfg_discovery
@@ -113,7 +114,7 @@ def  activity_filter(request):
     message = {"success": True ,"filtered_result":subsetfilteredresult, "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
     return JsonResponse(message)
 
-def  case_filter(request):
+def case_filter_dfg(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     log_information = None
     # TODO Load the Log Information, else throw/redirect to Log Selection
@@ -140,6 +141,35 @@ def  case_filter(request):
         re.escape(temp_file)
     message = {"success": True , "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
     return JsonResponse(message)
+
+def  case_filter_plt(request):
+
+    event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
+    log_information = None
+    # TODO Load the Log Information, else throw/redirect to Log Selection
+    if "current_log" in request.session and request.session["current_log"] is not None:
+        log_information = request.session["current_log"]
+
+    if log_information is not None:
+
+        event_log = os.path.join(event_logs_path, log_information["log_name"])
+        log_format = log_import.get_log_format(log_information["log_name"])
+
+        # Import the Log considering the given Format
+        log, activites = log_import.log_import(event_log, log_format, log_information)
+
+
+    if request.method == "POST":
+        selected_case = request.POST["selected_case"]
+        df = plotting.create_df_case(log, log_format, [selected_case], log_information)
+
+        plot_div = plotting.timeframe_plot(df)
+        html = loader.render_to_string("view_plot.html", {"plot_div": plot_div})
+        return HttpResponse(html)
+ 
+    else: 
+        print("DEBUG: POST URL REQUESTED!")
+
 
 def change_view(request):
     if request.method == "POST":

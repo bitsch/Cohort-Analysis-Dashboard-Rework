@@ -280,7 +280,7 @@
             </tr>
             {% endfor %}
           </tbody>
-        </table>--->
+        </table>---->
         <table class="table table-sm table-hover" id="p3details">
           <thead>
             <tr>
@@ -430,7 +430,6 @@ const makeMeMultiSelect = (container, network, nodes) => {
     container[0].oncontextmenu = () => false;
 
     // State
-
     let drag = false, DOMRect = {};
 
     // Selector
@@ -579,7 +578,7 @@ function refreshCase(caseId){
     if(selectedView=="dfg_overview_DefaultCaseZZZ"){
         $.ajax({
         headers: { "X-CSRFToken": token },
-        url: "/views/ajax/casefilter/",
+        url: "/views/ajax/casefilter/dfg",
         type: 'POST',
         data: {'selected_case': caseId, 'X-CSRFToken':token},
         dataType:'html',
@@ -595,12 +594,12 @@ function refreshCase(caseId){
     else{
       $.ajax({
         headers: { "X-CSRFToken": token },
-        url: "/views/ajax/casefilter/",
+        url: "/views/ajax/casefilter/plt",
         type: 'POST',
         data: {'selected_case': caseId, 'X-CSRFToken':token},
         dataType:'html',
         success: function(result) {
-         
+        $('#caseOverviewPlot').html(result);
          
         }
       });
