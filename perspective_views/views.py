@@ -39,7 +39,7 @@ def perspective(request):
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log, activites = log_import.log_import(event_log, log_format, log_information)
+        log, activities = log_import.log_import(event_log, log_format, log_information)
         load_log_succes = True
 
     if request.method == "POST":
@@ -53,7 +53,7 @@ def perspective(request):
             dfg = dfg_discovery.apply(log)
             this_data, temp_file = plotting.dfg_to_g6(dfg)
             re.escape(temp_file)
-            result["Nunique_Activities"] = len(activites)
+            result["Nunique_Activities"] = len(activities)
             return render(
                 request,
                 "perspective_view.html",
@@ -61,7 +61,7 @@ def perspective(request):
                     "log_name": settings.EVENT_LOG_NAME,
                     "json_file": temp_file,
                     "data": json.dumps(this_data),
-                    "activities": activites,
+                    "activities": activities,
                     "result": result,
                 },
             )
@@ -87,7 +87,7 @@ def  activity_filter(request):
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log, activites = log_import.log_import(event_log, log_format, log_information)
+        log, activities = log_import.log_import(event_log, log_format, log_information)
         load_log_succes = True
 
     if request.method == "POST":
@@ -102,8 +102,8 @@ def  activity_filter(request):
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
-        result["Nunique_Activities"] = len(activites)
-        filteredresult["Nunique_Activities"] = len(activites)
+        result["Nunique_Activities"] = len(activities)
+        filteredresult["Nunique_Activities"] = len(activities)
         network = {}
         if filteredresult is None:
             filteredresult=result
@@ -128,7 +128,7 @@ def case_filter_dfg(request):
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log, activites = log_import.log_import(event_log, log_format, log_information)
+        log, activities = log_import.log_import(event_log, log_format, log_information)
 
 
     if request.method == "POST":
@@ -156,7 +156,7 @@ def  case_filter_plt(request):
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log, activites = log_import.log_import(event_log, log_format, log_information)
+        log, activities = log_import.log_import(event_log, log_format, log_information)
 
 
     if request.method == "POST":

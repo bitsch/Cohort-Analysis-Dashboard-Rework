@@ -14,7 +14,7 @@ def log_import(file_path, file_format, log_information):
             The Set of all trace activities
     """
 
-    activites = set()
+    activities = set()
 
     if file_format == "csv":
 
@@ -78,7 +78,7 @@ def log_import(file_path, file_format, log_information):
                 axis=1,
             )
 
-        activites = set(log[xes.DEFAULT_NAME_KEY].unique())
+        activities = set(log[xes.DEFAULT_NAME_KEY].unique())
 
     # Simply load the log using XES
     elif file_format == "xes":
@@ -87,14 +87,14 @@ def log_import(file_path, file_format, log_information):
 
         for trace in log:
             for event in trace:
-                activites.add(event[log_information["concept_name"]])
+                activities.add(event[log_information["concept_name"]])
 
     else:
 
         # TODO Throw some Warning / Show a warning Message in the Console
         print("Invalid Filepath")
 
-    return log, activites
+    return log, activities
 
 
 def get_log_format(file_path):

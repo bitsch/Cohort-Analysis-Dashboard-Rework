@@ -58,7 +58,7 @@ def create_plotting_data(log, file_format, log_information):
         # Select only the Relevant columns of the Dataframe
         if log_information["log_type"] == "noninterval":
 
-            # Project the Log onto the Group Activites
+            # Project the Log onto the Group activities
 
             log = log[
                 [

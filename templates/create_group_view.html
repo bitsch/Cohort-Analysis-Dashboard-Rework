@@ -71,11 +71,6 @@
   <li class="nav-item">
     <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Group Details</a>
   </li>
-  <!--
-    <li class="nav-item">
-      <a class="nav-link" id="group_list_lab" data-toggle="tab" href="#group_list" role="tab" aria-controls="disease" aria-selected="false">Group List</a>
-    </li>
-  -->
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="create_group" role="tabpanel" aria-labelledby="timeframe-tab">
@@ -97,8 +92,8 @@
             <label for="" class="col-lg-5 control-label">Select Activities<span class="text-danger">*</span></label>
             <div class="col-lg-7">
               <select id="list_of_activities" name="list_of_selected_activities" multiple="multiple">
-                {% for activities in activites %}
-                      <option value="{{activities}}">{{activities}}</option>
+                {% for activity in activities %}
+                      <option value="{{activity}}">{{activity}}</option>
                   {% endfor %}
               </select>
             </div>

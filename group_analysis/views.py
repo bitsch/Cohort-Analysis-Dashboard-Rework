@@ -42,10 +42,10 @@ def group_analysis(request):
         log_format = log_import.get_log_format(log_information["log_name"])
 
         # Import the Log considering the given Format
-        log, activites = log_import.log_import(event_log, log_format, log_information)
+        log, activities = log_import.log_import(event_log, log_format, log_information)
 
-        # Set the activites to the activities of the loaded log.
-        request.session["activites"] = list(activites)
+        # Set the activities to the activities of the loaded log.
+        request.session["activities"] = list(activities)
         load_log_succes = True
 
     if request.method == "POST":

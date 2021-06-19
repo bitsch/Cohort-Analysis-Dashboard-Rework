@@ -111,7 +111,7 @@ def csv_create_date_range_frame(log, Groups, parameters=None, freq="H", interval
                 ] += 1
 
     else:
-        # Prefiltering by Projecting on Group Activites
+        # Prefiltering by Projecting on Group activities
         log = log[
             log["concept:name"].isin(flatten([group.members for group in Groups]))
         ]

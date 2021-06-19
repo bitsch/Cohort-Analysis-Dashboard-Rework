@@ -9,18 +9,18 @@ from django.template import loader
 
 def group_management(request):
     active_groups = None
-    activites = None
+    activities = None
 
     # Export this into a general function checking existance of the values
     # in the session,for activities, we might assume this
     # But better be safe than sorry
-    if "activites" in request.session:
-        activites = request.session["activites"]
+    if "activities" in request.session:
+        activities = request.session["activities"]
 
     if "group_details" in request.session:
         active_groups = get_active_groups(request)
 
-    context = {"activites": activites, "active_group_details": active_groups}
+    context = {"activities": activities, "active_group_details": active_groups}
 
     return render(request, "create_group_view.html", context)
 
@@ -120,7 +120,7 @@ def cohort_analysis_data(request):
         group_details = request.session["group_details"]
 
         # Loading the Log
-        log, activites = log_import.log_import(event_log, log_format, log_information)
+        log, activities = log_import.log_import(event_log, log_format, log_information)
         
         # Creating the Plotting Data
         df = plotting_data.create_plotting_data(log, log_format, log_information)

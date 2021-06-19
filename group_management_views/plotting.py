@@ -85,7 +85,7 @@ def timeframe_plot_factory(date_frame, Groups, freq="M"):
                         "Start": block.index[0],
                         "End": block.index[-1],
                         "Task": group.name,
-                        "Number of Activites": block[group.name].sum(),
+                        "Number of activities": block[group.name].sum(),
                     }
                 )
 
@@ -96,7 +96,7 @@ def timeframe_plot_factory(date_frame, Groups, freq="M"):
                         "Start": block.index[0],
                         "End": block.index[-1] + timedelta(days=1),
                         "Task": group.name,
-                        "Number of Activites": block[group.name].sum(),
+                        "Number of activities": block[group.name].sum(),
                     }
                 )
 
@@ -104,7 +104,7 @@ def timeframe_plot_factory(date_frame, Groups, freq="M"):
         "Task": False,
         "Start": True,
         "End": True,
-        "Number of Activites": True,
+        "Number of activities": True,
     }
 
     fig = px.timeline(
