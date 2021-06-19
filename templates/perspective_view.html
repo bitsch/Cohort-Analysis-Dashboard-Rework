@@ -64,7 +64,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
+  <li class="nav-item" >
     <a class="nav-link active" id="organisation-tab" data-toggle="tab" href="#organisation" role="tab" aria-controls="organisation" aria-selected="true">Organisational View</a>
   </li>
   <li class="nav-item">
@@ -80,70 +80,67 @@
       <div class="row">
       <div class="col-4">
         <br>
-        <table class="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Overview</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Cases:</th>
-              <td>{{result.Ncase}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Events:</th>
-              <td>{{result.Nactivities}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Variants:</th>
-              <td>{{result.Nvariant}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Unique Activities:</th>
-              <td>{{result.Nunique_Activities}}</td>
-            </tr>
-            <thead>
-              <tr>
-                <th scope="col">Log Performance</th>
-              </tr>
-            </thead>
-
-             <tr>
-              <th scope="row">Start Time:</th>
-              <td>{{result.StartTime}}</td>
-            </tr>
-            <tr>
-              <th scope="row">End Time:</th>
-              <td>{{result.EndTime}}</td>
-            </tr>
-             <tr>
-              <th scope="row">Duration</th>
-              <td>{{result.TotalDuration}}</td>
-            </tr>
-            <thead>
-              <tr>
-                <th scope="col">Case Performance</th>
-              </tr>
-            </thead>
-              <tr>
-              <th scope="row">Median Case Duration:</th>
-              <td>{{result.MedianCaseDuration}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Mean Case Duration:</th>
-              <td>{{result.MeanCaseDuration}}</td>
-            </tr>
-             <tr>
-              <th scope="row">Max Case Duration</th>
-              <td>{{result.MaxCaseDuration}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Min Case Durtation</th>
-              <td>{{result.MinCaseDuration}}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="card views-card" >
+          <div class="card-header">
+            Overview <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can see the high level overview of the log"></i>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Cases:
+              <span class="font-weight-bold">{{result.Ncase}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Events:
+              <span class="font-weight-bold">{{result.Nactivities}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Variants:
+              <span class="font-weight-bold">{{result.Nvariant}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Unique Activities:
+              <span class="font-weight-bold">{{result.Nunique_Activities}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="card views-card" >
+          <div class="card-header">
+            Log Performance <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can see the basic log performance information of the log"></i>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Start Time:
+              <span class="font-weight-bold">{{result.StartTime}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              End Time:
+              <span class="font-weight-bold">{{result.EndTime}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Duration:
+              <span class="font-weight-bold">{{result.TotalDuration}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="card views-card" >
+          <div class="card-header">
+            Case Performance <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can see the case performance information of the log"></i>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Median Case Duration:
+              <span>{{result.MedianCaseDuration}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Mean Case Duration:
+              <span class="font-weight-bold">{{result.MeanCaseDuration}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              Max Case Duration:
+              <span class="font-weight-bold">{{result.MinCaseDuration}}</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="col-8">
         <form  name="perspective_view" action="perspective_view" method = "POST">
@@ -161,9 +158,7 @@
           </div>
         </div>
         <br>
-
-
-
+        
         </form>
           <form action="" method="get">
             {% csrf_token %}
@@ -181,20 +176,18 @@
       <div class="col-4">
         <br>
         <div class="overflow-auto" style="height: 550px;">
-        <table class="table table-sm table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Case Id : No of event</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for value in result.case %}
-            <tr>
-              <td scope="row"><a href="javascript:refreshCase('{{value.Name}}')" >Case {{value.Name}} : {{value.variant}}</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+          <div class="card views-card" >
+            <div class="card-header">
+              Case Id : No of events <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can see the case performance information of the log"></i>
+            </div>
+            <div class="list-group" id="list-tab" role="tablist">
+              {% for value in result.case %}
+              <a onclick="refreshCase('{{value.Name}}')" href="#{{value.Name}}" data-toggle="list" role="tab" aria-controls="case" class="list-group-item list-group-item-action">
+                Case {{value.Name}} : {{value.variant}}
+              </a>
+              {% endfor %}
+            </div>
+          </div>
         </div>
         <table class="table table-sm table-hover">
           <div class="fixed-bottom">
@@ -227,9 +220,6 @@
           </div>
         </div>
         <br>
-
-
-
         </form>
           <form action="" method="get">
             {% csrf_token %}

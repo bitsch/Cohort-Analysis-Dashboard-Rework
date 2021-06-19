@@ -2,361 +2,261 @@
     "nodes": [
         {
             "id": "node_0",
-            "label": "get review 2"
+            "label": "Inform Authority Send Form"
         },
         {
             "id": "node_1",
-            "label": "time-out 2"
+            "label": "Referral"
         },
         {
             "id": "node_2",
-            "label": "time-out 1"
+            "label": "Initial Exam"
         },
         {
             "id": "node_3",
-            "label": "decide"
+            "label": "Treatment A3"
         },
         {
             "id": "node_4",
-            "label": "time-out 3"
+            "label": "Initial Exam Decision"
         },
         {
             "id": "node_5",
-            "label": "reject"
+            "label": "Decide Treatment"
         },
         {
             "id": "node_6",
-            "label": "get review 3"
+            "label": "Control Call"
         },
         {
             "id": "node_7",
-            "label": "invite additional reviewer"
+            "label": "Discharge"
         },
         {
             "id": "node_8",
-            "label": "invite reviewers"
+            "label": "Test III Decision"
         },
         {
             "id": "node_9",
-            "label": "get review 1"
+            "label": "Treatment A2"
         },
         {
             "id": "node_10",
-            "label": "collect reviews"
+            "label": "Treatment A1"
         },
         {
             "id": "node_11",
-            "label": "time-out X"
+            "label": "Check Treatment A3"
         },
         {
             "id": "node_12",
-            "label": "get review X"
+            "label": "Test III"
         },
         {
             "id": "node_13",
-            "label": "accept"
+            "label": "Check Treatment A1"
+        },
+        {
+            "id": "node_14",
+            "label": "Check Treatment A2"
+        },
+        {
+            "id": "node_15",
+            "label": "Inform about Isolation"
+        },
+        {
+            "id": "node_16",
+            "label": "Register Facility"
+        },
+        {
+            "id": "node_17",
+            "label": "Inform Authority Fill Form"
+        },
+        {
+            "id": "node_18",
+            "label": "Register"
         }
     ],
     "edges": [
         {
-            "from": "node_8",
-            "to": "node_8",
-            "value": 100,
-            "title": 100
-        },
-        {
-            "from": "node_8",
-            "to": "node_0",
-            "value": 19,
-            "title": 19
-        },
-        {
-            "from": "node_0",
-            "to": "node_6",
-            "value": 12,
-            "title": 12
-        },
-        {
-            "from": "node_6",
-            "to": "node_9",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_9",
-            "to": "node_10",
-            "value": 11,
-            "title": 11
-        },
-        {
-            "from": "node_10",
-            "to": "node_10",
-            "value": 100,
-            "title": 100
-        },
-        {
-            "from": "node_10",
-            "to": "node_3",
-            "value": 100,
-            "title": 100
-        },
-        {
-            "from": "node_3",
-            "to": "node_3",
-            "value": 626,
-            "title": 626
-        },
-        {
-            "from": "node_3",
-            "to": "node_7",
-            "value": 526,
-            "title": 526
-        },
-        {
-            "from": "node_7",
-            "to": "node_7",
-            "value": 526,
-            "title": 526
-        },
-        {
-            "from": "node_7",
-            "to": "node_12",
-            "value": 263,
-            "title": 263
-        },
-        {
-            "from": "node_12",
-            "to": "node_3",
-            "value": 263,
-            "title": 263
-        },
-        {
-            "from": "node_3",
-            "to": "node_5",
-            "value": 55,
-            "title": 55
-        },
-        {
-            "from": "node_5",
-            "to": "node_5",
-            "value": 55,
-            "title": 55
-        },
-        {
-            "from": "node_6",
-            "to": "node_2",
-            "value": 11,
-            "title": 11
-        },
-        {
-            "from": "node_2",
-            "to": "node_10",
-            "value": 22,
-            "title": 22
-        },
-        {
-            "from": "node_7",
-            "to": "node_11",
-            "value": 263,
-            "title": 263
-        },
-        {
-            "from": "node_11",
-            "to": "node_3",
-            "value": 263,
-            "title": 263
-        },
-        {
-            "from": "node_3",
+            "from": "node_13",
             "to": "node_13",
-            "value": 45,
-            "title": 45
+            "value": 1,
+            "title": 1
         },
         {
             "from": "node_13",
-            "to": "node_13",
-            "value": 45,
-            "title": 45
+            "to": "node_14",
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_8",
-            "to": "node_6",
-            "value": 19,
-            "title": 19
+            "from": "node_13",
+            "to": "node_7",
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_9",
-            "to": "node_0",
-            "value": 10,
-            "title": 10
-        },
-        {
-            "from": "node_0",
+            "from": "node_13",
             "to": "node_10",
-            "value": 10,
-            "title": 10
-        },
-        {
-            "from": "node_6",
-            "to": "node_1",
             "value": 15,
             "title": 15
         },
         {
-            "from": "node_1",
-            "to": "node_2",
-            "value": 10,
-            "title": 10
-        },
-        {
-            "from": "node_0",
-            "to": "node_2",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_2",
-            "to": "node_6",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_6",
-            "to": "node_10",
-            "value": 11,
-            "title": 11
-        },
-        {
-            "from": "node_8",
-            "to": "node_1",
-            "value": 12,
-            "title": 12
-        },
-        {
-            "from": "node_1",
-            "to": "node_4",
+            "from": "node_13",
+            "to": "node_9",
             "value": 8,
             "title": 8
         },
         {
-            "from": "node_4",
-            "to": "node_9",
-            "value": 7,
-            "title": 7
-        },
-        {
-            "from": "node_2",
-            "to": "node_1",
-            "value": 11,
-            "title": 11
-        },
-        {
-            "from": "node_1",
-            "to": "node_10",
-            "value": 26,
-            "title": 26
-        },
-        {
-            "from": "node_8",
-            "to": "node_2",
-            "value": 16,
-            "title": 16
-        },
-        {
-            "from": "node_2",
-            "to": "node_0",
-            "value": 7,
-            "title": 7
-        },
-        {
-            "from": "node_0",
-            "to": "node_4",
-            "value": 8,
-            "title": 8
-        },
-        {
-            "from": "node_4",
-            "to": "node_10",
-            "value": 20,
-            "title": 20
-        },
-        {
-            "from": "node_1",
-            "to": "node_9",
-            "value": 7,
-            "title": 7
-        },
-        {
-            "from": "node_9",
-            "to": "node_4",
-            "value": 10,
-            "title": 10
-        },
-        {
-            "from": "node_8",
-            "to": "node_9",
-            "value": 16,
-            "title": 16
-        },
-        {
-            "from": "node_4",
-            "to": "node_1",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_8",
-            "to": "node_4",
-            "value": 18,
-            "title": 18
-        },
-        {
-            "from": "node_4",
-            "to": "node_0",
+            "from": "node_13",
+            "to": "node_3",
             "value": 5,
             "title": 5
         },
         {
-            "from": "node_9",
-            "to": "node_1",
-            "value": 8,
-            "title": 8
+            "from": "node_14",
+            "to": "node_10",
+            "value": 12,
+            "title": 12
+        },
+        {
+            "from": "node_14",
+            "to": "node_3",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_11",
+            "to": "node_10",
+            "value": 3,
+            "title": 3
+        },
+        {
+            "from": "node_11",
+            "to": "node_9",
+            "value": 4,
+            "title": 4
         },
         {
             "from": "node_6",
+            "to": "node_6",
+            "value": 14,
+            "title": 14
+        },
+        {
+            "from": "node_6",
+            "to": "node_17",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_6",
+            "to": "node_1",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_6",
+            "to": "node_12",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_5",
+            "to": "node_10",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_17",
             "to": "node_0",
-            "value": 4,
-            "title": 4
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_9",
+            "from": "node_0",
             "to": "node_6",
-            "value": 6,
-            "title": 6
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_4",
-            "to": "node_2",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_1",
+            "from": "node_15",
             "to": "node_6",
-            "value": 4,
-            "title": 4
+            "value": 1,
+            "title": 1
         },
         {
             "from": "node_2",
             "to": "node_4",
-            "value": 6,
-            "title": 6
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_0",
-            "to": "node_9",
-            "value": 6,
-            "title": 6
+            "from": "node_4",
+            "to": "node_15",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_1",
+            "to": "node_16",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_18",
+            "to": "node_2",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_16",
+            "to": "node_5",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_12",
+            "to": "node_8",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_8",
+            "to": "node_6",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_10",
+            "to": "node_13",
+            "value": 30,
+            "title": 30
+        },
+        {
+            "from": "node_10",
+            "to": "node_10",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_10",
+            "to": "node_3",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_9",
+            "to": "node_14",
+            "value": 12,
+            "title": 12
+        },
+        {
+            "from": "node_3",
+            "to": "node_11",
+            "value": 7,
+            "title": 7
         }
     ]
 }
