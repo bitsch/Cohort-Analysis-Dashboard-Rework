@@ -24,8 +24,8 @@
                   <form  name="load" action="" method = "POST" enctype="multipart/form-data">
                       {% csrf_token %}
   
-                      <p>Event log: <input type = "file" value="fileupload" name = "event_log" /></p>
-                      <p><input type = "submit" class="btn btn-primary mb-2" value = "Upload EventLog" name = "uploadButton" id ='submitresEL' /></p>
+                      <p>Event log: <input type = "file" data-toggle="tooltip" data-placement="top" title="Click to upload a new log file" value="fileupload" name = "event_log" /></p>
+                      <p><input  data-toggle="tooltip" data-placement="top" title="Upload new event log" type = "submit" class="btn btn-primary mb-2" value = "Upload EventLog" name = "uploadButton" id ='submitresEL' /></p>
   
                   </form>
             </div>
@@ -37,15 +37,15 @@
                   <form  name="choice" action="" method = "POST">
                       {% csrf_token %}
   
-                      <select name="log_list" class="custom-select" size="10">
+                      <select data-toggle="tooltip" data-placement="top" title="Select a log to view additional information" name="log_list" class="custom-select" size="10">
                           {% for eventlog in eventlog_list %}
                               <option value="{{eventlog}}">{{eventlog}}</option>
                           {% endfor %}
                       </select>
   
-                      <input style="margin-top: 10px;" data-toggle="tooltip" data-placement="top" title="Set as the input" type = "submit" class="btn btn-success" value = "Select" name= "setButton" id ='setButton' />
-                      <input style="margin-top: 10px;" type = "submit" class="btn btn-danger" value = "Delete" name= "deleteButton" id ='deleteButton'/>
-                      <input style="float: right; margin-top: 10px;" type = "submit" class="btn btn-info" value = "Download" name= "downloadButton" id ='downloadButton'/>
+                      <input style="margin-top: 10px;" data-toggle="tooltip" data-placement="top" title="Select the specified log as default log" type = "submit" class="btn btn-success" value = "Select" name= "setButton" id ='setButton' />
+                      <input style="margin-top: 10px;" type = "submit" data-toggle="tooltip" data-placement="top" title="Delete the specified log" class="btn btn-danger" value = "Delete" name= "deleteButton" id ='deleteButton'/>
+                      <input style="float: right; margin-top: 10px;" data-toggle="tooltip" data-placement="top" title="Download the specified log" type = "submit" class="btn btn-info" value = "Download" name= "downloadButton" id ='downloadButton'/>
   
   
                   </form>
@@ -69,7 +69,7 @@
                 <h5 class="card-title">Currently Selected Log</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Log Name: {{selected_log_info.log_name}}</h6>
                 <p class="card-text">Case Id: {{selected_log_info.case_id}}</p>
-                <p class="card-text">Concept Name: {{selected_log_info.case_concept_name}}</p>
+                <p class="card-text">Concept Name: {{selected_log_info.concept_name}}</p>
                 <p class="card-text">Log Type: {{selected_log_info.log_type}}</p>
                 {% ifequal selected_log_info.log_type "noninterval" %}
                   <p id="concept_name"> Timestamp: {{selected_log_info.timestamp}} </p>
@@ -114,10 +114,6 @@
           }
         })
       });
-    });
-
-    $(document).ready(function(){
-      $('[data-toggle="tooltip"]').tooltip();
     });
 
     $(document).ajaxStart(function() {

@@ -96,7 +96,7 @@ def set_log(request, logname):
         request.session["current_log"] = selected_log.__dict__
 
         # (Re)Initialize Group and Activities
-        request.session["activites"] = None
+        request.session["activities"] = None
         request.session["group_details"] = None
 
         return redirect("/logmanagement/")

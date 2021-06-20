@@ -24,3 +24,12 @@
   max-height: 150px !important;
   overflow-y: auto !important;
 }
+
+.info-icon {
+  margin: 2px;
+}
+
+.views-card {
+width: 100%;
+margin-bottom: 15px;
+}

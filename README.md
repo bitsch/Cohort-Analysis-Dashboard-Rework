@@ -44,4 +44,13 @@ NOTE: pylint and black are following pep8 styling standard.
 
 You can trigger the unit tests of an application by running `python manage.py test`
 E.g. `python manage.py test log_management`
-   
+
+### Running CAD in a Docker container
+
+1. Navigate to the root of the folder (Hint: where Dockerfile is located)
+
+2. Create a CAD Docker image by running `docker build --tag cad .`
+
+3. Start CAD in a container using `docker run --publish 8000:8000 cad`
+
+4. You should be able to access CAD on `http://127.0.0.1:8000/`

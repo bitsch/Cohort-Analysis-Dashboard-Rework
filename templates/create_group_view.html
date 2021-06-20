@@ -71,78 +71,75 @@
   <li class="nav-item">
     <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Group Details</a>
   </li>
-  <!--
-    <li class="nav-item">
-      <a class="nav-link" id="group_list_lab" data-toggle="tab" href="#group_list" role="tab" aria-controls="disease" aria-selected="false">Group List</a>
-    </li>
-  -->
 </ul>
 <div class="tab-content" id="myTabContent">
   <div class="tab-pane fade show active" id="create_group" role="tabpanel" aria-labelledby="timeframe-tab">
-    <div class="container-fluid" id="graph">
+    <div class="container-fluid">
       <div class="row">
-      <div class="col-6">
-        <br>
-        <div class="success_alert_message"></div>
-        <form  name="create_group" action="" method = "POST">
-          {% csrf_token %}
-          <div class="form-group row">
-            <label for="" class="col-lg-5 control-label">Group Name <span class="text-danger">*</span></label>
-            <div class="col-lg-7">
-              <input type="text" class="form-control" id="group_name" name="group_name" placeholder="Please enter group name!">
+        <div class="col-5">
+          <div class="success_alert_message"></div>
+          <div class="card views-card" >
+            <div class="card-header">
+              Create new group <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can create new group for Cohort Analysis"></i>
             </div>
-          </div>
-          <div class="form-group row">
-            <input type="hidden" value="" name="store_selected_activities" class="store_selected_activities" id="store_selected_activities">
-            <label for="" class="col-lg-5 control-label">Select Activities<span class="text-danger">*</span></label>
-            <div class="col-lg-7">
-              <select id="list_of_activities" name="list_of_selected_activities" multiple="multiple">
-                {% for activities in activites %}
-                      <option value="{{activities}}">{{activities}}</option>
-                  {% endfor %}
-              </select>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="" class="col-lg-5 control-label"></label>
-            <div class="col-lg-7">
-              <input type = "button" class="btn btn-primary" value = "Create New Group" name = "create_new_group" id ='create_new_group'/>
-              <input type = "button" class="btn btn-danger" value = "Cancel" name="cancel" id ='cancel'/>
-            </div>
-          </div>
-        </form>
+            <div class="container">
+              <form  name="create_group" action="" method = "POST">
+                {% csrf_token %}
 
-
-      </div>
-      <div class="col-6 border rounded">
-        <br>
-        <table id="dtBasicExample" class="table table-striped table-sm" cellspacing="0" width="100%">
-          <thead>
-            <tr>
-              <th scope="col">SL#</th>
-              <th scope="col">Group Name</th>
-              <th scope="col">Number of Activities</th>
-              <th scope="col" >Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% if  active_group_details.items %}
-            {% for key, value in active_group_details.items %}
-            {% with group_name=value.group_name %}   
-            <tr>
-              <td scope="row">{{key}}</td>
-              <td>{{group_name}}</td>
-              <td style="text-align: center;">{{value.number_of_activities}}</td>
-              <td>
-                <input type = "button" group_name="{{group_name}}" class="btn btn-danger unset_group" value = "Delete" name="delete" id ='delete'/>
-              </td>
-            </tr>
-            {% endwith %}
-            {% endfor %}
-            {% endif %}
-          </tbody>
-        </table>
-      </div>
+                <div class="form-group row">
+                  <label for="group_name" class="col-sm-3 col-form-label">Group Name <span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control-plaintext" id="group_name" name="group_name" placeholder="Please enter group name!">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <input type="hidden" value="" name="store_selected_activities" class="store_selected_activities" id="store_selected_activities">
+                  <label for="list_of_activities" class="col-sm-3 col-form-label">Select Activities<span class="text-danger">*</span></label>
+                  <div class="col-sm-9">
+                    <select class="form-select mb-3" id="list_of_activities" name="list_of_selected_activities" multiple="multiple">
+                      {% for activity in activities %}
+                        <option value="{{activity}}">{{activity}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row" style="padding: 12px">
+                  <input style="margin-left: auto; margin-right: 5px;" type="button" class="btn btn-primary" value = "Create New Group" name = "create_new_group" id ='create_new_group' data-toggle="tooltip" data-placement="top" title="Create the new group"/>
+                  <input style="margin-right: auto; margin-left: 5px;" type="button" class="btn btn-danger" value = "Cancel" name="cancel" id ='cancel' data-toggle="tooltip" data-placement="top" title="Cancel the creation of the group"/>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-7 border rounded">
+          <table id="dtBasicExample" class="table table-striped table-sm" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th scope="col">SL#</th>
+                <th scope="col">Group Name</th>
+                <th scope="col">Number of Activities</th>
+                <th scope="col" >Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if  active_group_details.items %}
+              {% for key, value in active_group_details.items %}
+              {% with group_name=value.group_name %}   
+              <tr>
+                <td scope="row">{{key}}</td>
+                <td>{{group_name}}</td>
+                <td style="text-align: center;">{{value.number_of_activities}}</td>
+                <td>
+                  <input type = "button" group_name="{{group_name}}" class="btn btn-danger unset_group" value = "Delete" name="delete" id ='delete'/>
+                </td>
+              </tr>
+              {% endwith %}
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     </div>
