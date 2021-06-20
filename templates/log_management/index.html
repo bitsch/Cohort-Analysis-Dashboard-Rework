@@ -69,7 +69,7 @@
                 <h5 class="card-title">Currently Selected Log</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Log Name: {{selected_log_info.log_name}}</h6>
                 <p class="card-text">Case Id: {{selected_log_info.case_id}}</p>
-                <p class="card-text">Concept Name: {{selected_log_info.case_concept_name}}</p>
+                <p class="card-text">Concept Name: {{selected_log_info.concept_name}}</p>
                 <p class="card-text">Log Type: {{selected_log_info.log_type}}</p>
                 {% ifequal selected_log_info.log_type "noninterval" %}
                   <p id="concept_name"> Timestamp: {{selected_log_info.timestamp}} </p>

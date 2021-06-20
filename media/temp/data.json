@@ -2,7 +2,7 @@
     "nodes": [
         {
             "id": "node_0",
-            "label": "Prescripe Special Medication"
+            "label": "Check Treatment A3"
         },
         {
             "id": "node_1",
@@ -10,259 +10,153 @@
         },
         {
             "id": "node_2",
-            "label": "Decide Treatment"
-        },
-        {
-            "id": "node_3",
-            "label": "Initial Exam Decision"
-        },
-        {
-            "id": "node_4",
-            "label": "Discharge Init Exam"
-        },
-        {
-            "id": "node_5",
-            "label": "Register Facility"
-        },
-        {
-            "id": "node_6",
-            "label": "Check Treatment A1"
-        },
-        {
-            "id": "node_7",
-            "label": "Treatment A3"
-        },
-        {
-            "id": "node_8",
             "label": "Inform Authority Fill Form"
         },
         {
-            "id": "node_9",
-            "label": "Treatment A2"
-        },
-        {
-            "id": "node_10",
-            "label": "Test III"
-        },
-        {
-            "id": "node_11",
-            "label": "Inform Authority Send Form"
-        },
-        {
-            "id": "node_12",
-            "label": "Initial Exam"
-        },
-        {
-            "id": "node_13",
+            "id": "node_3",
             "label": "Treatment A1"
         },
         {
-            "id": "node_14",
-            "label": "Check Treatment A2"
-        },
-        {
-            "id": "node_15",
-            "label": "Referral"
-        },
-        {
-            "id": "node_16",
+            "id": "node_4",
             "label": "Discharge"
         },
         {
-            "id": "node_17",
-            "label": "Inform about Isolation"
+            "id": "node_5",
+            "label": "Initial Exam Decision"
         },
         {
-            "id": "node_18",
-            "label": "Treatment B"
+            "id": "node_6",
+            "label": "Referral"
         },
         {
-            "id": "node_19",
+            "id": "node_7",
+            "label": "Check Treatment A1"
+        },
+        {
+            "id": "node_8",
+            "label": "Check Treatment A2"
+        },
+        {
+            "id": "node_9",
+            "label": "Register Facility"
+        },
+        {
+            "id": "node_10",
             "label": "Register"
         },
         {
-            "id": "node_20",
-            "label": "Check Treatment B"
+            "id": "node_11",
+            "label": "Test III"
         },
         {
-            "id": "node_21",
-            "label": "Emergency Send 2 Facility (Wait)"
+            "id": "node_12",
+            "label": "Inform Authority Send Form"
         },
         {
-            "id": "node_22",
-            "label": "Discharge Test"
-        },
-        {
-            "id": "node_23",
+            "id": "node_13",
             "label": "Test III Decision"
         },
         {
-            "id": "node_24",
-            "label": "Check Treatment A3"
+            "id": "node_14",
+            "label": "Treatment A3"
+        },
+        {
+            "id": "node_15",
+            "label": "Decide Treatment"
+        },
+        {
+            "id": "node_16",
+            "label": "Inform about Isolation"
+        },
+        {
+            "id": "node_17",
+            "label": "Treatment A2"
         }
     ],
     "edges": [
         {
-            "from": "node_6",
-            "to": "node_6",
-            "value": 2861,
-            "title": 2861
+            "from": "node_7",
+            "to": "node_7",
+            "value": 31,
+            "title": 31
         },
         {
-            "from": "node_6",
-            "to": "node_14",
-            "value": 36,
-            "title": 36
+            "from": "node_7",
+            "to": "node_8",
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_6",
-            "to": "node_24",
+            "from": "node_7",
+            "to": "node_4",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_7",
+            "to": "node_3",
             "value": 14,
             "title": 14
         },
         {
-            "from": "node_6",
-            "to": "node_16",
-            "value": 117,
-            "title": 117
+            "from": "node_7",
+            "to": "node_17",
+            "value": 9,
+            "title": 9
         },
         {
-            "from": "node_6",
-            "to": "node_8",
+            "from": "node_7",
+            "to": "node_14",
             "value": 6,
             "title": 6
         },
         {
-            "from": "node_6",
-            "to": "node_13",
-            "value": 1466,
-            "title": 1466
-        },
-        {
-            "from": "node_6",
-            "to": "node_9",
-            "value": 794,
-            "title": 794
-        },
-        {
-            "from": "node_6",
+            "from": "node_8",
             "to": "node_7",
-            "value": 543,
-            "title": 543
+            "value": 2,
+            "title": 2
         },
         {
-            "from": "node_14",
-            "to": "node_6",
-            "value": 54,
-            "title": 54
+            "from": "node_8",
+            "to": "node_8",
+            "value": 11,
+            "title": 11
         },
         {
-            "from": "node_14",
+            "from": "node_8",
+            "to": "node_3",
+            "value": 11,
+            "title": 11
+        },
+        {
+            "from": "node_8",
             "to": "node_14",
-            "value": 944,
-            "title": 944
+            "value": 2,
+            "title": 2
         },
         {
-            "from": "node_14",
-            "to": "node_24",
-            "value": 4,
-            "title": 4
+            "from": "node_0",
+            "to": "node_0",
+            "value": 6,
+            "title": 6
         },
         {
-            "from": "node_14",
-            "to": "node_16",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_14",
-            "to": "node_8",
-            "value": 5,
-            "title": 5
-        },
-        {
-            "from": "node_14",
-            "to": "node_13",
-            "value": 1154,
-            "title": 1154
-        },
-        {
-            "from": "node_14",
-            "to": "node_7",
-            "value": 106,
-            "title": 106
-        },
-        {
-            "from": "node_24",
-            "to": "node_6",
-            "value": 8,
-            "title": 8
-        },
-        {
-            "from": "node_24",
-            "to": "node_14",
-            "value": 15,
-            "title": 15
-        },
-        {
-            "from": "node_24",
-            "to": "node_24",
-            "value": 467,
-            "title": 467
-        },
-        {
-            "from": "node_24",
-            "to": "node_8",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_24",
-            "to": "node_13",
-            "value": 299,
-            "title": 299
-        },
-        {
-            "from": "node_24",
-            "to": "node_9",
-            "value": 378,
-            "title": 378
-        },
-        {
-            "from": "node_20",
-            "to": "node_20",
-            "value": 1725,
-            "title": 1725
-        },
-        {
-            "from": "node_20",
-            "to": "node_16",
-            "value": 313,
-            "title": 313
-        },
-        {
-            "from": "node_20",
-            "to": "node_8",
-            "value": 36,
-            "title": 36
-        },
-        {
-            "from": "node_20",
-            "to": "node_11",
+            "from": "node_0",
+            "to": "node_3",
             "value": 3,
             "title": 3
         },
         {
-            "from": "node_20",
-            "to": "node_18",
-            "value": 1266,
-            "title": 1266
+            "from": "node_0",
+            "to": "node_17",
+            "value": 3,
+            "title": 3
         },
         {
             "from": "node_1",
             "to": "node_1",
-            "value": 18422,
-            "title": 18422
+            "value": 25,
+            "title": 25
         },
         {
             "from": "node_1",
@@ -272,753 +166,195 @@
         },
         {
             "from": "node_1",
-            "to": "node_21",
+            "to": "node_6",
             "value": 1,
             "title": 1
         },
         {
             "from": "node_1",
-            "to": "node_8",
-            "value": 237,
-            "title": 237
-        },
-        {
-            "from": "node_1",
             "to": "node_11",
-            "value": 16,
-            "title": 16
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_1",
+            "from": "node_15",
             "to": "node_15",
-            "value": 446,
-            "title": 446
-        },
-        {
-            "from": "node_1",
-            "to": "node_5",
-            "value": 19,
-            "title": 19
-        },
-        {
-            "from": "node_1",
-            "to": "node_10",
-            "value": 763,
-            "title": 763
-        },
-        {
-            "from": "node_1",
-            "to": "node_23",
-            "value": 3,
-            "title": 3
-        },
-        {
-            "from": "node_2",
-            "to": "node_6",
-            "value": 3,
-            "title": 3
-        },
-        {
-            "from": "node_2",
-            "to": "node_14",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_2",
-            "to": "node_24",
+            "from": "node_15",
+            "to": "node_3",
             "value": 1,
             "title": 1
-        },
-        {
-            "from": "node_2",
-            "to": "node_20",
-            "value": 17,
-            "title": 17
-        },
-        {
-            "from": "node_2",
-            "to": "node_2",
-            "value": 522,
-            "title": 522
-        },
-        {
-            "from": "node_2",
-            "to": "node_8",
-            "value": 14,
-            "title": 14
-        },
-        {
-            "from": "node_2",
-            "to": "node_11",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_2",
-            "to": "node_13",
-            "value": 37,
-            "title": 37
-        },
-        {
-            "from": "node_2",
-            "to": "node_9",
-            "value": 37,
-            "title": 37
-        },
-        {
-            "from": "node_2",
-            "to": "node_7",
-            "value": 35,
-            "title": 35
-        },
-        {
-            "from": "node_2",
-            "to": "node_18",
-            "value": 386,
-            "title": 386
-        },
-        {
-            "from": "node_16",
-            "to": "node_6",
-            "value": 5,
-            "title": 5
-        },
-        {
-            "from": "node_16",
-            "to": "node_16",
-            "value": 527,
-            "title": 527
         },
         {
             "from": "node_4",
             "to": "node_4",
-            "value": 687,
-            "title": 687
-        },
-        {
-            "from": "node_22",
-            "to": "node_22",
-            "value": 216,
-            "title": 216
-        },
-        {
-            "from": "node_21",
-            "to": "node_21",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_8",
+            "from": "node_2",
+            "to": "node_2",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_2",
+            "to": "node_12",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_12",
+            "to": "node_1",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_12",
+            "to": "node_12",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_16",
+            "to": "node_1",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_16",
+            "to": "node_16",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_5",
+            "to": "node_16",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_5",
+            "to": "node_5",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_6",
             "to": "node_6",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_8",
-            "to": "node_20",
-            "value": 4,
-            "title": 4
-        },
-        {
-            "from": "node_8",
-            "to": "node_1",
-            "value": 33,
-            "title": 33
-        },
-        {
-            "from": "node_8",
-            "to": "node_2",
-            "value": 4,
-            "title": 4
-        },
-        {
-            "from": "node_8",
-            "to": "node_8",
-            "value": 492,
-            "title": 492
-        },
-        {
-            "from": "node_8",
-            "to": "node_11",
-            "value": 507,
-            "title": 507
-        },
-        {
-            "from": "node_8",
-            "to": "node_15",
-            "value": 5,
-            "title": 5
-        },
-        {
-            "from": "node_8",
-            "to": "node_5",
-            "value": 3,
-            "title": 3
-        },
-        {
-            "from": "node_8",
-            "to": "node_13",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_8",
+            "from": "node_6",
             "to": "node_9",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_8",
-            "to": "node_18",
-            "value": 7,
-            "title": 7
-        },
-        {
-            "from": "node_11",
-            "to": "node_14",
+            "from": "node_10",
+            "to": "node_5",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_11",
-            "to": "node_20",
-            "value": 5,
-            "title": 5
-        },
-        {
-            "from": "node_11",
-            "to": "node_1",
-            "value": 441,
-            "title": 441
-        },
-        {
-            "from": "node_11",
-            "to": "node_2",
-            "value": 7,
-            "title": 7
-        },
-        {
-            "from": "node_11",
-            "to": "node_11",
-            "value": 523,
-            "title": 523
-        },
-        {
-            "from": "node_11",
-            "to": "node_15",
-            "value": 8,
-            "title": 8
-        },
-        {
-            "from": "node_11",
-            "to": "node_5",
-            "value": 17,
-            "title": 17
-        },
-        {
-            "from": "node_11",
-            "to": "node_13",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_11",
-            "to": "node_9",
-            "value": 2,
-            "title": 2
-        },
-        {
-            "from": "node_11",
-            "to": "node_7",
-            "value": 2,
-            "title": 2
-        },
-        {
-            "from": "node_11",
-            "to": "node_18",
-            "value": 51,
-            "title": 51
-        },
-        {
-            "from": "node_17",
-            "to": "node_1",
-            "value": 741,
-            "title": 741
-        },
-        {
-            "from": "node_17",
-            "to": "node_17",
-            "value": 758,
-            "title": 758
-        },
-        {
-            "from": "node_17",
+            "from": "node_10",
             "to": "node_10",
-            "value": 17,
-            "title": 17
-        },
-        {
-            "from": "node_12",
-            "to": "node_1",
-            "value": 3,
-            "title": 3
-        },
-        {
-            "from": "node_12",
-            "to": "node_4",
-            "value": 35,
-            "title": 35
-        },
-        {
-            "from": "node_12",
-            "to": "node_17",
-            "value": 39,
-            "title": 39
-        },
-        {
-            "from": "node_12",
-            "to": "node_12",
-            "value": 1436,
-            "title": 1436
-        },
-        {
-            "from": "node_12",
-            "to": "node_3",
-            "value": 1358,
-            "title": 1358
-        },
-        {
-            "from": "node_3",
-            "to": "node_1",
-            "value": 18,
-            "title": 18
-        },
-        {
-            "from": "node_3",
-            "to": "node_4",
-            "value": 651,
-            "title": 651
-        },
-        {
-            "from": "node_3",
-            "to": "node_17",
-            "value": 717,
-            "title": 717
-        },
-        {
-            "from": "node_3",
-            "to": "node_3",
-            "value": 1419,
-            "title": 1419
-        },
-        {
-            "from": "node_0",
-            "to": "node_1",
-            "value": 35,
-            "title": 35
-        },
-        {
-            "from": "node_0",
-            "to": "node_8",
-            "value": 34,
-            "title": 34
-        },
-        {
-            "from": "node_0",
-            "to": "node_0",
-            "value": 78,
-            "title": 78
-        },
-        {
-            "from": "node_0",
-            "to": "node_15",
-            "value": 8,
-            "title": 8
-        },
-        {
-            "from": "node_0",
-            "to": "node_5",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_15",
+            "from": "node_9",
+            "to": "node_15",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_9",
+            "to": "node_9",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_11",
+            "to": "node_13",
+            "value": 2,
+            "title": 2
+        },
+        {
+            "from": "node_13",
             "to": "node_1",
-            "value": 9,
-            "title": 9
+            "value": 1,
+            "title": 1
         },
         {
-            "from": "node_15",
-            "to": "node_2",
-            "value": 26,
-            "title": 26
-        },
-        {
-            "from": "node_15",
-            "to": "node_8",
-            "value": 19,
-            "title": 19
-        },
-        {
-            "from": "node_15",
+            "from": "node_13",
             "to": "node_11",
-            "value": 2,
-            "title": 2
-        },
-        {
-            "from": "node_15",
-            "to": "node_15",
-            "value": 515,
-            "title": 515
-        },
-        {
-            "from": "node_15",
-            "to": "node_5",
-            "value": 487,
-            "title": 487
-        },
-        {
-            "from": "node_19",
-            "to": "node_4",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_19",
-            "to": "node_17",
-            "value": 2,
-            "title": 2
+            "from": "node_3",
+            "to": "node_7",
+            "value": 28,
+            "title": 28
         },
         {
-            "from": "node_19",
-            "to": "node_12",
-            "value": 1376,
-            "title": 1376
-        },
-        {
-            "from": "node_19",
-            "to": "node_3",
-            "value": 59,
-            "title": 59
-        },
-        {
-            "from": "node_19",
-            "to": "node_19",
-            "value": 1438,
-            "title": 1438
-        },
-        {
-            "from": "node_5",
-            "to": "node_6",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_5",
-            "to": "node_20",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_5",
-            "to": "node_2",
-            "value": 494,
-            "title": 494
-        },
-        {
-            "from": "node_5",
+            "from": "node_3",
             "to": "node_8",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_3",
+            "to": "node_3",
+            "value": 31,
+            "title": 31
+        },
+        {
+            "from": "node_17",
+            "to": "node_7",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_17",
+            "to": "node_8",
+            "value": 12,
+            "title": 12
+        },
+        {
+            "from": "node_17",
+            "to": "node_17",
+            "value": 11,
+            "title": 11
+        },
+        {
+            "from": "node_14",
+            "to": "node_8",
+            "value": 1,
+            "title": 1
+        },
+        {
+            "from": "node_14",
+            "to": "node_0",
             "value": 6,
             "title": 6
         },
         {
-            "from": "node_5",
-            "to": "node_11",
-            "value": 4,
-            "title": 4
-        },
-        {
-            "from": "node_5",
-            "to": "node_5",
-            "value": 516,
-            "title": 516
-        },
-        {
-            "from": "node_5",
-            "to": "node_13",
-            "value": 2,
-            "title": 2
-        },
-        {
-            "from": "node_5",
-            "to": "node_9",
-            "value": 2,
-            "title": 2
-        },
-        {
-            "from": "node_5",
-            "to": "node_7",
+            "from": "node_14",
+            "to": "node_17",
             "value": 1,
             "title": 1
         },
         {
-            "from": "node_5",
-            "to": "node_18",
-            "value": 19,
-            "title": 19
-        },
-        {
-            "from": "node_10",
-            "to": "node_1",
-            "value": 15,
-            "title": 15
-        },
-        {
-            "from": "node_10",
-            "to": "node_22",
-            "value": 10,
-            "title": 10
-        },
-        {
-            "from": "node_10",
-            "to": "node_8",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_10",
-            "to": "node_0",
-            "value": 2,
-            "title": 2
-        },
-        {
-            "from": "node_10",
-            "to": "node_15",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_10",
-            "to": "node_10",
-            "value": 113,
-            "title": 113
-        },
-        {
-            "from": "node_10",
-            "to": "node_23",
-            "value": 1407,
-            "title": 1407
-        },
-        {
-            "from": "node_23",
-            "to": "node_1",
-            "value": 191,
-            "title": 191
-        },
-        {
-            "from": "node_23",
-            "to": "node_22",
-            "value": 206,
-            "title": 206
-        },
-        {
-            "from": "node_23",
-            "to": "node_8",
-            "value": 178,
-            "title": 178
-        },
-        {
-            "from": "node_23",
-            "to": "node_11",
-            "value": 9,
-            "title": 9
-        },
-        {
-            "from": "node_23",
-            "to": "node_0",
-            "value": 76,
-            "title": 76
-        },
-        {
-            "from": "node_23",
-            "to": "node_15",
-            "value": 75,
-            "title": 75
-        },
-        {
-            "from": "node_23",
-            "to": "node_5",
-            "value": 3,
-            "title": 3
-        },
-        {
-            "from": "node_23",
-            "to": "node_10",
-            "value": 665,
-            "title": 665
-        },
-        {
-            "from": "node_23",
-            "to": "node_23",
-            "value": 80,
-            "title": 80
-        },
-        {
-            "from": "node_13",
-            "to": "node_6",
-            "value": 2767,
-            "title": 2767
-        },
-        {
-            "from": "node_13",
+            "from": "node_14",
             "to": "node_14",
-            "value": 138,
-            "title": 138
-        },
-        {
-            "from": "node_13",
-            "to": "node_24",
-            "value": 60,
-            "title": 60
-        },
-        {
-            "from": "node_13",
-            "to": "node_16",
-            "value": 5,
-            "title": 5
-        },
-        {
-            "from": "node_13",
-            "to": "node_8",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_13",
-            "to": "node_13",
-            "value": 2764,
-            "title": 2764
-        },
-        {
-            "from": "node_13",
-            "to": "node_9",
-            "value": 32,
-            "title": 32
-        },
-        {
-            "from": "node_13",
-            "to": "node_7",
-            "value": 27,
-            "title": 27
-        },
-        {
-            "from": "node_9",
-            "to": "node_6",
-            "value": 72,
-            "title": 72
-        },
-        {
-            "from": "node_9",
-            "to": "node_14",
-            "value": 1080,
-            "title": 1080
-        },
-        {
-            "from": "node_9",
-            "to": "node_24",
-            "value": 58,
-            "title": 58
-        },
-        {
-            "from": "node_9",
-            "to": "node_8",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_9",
-            "to": "node_13",
-            "value": 49,
-            "title": 49
-        },
-        {
-            "from": "node_9",
-            "to": "node_9",
-            "value": 1003,
-            "title": 1003
-        },
-        {
-            "from": "node_9",
-            "to": "node_7",
-            "value": 3,
-            "title": 3
-        },
-        {
-            "from": "node_7",
-            "to": "node_6",
-            "value": 70,
-            "title": 70
-        },
-        {
-            "from": "node_7",
-            "to": "node_14",
-            "value": 53,
-            "title": 53
-        },
-        {
-            "from": "node_7",
-            "to": "node_24",
-            "value": 564,
-            "title": 564
-        },
-        {
-            "from": "node_7",
-            "to": "node_13",
-            "value": 13,
-            "title": 13
-        },
-        {
-            "from": "node_7",
-            "to": "node_9",
-            "value": 17,
-            "title": 17
-        },
-        {
-            "from": "node_7",
-            "to": "node_7",
-            "value": 473,
-            "title": 473
-        },
-        {
-            "from": "node_18",
-            "to": "node_20",
-            "value": 1604,
-            "title": 1604
-        },
-        {
-            "from": "node_18",
-            "to": "node_16",
-            "value": 101,
-            "title": 101
-        },
-        {
-            "from": "node_18",
-            "to": "node_8",
-            "value": 19,
-            "title": 19
-        },
-        {
-            "from": "node_18",
-            "to": "node_11",
-            "value": 1,
-            "title": 1
-        },
-        {
-            "from": "node_18",
-            "to": "node_18",
-            "value": 2747,
-            "title": 2747
+            "value": 6,
+            "title": 6
         }
     ]
 }
