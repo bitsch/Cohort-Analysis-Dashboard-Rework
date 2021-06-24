@@ -27,6 +27,8 @@ def get_log_statistics(log, file_format, log_information):
         .sort_values("variant", ascending=False)
         .to_dict(orient="records")
     )
+    result["Nunique_Activities"]=log["concept:name"].unique().size
+    
     result["Ncase"] = case.shape[0]
 
     start_time = variants["Start"].min()
@@ -41,7 +43,6 @@ def get_log_statistics(log, file_format, log_information):
     result["MeanCaseDuration"] = str(case_duration.mean())
     result["MinCaseDuration"] = str(case_duration.min())
     result["MaxCaseDuration"] = str(case_duration.max())
-
     return result
 
 def get_case_ids_by_activity(log,activity,file_format, log_information):

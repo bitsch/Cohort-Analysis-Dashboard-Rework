@@ -102,8 +102,6 @@ def  activity_filter(request):
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
-        result["Nunique_Activities"] = len(activities)
-        filteredresult["Nunique_Activities"] = len(activities)
         network = {}
         if filteredresult is None:
             filteredresult=result

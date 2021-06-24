@@ -60,7 +60,7 @@
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.css" type="text/css" />
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis-network.min.js"> </script>
-
+  <script type="text/javascript" src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.7.1/dist/g6.min.js"></script>
 </head>
 <body>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -297,12 +297,6 @@
               </li>
             </ul>
           </div>
-          <div style="margin-top: 40px; display: none;">
-            <select class="custom-select custom-select-md mb-3 form-select" id="DiseaseOverview" aria-label="Default select example">
-              <option selected value="dfg_overview_DefaultDiseaseZZZ">Directly Follows Graph</option>
-              <option value="disease_overview">Disease Overview</option>
-            </select>
-          </div>
         </div>
         <div class="col-8">
           <form  name="perspective_view" action="perspective_view" method = "POST">
@@ -336,126 +330,138 @@
 
   var data = "{{data | escapejs}}";
   data = JSON.parse(data);
-const options = {
-    layout: { randomSeed: 2 },
-    interaction:{
-        hover: true,
-        dragNodes:false,
-        multiselect: true,
-        selectable: true,
-    },
-    edges: {
-         arrows: {
-          to:     {enabled: true, scaleFactor:0.5, type:'arrow'},
-          from:   {enabled: false, scaleFactor:0.5, type:'arrow'},
-          length: 1000
-          }
-      },
-    manipulation: {
-    enabled: true
-    }
-};
 
-// Everything is in there
-const makeMeMultiSelect = (container, network, nodes) => {
-		const NO_CLICK = 0;
-		const RIGHT_CLICK = 3;
-
-    // Disable default right-click dropdown menu
-    container[0].oncontextmenu = () => false;
-
-    // State
-    let drag = false, DOMRect = {};
-
-    // Selector
-
-    const canvasify = (DOMx, DOMy) => {
-    		const { x, y } = network.DOMtoCanvas({ x: DOMx, y: DOMy });
-      	return [x, y];
-    };
-
-    const correctRange = (start, end) =>
-        start < end ? [start, end] : [end, start];
-
-    const selectFromDOMRect = () => {
-        const [sX, sY] = canvasify(DOMRect.startX, DOMRect.startY);
-        const [eX, eY] = canvasify(DOMRect.endX, DOMRect.endY);
-        const [startX, endX] = correctRange(sX, eX);
-        const [startY, endY] = correctRange(sY, eY);
-
-        network.selectNodes(nodes.get().reduce(
-            (selected, { id }) => {
-                const { x, y } = network.getPositions(id)[id];
-                return (startX <= x && x <= endX && startY <= y && y <= endY) ?
-                    selected.concat(id) : selected;
-            }, []
-
-        ));
-    }
-    // Listeners
-
-    var mySelectionOrder = [];
-    var previouslySelected = {};
-network.on('click', function (properties) {
-
-  selection = properties.nodes
-  document.getElementById('values').value = selection;
-
-  drag = false;
-
-  if (selection > 0) {
-    var node_sel = nodes.get([selection])[0];
-    if(node_sel['selected']){
-      alert('add you buttons');
-    }
-    else{
-      alert('change the style here');
-      node_sel['selected'] = true;
-      node_sel['shape'] = 'box';
-      nodes.update(node_sel);
-      var msg = JSON.stringify(nodes.get([selection]))
-      alert(msg);
-    }
-  }
-});
-
-    network.on("deselectNode", function (params) {
-        console.log('deselectNode Event:', params.nodes[0]);
-    });
-
-
-
-    // Drawer
-
-    network.on('afterDrawing', ctx => {
-        if(drag) {
-            const [startX, startY] = canvasify(DOMRect.startX, DOMRect.startY);
-            const [endX, endY] = canvasify(DOMRect.endX, DOMRect.endY);
-
-            ctx.setLineDash([5]);
-            ctx.strokeStyle = 'rgba(78, 146, 237, 0.75)';
-            ctx.strokeRect(startX, startY, endX - startX, endY - startY);
-            ctx.setLineDash([]);
-            ctx.fillStyle = 'rgba(151, 194, 252, 0.45)';
-            ctx.fillRect(startX, startY, endX - startX, endY - startY);
+function nodecolFunc(node) {
+            if (node.isUnique === 'True') 
+                return  '#FF0000';        
+            return  '#C6E5FF';   
         }
-    });
-}; // end makeMeMultiSelect
 
+function CreateGraph(JObj, id)
+        {
+            const container = document.getElementById(id);
+            const width = 800;
+            const height = 800;
+            const graph = new G6.Graph({
+                container,
+                width,
+                height,
+                layout: {
+                    type: 'dagre',
+                    nodesepFunc: (d) => {
+                        if (d.id === '3') {
+                            return 500;
+                        }
+                        return 50;
+                    },
+                    ranksep: 70,
+                    controlPoints: true,
+                },
+                defaultNode: {
+                    type: 'sql',
+                },
+                defaultEdge: {
+                    type: 'polyline',
+                    style: {
+                        radius: 20,
+                        offset: 45,
+                        endArrow: true,
+                        lineWidth: 2,
+                        stroke: '#C2C8D5',
+                    },
+                    labelCfg: {
+                        style: {
+                            fontSize: 25,
+                            fontWeight: "bold"
+                        }
+                    },
+                },
+                nodeStateStyles: {
+                    selected: {
+                        stroke: '#d9d9d9',
+                        fill: '#5394ef',
+                    },
+                },
+                modes: {
+                    default: [
+                        'drag-canvas',
+                        'zoom-canvas',
+                        'click-select',
+                        {
+                            type: 'tooltip',
+                            formatText(model) {
+                                const cfg = model.conf;
+                                const text = [];
+                                cfg.forEach((row) => {
+                                    text.push(row.label + ':' + row.value + '<br>');
+                                });
+                                return text.join('\n');
+                            },
+                            offset: 30,
+                        },
+                    ],
+                },
+                fitView: true,
+            });
+
+            G6.registerNode(
+                'sql',
+                {
+                    drawShape(cfg, group) {
+                        const rect = group.addShape('rect', {
+                            attrs: {
+                                x: -75,
+                                y: -25,
+                                width: 150,
+                                height: 50,
+                                radius: 10,
+                                stroke: '#5B8FF9',
+                                fill: nodecolFunc(cfg),
+                                lineWidth: 3,
+                            },
+                            name: 'rect-shape',
+                        });
+                        if (cfg.name) {
+                            group.addShape('text', {
+                                attrs: {
+                                    text: cfg.name,
+                                    x: 0,
+                                    y: 0,
+                                    fill: '#00287E',
+                                    fontSize: 14,
+                                    textAlign: 'center',
+                                    textBaseline: 'middle',
+                                    fontWeight: 'bold',
+                                },
+                                name: 'text-shape',
+                            });
+                        }
+                        return rect;
+                    },
+                },
+                'single-node',
+            );
+            graph.data(JObj);
+            graph.render();
+
+            if (typeof window !== 'undefined')
+                window.onresize = () => {
+                    if (!graph || graph.get('destroyed')) return;
+                    if (!container || !container.scrollWidth || !container.scrollHeight) return;
+                    graph.changeSize(container.scrollWidth, container.scrollHeight);
+                };
+
+
+        }
+        
 $(document).ready(() => {
-		const container = $("#mynetwork1");
-    const network = new vis.Network(container[0],data, options);
-		makeMeMultiSelect(container, network, data.nodes);
+    CreateGraph(data, "mynetwork1");
 });
 $(document).ready(() => {
-		const container = $("#mynetwork2");
-    const network = new vis.Network(container[0],data, options);
-		makeMeMultiSelect(container, network, data.nodes);
+    CreateGraph(data, "mynetwork2");
 });
 $(document).ready(() => {
-		const container = $("#mynetwork3");
-   const network = new vis.Network(container[0],data, options);
-		makeMeMultiSelect(container, network, data.nodes);
+    CreateGraph(data, "mynetwork3");
 });
 
 function getSelectedNodes(){
@@ -467,47 +473,33 @@ function getSelectedNodes(){
 var token = '{{csrf_token}}';
 
 
-//tobeupdated disease view
-function refreshVariant(activityId){
-    selectedView=document.getElementById("DiseaseOverview").value;
-    if(selectedView=="dfg_overview_DefaultDiseaseZZZ"){
+
+$(document).ready(function(){
+    $('#CaseOverview').change(function(){
+      if (this.value=="dfg_overview_DefaultCaseZZZ"){
+        refreshCase(this.value);
+        $('#caseOverviewPlot').hide();
+        $('#mynetwork2').show();
+      }
+      else {
+        $('#mynetwork2').hide();
+        $('#caseOverviewPlot').show();
         $.ajax({
         headers: { "X-CSRFToken": token },
-        url: "/views/ajax/activityfilter/",
+        url: "/views/ajax/changeView/",
         type: 'POST',
-        data: {'selected_activity': activityId, 'X-CSRFToken':token},
+        data: {'selected_view': this.value, 'X-CSRFToken':token},
         dataType:'html',
-        success: function(result) { 
-            // Parse the html response into the correct div
-         
-          result = JSON.parse(result);
-          $("#Ncase").html(result['filtered_result']['Ncase']);
-          $("#Nvariant").html(result['filtered_result']['Nvariant']);
-          $("#Nactivities").html(result['filtered_result']['Nactivities']);
-          $("#Nunique").html(result['filtered_result']['Nunique_Activities']);
-          $("#StartTime").html(result['filtered_result']['StartTime']);
-          $("#EndTime").html(result['filtered_result']['EndTime']);
-          $("#TotalDuration").html(result['filtered_result']['TotalDuration']);
-          $("#MedianCaseDuration").html(result['filtered_result']['MedianCaseDuration']);
-          $("#MeanCaseDuration").html(result['filtered_result']['MeanCaseDuration']);
-          $("#MinCaseDuration").html(result['filtered_result']['MinCaseDuration']);
-          $("#MaxCaseDuration").html(result['filtered_result']['MaxCaseDuration']);
-          
-          data = JSON.parse(result['data']);
-          container=$('#mynetwork3');
-          const network = new vis.Network(container[0],data, options);
-		      makeMeMultiSelect(container, network, data.nodes);
+        success: function(result) {
+          document.getElementById("mynetwork2").innerHTML="";
+          CreateGraph(data, "mynetwork2");
         }
-      });
-    }
-    else{
-      //add the disease plot view
-      return false;
-    }
-  return true;
-}
+        })
+      }
+    });
+});
 
-//tobeupdated case view
+
 function refreshCase(caseId){
     selectedView=document.getElementById("CaseOverview").value;
     if(selectedView=="dfg_overview_DefaultCaseZZZ"){
@@ -520,9 +512,8 @@ function refreshCase(caseId){
         success: function(result) {
           result = JSON.parse(result);
           data = JSON.parse(result['data']);
-          const container = $("#mynetwork2");
-          const network = new vis.Network(container[0],data, options);
-		      makeMeMultiSelect(container, network, data.nodes);
+          document.getElementById("mynetwork2").innerHTML="";
+          CreateGraph(data, "mynetwork2");
         }
       });
     }
@@ -551,53 +542,37 @@ $(document).ready(function(){
 });
 
 
-$(document).ready(function(){
-    $('#CaseOverview').change(function(){
-      if (this.value=="dfg_overview_DefaultCaseZZZ"){
-        refreshCase(this.value);
-        $('#caseOverviewPlot').hide();
-        $('#mynetwork2').show();
-      }
-      else {
-        $('#mynetwork2').hide();
-        $('#caseOverviewPlot').show();
-        $.ajax({
-        headers: { "X-CSRFToken": token },
-        url: "/views/ajax/changeView/",
-        type: 'POST',
-        data: {'selected_view': this.value, 'X-CSRFToken':token},
-        dataType:'html',
-        success: function(result) {
-          
-          const container = $("#mynetwork2");
-          const network = new vis.Network(container[0],data, options);
-		      makeMeMultiSelect(container, network, data.nodes);
-        }
-        })
-      }
-    });
-});
 
-$(document).ready(function(){
-    $('#DiseaseOverview').change(function(){
-      if (this.value=="dfg_overview_DefaultDiseaseZZZ")
-      refreshVariant(this.value);
-      else {
+function refreshVariant(activityId){
         $.ajax({
         headers: { "X-CSRFToken": token },
-        url: "/views/ajax/changeView/",
+        url: "/views/ajax/activityfilter/",
         type: 'POST',
-        data: {'selected_view': this.value, 'X-CSRFToken':token},
+        data: {'selected_activity': activityId, 'X-CSRFToken':token},
         dataType:'html',
         success: function(result) { 
-          const container = $("#mynetwork2");
-          const network = new vis.Network(container[0],data, options);
-		      makeMeMultiSelect(container, network, data.nodes);
+            // Parse the html response into the correct div
+         
+          result = JSON.parse(result);
+          $("#Ncase").html(result['filtered_result']['Ncase']);
+          $("#Nvariant").html(result['filtered_result']['Nvariant']);
+          $("#Nactivities").html(result['filtered_result']['Nactivities']);
+          $("#Nunique_Activities").html(result['filtered_result']['Nunique_Activities']);
+          $("#StartTime").html(result['filtered_result']['StartTime']);
+          $("#EndTime").html(result['filtered_result']['EndTime']);
+          $("#TotalDuration").html(result['filtered_result']['TotalDuration']);
+          $("#MedianCaseDuration").html(result['filtered_result']['MedianCaseDuration']);
+          $("#MeanCaseDuration").html(result['filtered_result']['MeanCaseDuration']);
+          $("#MinCaseDuration").html(result['filtered_result']['MinCaseDuration']);
+          $("#MaxCaseDuration").html(result['filtered_result']['MaxCaseDuration']);
+          
+          data = JSON.parse(result['data']);
+          document.getElementById("mynetwork3").innerHTML="";
+          CreateGraph(data, "mynetwork3");
         }
-      })
-    }
-    });
-});
+      });
+  return true;
+}
 
 </script>
 
