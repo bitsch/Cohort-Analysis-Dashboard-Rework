@@ -11,7 +11,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
 
-    <title>Cohort Analysis Dashboard: Documentation</title>
+    <title>Documentation</title>
 
     <link
       href="{% static 'css/vendor/bootstrap/css/bootstrap.min.css' %}"
@@ -54,8 +54,8 @@
         </div>
 
         <ul class="list-unstyled components">
-          <p>Documentation</p>
-          <li class="active">
+          <p><b>Version 1.0:</b> 30-06-2021</p>
+          <li>
             <a
               href="#userGuidSubmenu"
               data-toggle="collapse"
@@ -69,9 +69,6 @@
               </li>
               <li>
                 <a href="#usageFlow">Usage Flow</a>
-              </li>
-              <li>
-                <a href="#index">Index</a>
               </li>
               <li>
                 <a href="#glossary">Glossary</a>
@@ -88,16 +85,16 @@
             >
             <ul class="collapse list-unstyled" id="dataManagementSubmenu">
               <li>
-                <a href="#checkingData">Checking in new Data </a>
+                <a href="#importingLog">Importing Log </a>
               </li>
               <li>
-                <a href="#uploadingLog">Uploading Log</a>
+                <a href="#selectingLog">Selecting Log</a>
               </li>
               <li>
-                <a href="#selectingLog">Selecting a Log</a>
+                <a href="#deletingLog">Deleting Log</a>
               </li>
               <li>
-                <a href="#selectingLogAttributes">Selecting the Log Attibutes</a>
+                <a href="#exportingLog">Exporting Log</a>
               </li>
             </ul>
           </li>
@@ -161,48 +158,36 @@
               ></a>
             </h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Welcome to Cohort Analysis Dashboard, or CAD for short. 
+            </p>
+            <p>
+              CAD extends on the UI Framework for PM4PY to allow the applications of methods of Cohort Analysis to Process Data with a focus on data derived from the Medical Domain. 
+              CAD's goal is to create a Dashboard for users working with process data, providing them with informative views on the process and creating new insights for the process owner. 
+              CADs aim is to allow users to analyse processes by creating event groups and view their relation to the 
+              process by means of learning about the number of concurrently running events and the time intervals each group of events is happening in.
             </p>
           </div>
           <div class="sub-section">
             <h2>
               Usage Flow
-              <a href="#usageFlow" name="usageFlow" class="href-icon"
-                ><i class="bi bi-hash"></i
-              ></a>
+              <a href="#usageFlow" name="usageFlow" class="href-icon"><i class="bi bi-hash"></i></a>
             </h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              There are three main sections:
+              <ol>
+                <li>Log Management - dedicated for managing new and existing logs</li>
+                <li>Cohort Analysis - dedicated for analysing log using Cohort Analysis techniques</li>
+                <li>(Perspective) Views - dedicated for showing quick log overviews for doctors</li>
+              </ol>
             </p>
-          </div>
-          <div class="sub-section">
-            <h2>
-              Index
-              <a href="#index" name="index" class="href-icon"
-                ><i class="bi bi-hash"></i
-              ></a>
-            </h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              The starting point of any session should be the ‘Log Management’ section, as you will need to upload and/or select the corresponding log you’re interested in.
+              Once a log is selected, there are no limitations which further section should be used.
             </p>
+            <figure class="figure">
+              <img src="{% static 'images/BPMN.jpg' %}" class="figure-img img-fluid rounded" alt="BPMN Diagram for CAD Usage Flow">
+              <figcaption class="figure-caption text-right">BPMN Diagram for CAD Usage Flow</figcaption>
+            </figure>
           </div>
           <div class="sub-section">
             <h2>
@@ -212,13 +197,55 @@
               ></a>
             </h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Key</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>CAD</td>
+                    <td>Cohort Analysis Dashboard</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Cohort</td>
+                    <td>
+                      A group of individuals having a statistical factor (such as age or class membership) in common in a demographic study. 
+                      In the scope of CADs a cohort of traces is based on them containing a certain type of activity happening in it.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>GUI</td>
+                    <td>Graphical User Interface</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td>XES</td>
+                    <td>eXtensible Event Stream: Standard is to standardize a language to transport, store, and exchange (possibly large volumes of) event data (e.g., for process mining)</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td>Activity / Event </td>
+                    <td>An activity is an action that is performed by a resource in the scope of a process observed in  an organization</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">6</th>
+                    <td>Trace</td>
+                    <td>A trace is a temporal-ordered sequence of activities, representing a chain of activities performed in an organization</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">7</th>
+                    <td>Log</td>
+                    <td>A collection of traces. Generally assumed to be well-formed in a given standard for process mining, such as XES. </td>
+                  </tr>
+                </tbody>
+              </table>
             </p>
           </div>
         </div>
@@ -231,31 +258,52 @@
             </div>
             <div class="sub-section">
                 <h2>
-                    Checking in new Data 
-                    <a href="#checkingData" name="checkingData" class="href-icon"><i class="bi bi-hash"></i></a>
+                  Importing Log
+                    <a href="#importingLog" name="importingLog" class="href-icon"><i class="bi bi-hash"></i></a>
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>The starting point of using CAD is to upload a log. For now we are supporting only logs in either CSV or XES formats. </p>
+                <p>In order to import a new log into CAD you need to: </p>
+                <ol>
+                  <li>Navigate to Log Management section</li>
+                  <li>Choose a file from your local machine</li>
+                  <li>Click on upload Event Log button</li>
+                </ol>
+                <figure class="figure">
+                  <img src="{% static 'images/UploadEventLog.png' %}" class="figure-img img-fluid rounded" alt="Uploading Event Log Image">
+                  <figcaption class="figure-caption text-right">Uploading Event Log</figcaption>
+                </figure>
             </div>
             <div class="sub-section">
                 <h2>
-                    Uploading Log
-                    <a href="#uploadingLog" name="uploadingLog" class="href-icon"><i class="bi bi-hash"></i></a>
-                </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-            <div class="sub-section">
-                <h2>
-                    Selecting a Log
+                  Selecting log for further analysis
                     <a href="#selectingLog" name="selectingLog" class="href-icon"><i class="bi bi-hash"></i></a>
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Once a log is imported, you might want to select and use it for further Analysis.</p>
+                <p>This can be achieved by clicking on the desired log in the logs list, and clicking the ‘Select’ button</p>
+                <p>This will open a new ‘Selection View’, where you will have to let CAD know about some log specific information, such as configuring the ‘Case Id’ or specifying whether the log is a ‘Lifecycle Interval’ log.</p>
+                <figure class="figure">
+                  <img src="{% static 'images/SelectingEventLog.png' %}" class="figure-img img-fluid rounded" alt="Selecting Event Log Image">
+                  <figcaption class="figure-caption text-right">Selecting Event Log</figcaption>
+                </figure>
+                <p>Once the log attributes are selected, you can click on the ‘Select’ button, and this will configure the log as the current log. You can see the currently selected log in the ‘Log Management’ section:</p>
+                <figure class="figure">
+                  <img src="{% static 'images/CheckingEventLog.png' %}" class="figure-img img-fluid rounded" alt="Checking Selected Event Log">
+                  <figcaption class="figure-caption text-right">Checking Selected Event Log</figcaption>
+                </figure>
             </div>
             <div class="sub-section">
                 <h2>
-                    Selecting the Log Attibutes
-                    <a href="#selectingLogAttributes" name="selectingLogAttributes" class="href-icon"><i class="bi bi-hash"></i></a>
+                    Deleting Log
+                    <a href="#deletingLog" name="deletingLog" class="href-icon"><i class="bi bi-hash"></i></a>
                 </h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>In case a log is not needed anymore, you can easily delete it by selecting it from the log list in the ‘Log Management’ section, and clicking the ‘Delete’ button.</p>
+            </div>
+            <div class="sub-section">
+                <h2>
+                    Exporting Log
+                    <a href="#exportingLog" name="exportingLog" class="href-icon"><i class="bi bi-hash"></i></a>
+                </h2>
+                <p>Any log imported to CAD can also be exported by navigating to  the ‘Log Management’ section, and clicking the 'Download' button.</p>
             </div>
         </div>
 
