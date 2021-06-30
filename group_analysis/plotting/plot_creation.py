@@ -1,10 +1,9 @@
 import pandas as pd
 from django.conf import settings
-from plotly.offline import plot
 import plotly.graph_objs as go
 import plotly.io as pio
 import core.plotting.plotting_utils as plt_util
-import plotly.express as px 
+import plotly.express as px
 
 
 def concurrency_plot_factory(date_frame, Groups, aggregate, freq):
@@ -13,7 +12,7 @@ def concurrency_plot_factory(date_frame, Groups, aggregate, freq):
     input: pandas df created with the create_concurrency_dataframe function,
            list-like of Group obj,
            pandas aggregate fnc,
-           pandas freq str 
+           pandas freq str
     output: plotly div containing a line-style concurreny plot
     """
     # Create a graph object
@@ -66,7 +65,7 @@ def amplitude_plot_factory(date_frame, Groups, Unified=True):
     """
     Produces an div Block containing an Plotly Graphobject in the Style of a Amplitude Plot.
     Used in the Concurrency GroupAnalysis view as a way to represent concurrency.
-    Use Unified to indicate if the bars should be scaled per group or uniform. 
+    Use Unified to indicate if the bars should be scaled per group or uniform.
 
     input: pandas df created with the create_concurrency_dataframe function,
            list-like of Group obj,
@@ -127,9 +126,15 @@ def amplitude_plot_factory(date_frame, Groups, Unified=True):
     return plt_util.create_div_block(fig)
 
 
-    
 def timeframe_plot_factory(df):
-    
-    fig = px.timeline(df, x_start='start_timestamp', x_end='time:timestamp', y = "case:concept:name", color = "case:concept:name", hover_name = "case:concept:name")
-    
-    return plt_util.create_div_block(fig) 
+
+    fig = px.timeline(
+        df,
+        x_start="start_timestamp",
+        x_end="time:timestamp",
+        y="case:concept:name",
+        color="case:concept:name",
+        hover_name="case:concept:name",
+    )
+
+    return plt_util.create_div_block(fig)

@@ -1,31 +1,5 @@
 import json
 import traceback
-import os
-
-
-def check_valid_json(file):
-    """
-    Description: get data from json file and check its validity
-    Used: to check whether user input userpattern required json format
-    Input: json file path
-    Output: return True if valid json format, otherwise return false
-    """
-    try:
-        json_data = open(path, "r").read()
-        patterns = json.loads(json_data)
-        if not is_valid_user_input(patterns):
-            msg = "%s is not the XES/CSV file" % file
-            raise argparse.ArgumentTypeError(msg)
-        else:
-            return file
-    except Exception as e:
-        print(
-            """error occured during the loading the xes file. """
-            """Please check if the file is valid XES\n\n""",
-            e,
-        )
-        exit(0)
-        return False
 
 
 def import_pattern_json(path):
@@ -43,6 +17,7 @@ def import_pattern_json(path):
     except Exception as e:
         print("User Patterns could not be loaded. Patterns will not be abstracted")
         print(traceback.format_exc())
+        print(e)
         return
 
     return patterns

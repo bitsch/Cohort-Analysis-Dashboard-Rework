@@ -1,6 +1,7 @@
+from django.http import JsonResponse
+
 def get_active_groups(request):
-    """
-    """
+
     if request.session["group_details"] is None:
         return None
 
@@ -21,8 +22,13 @@ def get_active_groups(request):
             counter = counter + 1
     return datas
 
-
 def check_group_managment(request):
-    """
-    """
+    """ """
     return "group_details" in request.session
+
+
+
+
+
+
+

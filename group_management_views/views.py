@@ -1,7 +1,20 @@
+import os
+
 # Django Dependencies
-from django.shortcuts import redirect, render
-from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
+from django.conf import settings
+
+# Core
+import core.data_loading.data_loading as log_import
+
+# Group Analysis 
+from group_analysis.group_managment.group_managment_utils import get_active_groups
+import group_analysis.plotting.data_frame_creation as plotting_data
+import group_analysis.plotting.plot_creation as plotting
+from group_analysis.group_managment.group import Group
+
 # Application Modules
 
 # Create your views here.
@@ -51,29 +64,6 @@ def save_group_info(request):
     return JsonResponse(message)
 
 
-def get_active_groups(request):
-
-    if request.session["group_details"] is None:
-        return None
-
-    existing_groups = request.session["group_details"]
-    datas = {}
-    counter = 1
-    for key, value in existing_groups.items():
-        if existing_groups[key]["status"] == "active":
-            group_name = key
-            number_of_activities = format(
-                len(existing_groups[key]["selected_activities"].split(","))
-            )
-            data = {
-                "group_name": group_name,
-                "number_of_activities": number_of_activities,
-            }
-            datas[counter] = data
-            counter = counter + 1
-    return datas
-
-
 def change_group_status(request):
     if request.method == "POST":
         group_name = request.POST["group_name"]
@@ -86,83 +76,77 @@ def change_group_status(request):
     print(request.POST)
     return JsonResponse(message)
 
-
-from django.conf import settings
-import os 
-import core.data_loading.data_loading as log_import
-from group_analysis.group_managment.group_managment_utils import (
-    get_active_groups,
-    check_group_managment,
-)
-
-import group_analysis.plotting.data_frame_creation as plotting_data
-import group_analysis.plotting.plot_creation as plotting
-from group_analysis.group_managment.group import Group
-
-
-
-
 def cohort_analysis_data(request):
 
     if request.method == "POST":
         event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
         post_data = dict(request.POST.lists())
-        print(post_data)
-
 
         log_information = request.session["current_log"]
-    
+
         event_log = os.path.join(event_logs_path, log_information["log_name"])
         log_format = log_import.get_log_format(log_information["log_name"])
-        
 
         # Loading Group details
         group_details = request.session["group_details"]
 
         # Loading the Log
         log, activities = log_import.log_import(event_log, log_format, log_information)
-        
+
         # Creating the Plotting Data
         df = plotting_data.create_plotting_data(log, log_format, log_information)
 
         # Consider Pickeling the Data for a quick performance boost after the first load
 
-        if(request.POST["operation_type"] == "timeframe"):
-
+        if request.POST["operation_type"] == "timeframe":
 
             # TODO Replace this with the Interval picker values covered by the UI
             start_time, end_time = tuple(request.POST["start_end_time"].split(" - "))
 
-            group = Group(group_details[request.POST["selected_group_name"]]["group_name"], group_details[request.POST["selected_group_name"]]["selected_activities"].split(", "))
+            group = Group(
+                group_details[request.POST["selected_group_name"]]["group_name"],
+                group_details[request.POST["selected_group_name"]][
+                    "selected_activities"
+                ].split(", "),
+            )
 
-            df = plotting_data.create_timeframe_dataframe(df, group, start_time, end_time)
+            df = plotting_data.create_timeframe_dataframe(
+                df, group, start_time, end_time
+            )
             plot_div = plotting.timeframe_plot_factory(df)
 
         else:
 
-            Groups = [Group(group_details[name]["group_name"], group_details[name]["selected_activities"].split(", "))
-                                    for name in group_details.keys()
-                                    if name in post_data["selected_group_names[]"]
-                     ]
-
+            Groups = [
+                Group(
+                    group_details[name]["group_name"],
+                    group_details[name]["selected_activities"].split(", "),
+                )
+                for name in group_details.keys()
+                if name in post_data["selected_group_names[]"]
+            ]
             freq = request.POST["selected_time"]
-
             date_frame = plotting_data.create_concurrency_frame(df, Groups)
+            if request.POST["plot_type"] == "standard":
 
-            if request.POST["plot_type"] == 'standard': 
-                
                 plot_div = plotting.concurrency_plot_factory(
-                    date_frame, Groups, freq=freq, aggregate= settings.AGGREGATE_FUNCTIONS[request.POST["selected_aggregation"]]
+                    date_frame,
+                    Groups,
+                    freq=freq,
+                    aggregate=settings.AGGREGATE_FUNCTIONS[
+                        request.POST["selected_aggregation"]
+                    ],
                 )
 
-            else: 
-                uniform = True if request.POST["amplitude_plot_type"] == "uniform" else False
+            else:
+                uniform = (
+                    True if request.POST["amplitude_plot_type"] == "uniform" else False
+                )
                 plot_div = plotting.amplitude_plot_factory(date_frame, Groups, uniform)
-            
+
     post_data["plot_div"] = plot_div
 
     html = loader.render_to_string("cohort_analysis_plot.html", post_data)
     print("Finished Plot Creation")
 
     return HttpResponse(html)
-

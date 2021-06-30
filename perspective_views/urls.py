@@ -4,7 +4,7 @@ from django.urls import path
 from perspective_views import views
 
 urlpatterns = [
-    #path("", views.perspective, name="perspective"),
+    # path("", views.perspective, name="perspective"),
     url(r"^$", views.perspective, name="perspective"),
     url(
         r"^ajax/activityfilter/$",
@@ -26,4 +26,4 @@ urlpatterns = [
         views.case_filter_plt,
         name="case_filter_plt",
     ),
-    ]
+]

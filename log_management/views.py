@@ -11,8 +11,9 @@ from core.models import SelectedLog
 
 LOGMANAGEMENT_DIR = "log_management"
 
+
 def index(request):
-    '''Returns the index views. Supports both GET and POST methods.'''
+    """Returns the index views. Supports both GET and POST methods."""
 
     log_service = LogService()
     if request.method == "POST":
@@ -73,7 +74,7 @@ def index(request):
 
 
 def set_log(request, logname):
-    '''Sets the specified log as current using session memory'''
+    """Sets the specified log as current using session memory"""
     log_service = LogService()
 
     if request.method == "POST":
@@ -106,13 +107,13 @@ def set_log(request, logname):
 
 
 def get_log_info(request):
-    '''Returns information about a log. WIP'''
+    """Returns information about a log. WIP"""
     log_service = LogService()
 
-    log_name = request.GET.get('log_name', None)
+    log_name = request.GET.get("log_name", None)
 
     data = log_service.getLogInfo(log_name).__dict__
     print(data)
     html = loader.render_to_string(LOGMANAGEMENT_DIR + "/log_info.html", data)
-    #print(html)
+    # print(html)
     return HttpResponse(html)

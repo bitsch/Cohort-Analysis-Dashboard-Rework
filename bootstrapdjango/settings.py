@@ -34,11 +34,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 AGGREGATE_FUNCTIONS = {
-    "max" : max, 
-    "min" : min, 
-    "iqr" : iqr, 
-    "avg" : pd.DataFrame.mean, 
-    "median" :  pd.DataFrame.median
+    "max": max,
+    "min": min,
+    "iqr": iqr,
+    "avg": pd.DataFrame.mean,
+    "median": pd.DataFrame.median,
 }
 
 INSTALLED_APPS = (
@@ -134,5 +134,3 @@ TLKC_FILE = ""
 # FILE_UPLOAD_HANDLERS = [
 #     'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 # ]
-
-

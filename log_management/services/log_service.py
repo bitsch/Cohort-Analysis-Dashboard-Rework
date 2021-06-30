@@ -36,6 +36,7 @@ class LogService:
     """
     Returns the corresponding log with basic information about it
     """
+
     def getLogInfo(self, log_name):
         file_dir = os.path.join(EVENT_LOG_PATH, log_name)
         isXesFile = re.search(".(xes)$", log_name.lower()) != None
@@ -48,7 +49,7 @@ class LogService:
 
             flatten = lambda ls: [item for sublist in ls for item in sublist]
 
-            events_number=0
+            events_number = 0
             for trace in xes_log:
                 trace_attributes = trace_attributes.intersection(trace.attributes)
                 event_attributes = event_attributes.intersection(
@@ -74,6 +75,7 @@ class LogService:
     """
     Returns the log file
     """
+
     def getLogFile(self, log_name):
         file_dir = os.path.join(EVENT_LOG_PATH, log_name)
         return file_dir
@@ -81,6 +83,7 @@ class LogService:
     """
     Deletes an event log from the existing list of event logs
     """
+
     def deleteLog(self, log_filename):
         # eventlogs = [f for f in listdir(EVENT_LOG_PATH) if isfile(join(EVENT_LOG_PATH, f))]
         # eventlogs.remove(logFileName)

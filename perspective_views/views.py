@@ -18,8 +18,6 @@ import perspective_views.retrieval.statistics as stats
 import core.data_loading.data_loading as log_import
 
 
-
-
 # Create your views here.
 
 
@@ -70,12 +68,11 @@ def perspective(request):
             return render(request, "perspective_view.html")
 
 
-
-def  activity_filter(request):
+def activity_filter(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     load_log_succes = False
     log_information = None
-    filteredresult=None
+    filteredresult = None
     # TODO Load the Log Information, else throw/redirect to Log Selection
     if "current_log" in request.session and request.session["current_log"] is not None:
         log_information = request.session["current_log"]
@@ -93,24 +90,49 @@ def  activity_filter(request):
     if request.method == "POST":
         selected_activity = request.POST["selected_activity"]
         result = stats.get_log_statistics(log, log_format, log_information)
-        case_ids=stats.get_case_ids_by_activity(log,selected_activity, log_format, log_information)
-        
-        filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", case_ids, level="case", retain=True)
-        if selected_activity=='dfg_overview_DefaultDiseaseZZZ':
-            filtered_log=log
-        filteredresult = stats.get_log_statistics(filtered_log, log_format, log_information)
+        case_ids = stats.get_case_ids_by_activity(
+            log, selected_activity, log_format, log_information
+        )
+
+        filtered_log = pm4py.filter_event_attribute_values(
+            log, "case:concept:name", case_ids, level="case", retain=True
+        )
+        if selected_activity == "dfg_overview_DefaultDiseaseZZZ":
+            filtered_log = log
+        filteredresult = stats.get_log_statistics(
+            filtered_log, log_format, log_information
+        )
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
         network = {}
         if filteredresult is None:
-            filteredresult=result
-        keys_to_extract=['Nvariant','Nunique_Activities','Nactivities','Ncase','StartTime','EndTime','TotalDuration','MedianCaseDuration','MeanCaseDuration','MinCaseDuration','MaxCaseDuration']
-        subsetfilteredresult = {key: str(filteredresult[key]) for key in keys_to_extract}
-        
-    
-    message = {"success": True ,"filtered_result":subsetfilteredresult, "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
+            filteredresult = result
+        keys_to_extract = [
+            "Nvariant",
+            "Nunique_Activities",
+            "Nactivities",
+            "Ncase",
+            "StartTime",
+            "EndTime",
+            "TotalDuration",
+            "MedianCaseDuration",
+            "MeanCaseDuration",
+            "MinCaseDuration",
+            "MaxCaseDuration",
+        ]
+        subsetfilteredresult = {
+            key: str(filteredresult[key]) for key in keys_to_extract
+        }
+
+    message = {
+        "success": True,
+        "filtered_result": subsetfilteredresult,
+        "data": json.dumps(this_data),
+        "responseText": "Inactivated successfully!",
+    }
     return JsonResponse(message)
+
 
 def case_filter_dfg(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
@@ -128,19 +150,25 @@ def case_filter_dfg(request):
         # Import the Log considering the given Format
         log, activities = log_import.log_import(event_log, log_format, log_information)
 
-
     if request.method == "POST":
         selected_case = request.POST["selected_case"]
-        filtered_log = pm4py.filter_event_attribute_values(log, "case:concept:name", [selected_case], level="case", retain=True)
-        if selected_case=='dfg_overview_DefaultCaseZZZ':
-            filtered_log=log
+        filtered_log = pm4py.filter_event_attribute_values(
+            log, "case:concept:name", [selected_case], level="case", retain=True
+        )
+        if selected_case == "dfg_overview_DefaultCaseZZZ":
+            filtered_log = log
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
-    message = {"success": True , "data": json.dumps(this_data), "responseText": "Inactivated successfully!"}
+    message = {
+        "success": True,
+        "data": json.dumps(this_data),
+        "responseText": "Inactivated successfully!",
+    }
     return JsonResponse(message)
 
-def  case_filter_plt(request):
+
+def case_filter_plt(request):
 
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     log_information = None
@@ -156,7 +184,6 @@ def  case_filter_plt(request):
         # Import the Log considering the given Format
         log, activities = log_import.log_import(event_log, log_format, log_information)
 
-
     if request.method == "POST":
         selected_case = request.POST["selected_case"]
         df = plotting.create_df_case(log, log_format, [selected_case], log_information)
@@ -164,8 +191,8 @@ def  case_filter_plt(request):
         plot_div = plotting.timeframe_plot(df)
         html = loader.render_to_string("view_plot.html", {"plot_div": plot_div})
         return HttpResponse(html)
- 
-    else: 
+
+    else:
         print("DEBUG: POST URL REQUESTED!")
 
 

@@ -1,6 +1,5 @@
 # PM4PY Dependencies
 import pandas as pd
-from pm4py.objects.conversion.log import converter as log_converter
 from pm4py.objects.log.importer.xes import importer as xes_importer
 from pm4py.util import xes_constants as xes
 from pm4py import format_dataframe
@@ -8,8 +7,12 @@ from pm4py import format_dataframe
 
 def log_import(file_path, file_format, log_information):
     """
-    Imports the file using PM4PY functionalitites, formats it in a processable fashion, accoding to the Log information, if it is an CSV
+    Imports the file using PM4PY functionalitites, formats
+    it in a processable fashion, accoding to the Log information,
+    if it is an CSV
+
     input: file_path str, file_format str, interval bool
+
     output: PM4PY default object dependent on Filetype, fromatted in case of csv
             The Set of all trace activities
     """

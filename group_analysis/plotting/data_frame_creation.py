@@ -1,5 +1,5 @@
 import pandas as pd
-from pm4py import format_dataframe, convert_to_dataframe
+from pm4py import convert_to_dataframe
 from pm4py.util import xes_constants as xes
 
 import core.utils.utils as utils
@@ -8,51 +8,69 @@ import core.data_transformation.data_transform_utils as data_transform
 
 def create_concurrency_frame(df, Groups, freq="5T"):
     """
-    Compute a dataframe for plotting of concurrent events used in the associated plotting functions
+    Compute a dataframe for plotting of concurrent
+    events used in the associated plotting functions
 
-    input:  pandas df log in a double timestamp format
+    input:  pandas DF log in a double timestamp format
             list-like of Group Objects
-            pandsa freq str   
+            pandsa freq str
 
-    output: pandas df containing the count of concurrent activities per group on a freq-level
+    output: pandas DF containing the count of
+            concurrent activities per group on
+            a freq-level
     """
 
     df = df.copy()
-    df = df.loc[df[xes.DEFAULT_TRACEID_KEY].isin(utils.flatten([group.members for group in Groups])), :]
+    df = df.loc[
+        df[xes.DEFAULT_TRACEID_KEY].isin(
+            utils.flatten([group.members for group in Groups])
+        ),
+        :,
+    ]
 
-    for group in Groups: 
+    for group in Groups:
         df.loc[:, group.name] = df[xes.DEFAULT_TRACEID_KEY].isin(group.members)
 
-    df = df.drop(["case:concept:name", xes.DEFAULT_TRACEID_KEY], axis = 1)
+    df = df.drop(["case:concept:name", xes.DEFAULT_TRACEID_KEY], axis=1)
 
-    df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY] = pd.to_datetime(df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY],  utc = True)
-    df.loc[:, xes.DEFAULT_TIMESTAMP_KEY] = pd.to_datetime(df.loc[:, xes.DEFAULT_TIMESTAMP_KEY],  utc = True)
+    df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY] = pd.to_datetime(
+        df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY], utc=True
+    )
+    df.loc[:, xes.DEFAULT_TIMESTAMP_KEY] = pd.to_datetime(
+        df.loc[:, xes.DEFAULT_TIMESTAMP_KEY], utc=True
+    )
 
-    df.loc[:,'interpolate_date'] = [pd.date_range(s, e, freq = freq) for s, e in
-                  zip(pd.to_datetime(df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY]), pd.to_datetime(df.loc[:, xes.DEFAULT_TIMESTAMP_KEY]))]
+    df.loc[:, "interpolate_date"] = [
+        pd.date_range(s, e, freq=freq)
+        for s, e in zip(
+            pd.to_datetime(df.loc[:, xes.DEFAULT_START_TIMESTAMP_KEY]),
+            pd.to_datetime(df.loc[:, xes.DEFAULT_TIMESTAMP_KEY]),
+        )
+    ]
 
-    df = df.drop([xes.DEFAULT_START_TIMESTAMP_KEY, xes.DEFAULT_TIMESTAMP_KEY], axis = 1).explode("interpolate_date")
-    
-    agg_func = {group.name : sum for group in Groups}
-    
-    date_frame = df.groupby(pd.Grouper(key = "interpolate_date", freq = freq)).agg(agg_func)
-    
+    df = df.drop(
+        [xes.DEFAULT_START_TIMESTAMP_KEY, xes.DEFAULT_TIMESTAMP_KEY], axis=1
+    ).explode("interpolate_date")
+
+    agg_func = {group.name: sum for group in Groups}
+
+    date_frame = df.groupby(pd.Grouper(key="interpolate_date", freq=freq)).agg(agg_func)
+
     return date_frame
 
 
 def create_plotting_data(log, file_format, log_information):
     """
-    Transofrms a log, such that it can be easer used for plotting, removes unnecessary data, creates df from xes data, and renames columns
+    Transforms a log, such that it can be easer
+    used for plotting, removes unnecessary data,
+    creates df from xes data, and renames columns
 
     input: XES/CSV log ,
            file_format str,
            log_information django session dict
 
-    output: pandas df with pm4py default names for attributes in a two timestamp format       
+    output: pandas df with pm4py default names for attributes in a two timestamp format
     """
-    # Stores the Attribut Names for later references, makes renaming attributes inside the XES unnecessary
-    attribute_names = {}
-
     if file_format == "csv":
 
         # Select only the Relevant columns of the Dataframe
@@ -167,7 +185,9 @@ def create_plotting_data(log, file_format, log_information):
     return log
 
 
-def create_timeframe_dataframe(df, Group, start_time, end_time): 
-    
-    return(df.loc[(df[xes.DEFAULT_TRACEID_KEY].isin(Group.members)) & (df[xes.DEFAULT_START_TIMESTAMP_KEY].between(start_time, end_time))])
-    
+def create_timeframe_dataframe(df, Group, start_time, end_time):
+
+    return df.loc[
+        (df[xes.DEFAULT_TRACEID_KEY].isin(Group.members))
+        & (df[xes.DEFAULT_START_TIMESTAMP_KEY].between(start_time, end_time))
+    ]
