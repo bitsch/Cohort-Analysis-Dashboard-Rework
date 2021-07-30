@@ -190,7 +190,7 @@
         </div>
         <div style="margin-top: 40px;">
           <select id="CaseOverview" class="custom-select custom-select-md mb-3 form-select" aria-label="Default select example">
-            <option selected value="dfg_overview_DefaultCaseZZZ">Directly Follows Graph</option>
+            <option selected value="dfg_overview">Directly Follows Graph</option>
             <option value="case_overview">Case Overview</option>
           </select>
         </div>
@@ -472,37 +472,29 @@ function getSelectedNodes(){
 
 var token = '{{csrf_token}}';
 
-
+var global_case_id=null;
 
 $(document).ready(function(){
     $('#CaseOverview').change(function(){
-      if (this.value=="dfg_overview_DefaultCaseZZZ"){
+      if (this.value=="dfg_overview"){
         //refreshCase(this.value);
         $('#caseOverviewPlot').hide();
         $('#mynetwork2').show();
+        refreshCase(global_case_id);
       }
       else {
         $('#mynetwork2').hide();
         $('#caseOverviewPlot').show();
-        $.ajax({
-        headers: { "X-CSRFToken": token },
-        url: "/views/ajax/changeView/",
-        type: 'POST',
-        data: {'selected_view': this.value, 'X-CSRFToken':token},
-        dataType:'html',
-        success: function(result) {
-          document.getElementById("mynetwork2").innerHTML="";
-          CreateGraph(data, "mynetwork2");
-        }
-        })
+        refreshCase(global_case_id);
       }
     });
 });
 
 
 function refreshCase(caseId){
+    global_case_id=caseId;
     selectedView=document.getElementById("CaseOverview").value;
-    if(selectedView=="dfg_overview_DefaultCaseZZZ"){
+    if(selectedView=="dfg_overview"){
         $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/views/ajax/casefilter/dfg",

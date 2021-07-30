@@ -94,11 +94,8 @@ def activity_filter(request):
             log, selected_activity, log_format, log_information
         )
 
-        print(log)
 
-        print(log_information["case_id"])
         
-        print(case_ids)
         if log_format == "xes": 
             filtered_log = pm4py.filter_trace_attribute_values(
                 log, log_information["case_id"], case_ids, retain=True)
@@ -107,14 +104,11 @@ def activity_filter(request):
 
 
 
-        print(filtered_log)
-        if selected_activity == "dfg_overview_DefaultDiseaseZZZ":
-            filtered_log = log
+
         filteredresult = stats.get_log_statistics(
             filtered_log, log_format, log_information
         )
-        filteredresult["Nunique_Activities"] = len(activities)
-
+        
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)
@@ -165,11 +159,13 @@ def case_filter_dfg(request):
 
     if request.method == "POST":
         selected_case = request.POST["selected_case"]
-        filtered_log = pm4py.filter_event_attribute_values(
-            log, log_information["case_id"], [selected_case], level="case", retain=True
-        )
-        if selected_case == "dfg_overview_DefaultCaseZZZ":
-            filtered_log = log
+       
+        if log_format == "xes": 
+            filtered_log = pm4py.filter_trace_attribute_values(
+                log, log_information["case_id"], [selected_case], retain=True)
+        else: 
+            filtered_log = log[log["case:concept:name"].isin([selected_case])]
+
         dfg = dfg_discovery.apply(filtered_log)
         this_data, temp_file = plotting.dfg_to_g6(dfg)
         re.escape(temp_file)

@@ -1,5 +1,5 @@
 from perspective_views.plotting.data_frame_creation import create_df_variant
-
+from pm4py.util import xes_constants as xes
 
 def get_log_statistics(log, file_format, log_information):
     """
@@ -19,6 +19,17 @@ def get_log_statistics(log, file_format, log_information):
     result["Nactivities"] = variants.apply(
         lambda x: len(x["variant"]) * x["Cases"], axis=1
     ).sum()
+
+
+    activities = set()
+    if file_format == "csv": 
+        activities = set(log[xes.DEFAULT_NAME_KEY].unique())
+    elif file_format== "xes":
+        for trace in log:
+            for event in trace:
+                activities.add(event[log_information["concept_name"]])
+    
+    result["Nunique_Activities"] = len(activities)
 
     case["variant"] = case["variant"].apply(len)
 
