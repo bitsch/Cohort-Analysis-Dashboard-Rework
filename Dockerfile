@@ -10,5 +10,7 @@ RUN pip3 install -r requirements.txt
 # Copy all the files from current directory to the virtual env
 COPY . .
 
+RUN python3 manage.py migrate
+
 # Start server
 CMD [ "python3", "manage.py", "runserver", "0.0.0.0:8000" ]
