@@ -11,7 +11,10 @@ from perspective_views.plotting.data_frame_creation import create_df_case
 
 
 def timeframe_plot(df, waterfall_mode=False):
-
+    """
+    Creates a Plot representing a singluar trace based on its activitites over time
+    Input: A case df
+    """
     df.sort_values(xes.DEFAULT_START_TIMESTAMP_KEY, inplace=True)
 
     # Makes the Concept:Name Labeling unique, so that they are not plotted in the same row

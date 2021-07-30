@@ -246,7 +246,6 @@ def create_df_variant(log, file_format, log_information):
 
     else:
 
-        # TODO Throw some Warning / Show a warning Message in the Console
         print("Invalid Filepath")
 
     # Aggregate the base dataframes to the variant level
