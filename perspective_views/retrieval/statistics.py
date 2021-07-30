@@ -28,7 +28,6 @@ def get_log_statistics(log, file_format, log_information):
         .to_dict(orient="records")
     )
     
-    result["Nunique_Activities"] = len(set.union(*variants["variant"].apply(lambda x: set(x)).values))
     result["Ncase"] = case.shape[0]
 
     start_time = variants["Start"].min()
