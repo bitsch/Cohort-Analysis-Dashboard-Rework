@@ -120,8 +120,8 @@ def single_variant_plot_factory(
 
 def dfg_to_g6(dfg):
     unique_nodes = []
-
     for i in dfg:
+        print(i)
         unique_nodes.extend(i)
     unique_nodes = list(set(unique_nodes))
 

@@ -35,8 +35,8 @@
                  <table class="table table-sm table-hover">
                     <thead>
                        <tr>
-                          <th scope="col">Group Name</th>
-                          <th scope="col">Number of Activities</th>
+                          <th scope="col">Zone Name</th>
+                          <th scope="col">Number of Places</th>
                        </tr>
                     </thead>
                     <tbody>
@@ -59,13 +59,13 @@
                  </table>
                  <form  name="cohort_analysis_timeframe_form" action="" method = "POST">
                   {% csrf_token %}
-                 <input type = "button" class="btn btn-primary" value = "Cohort Analysis" name = "cohort_analysis_timeframe" id ='cohort_analysis_timeframe'/>
-                 <a class="btn btn-success" href="/groupmanagement/">Create New Group</a>
-                </form>
+                     <input type = "button" class="btn btn-primary" value = "Generate data" name = "cohort_analysis_timeframe" id ='cohort_analysis_timeframe'/>
+                     <!----<input type = "button" class="btn btn-primary" value = "Analyze" name = "" id ='cohort_analysis_timeframe'/>
+                        ---!>
+                 </form>
               </div>
               <div class="col-8">
                 <br>
-                  <input type="text" name="start_end_time" value="" style="width: 50%; text-align: center;" class="form-control user-error date_range" aria-invalid="true">
 
                    <div id="timeframe-cohort-analysis-container"></div>
                    <div  class="d-flex justify-content-center align-items-center">
@@ -208,7 +208,6 @@ $(document).ready(function () {
 $(document).ready(function(){
   $("input[name='cohort_analysis_timeframe']").click(function(){
     var selected_group_name = $("input[name='timeframe_group_name']:checked").val();
-    var start_end_time = $(".date_range").val()
     var operation_type = "timeframe"
     var token = '{{csrf_token}}';
     if(selected_group_name != ''){
@@ -216,7 +215,7 @@ $(document).ready(function(){
         headers: { "X-CSRFToken": token },
         url: "/groupmanagement/ajax/cohortanalysisdata/",
         type: 'POST',
-        data: {'selected_group_name': selected_group_name, 'operation_type':operation_type,'start_end_time':start_end_time,'X-CSRFToken':token},
+        data: {'selected_group_name': selected_group_name, 'operation_type':operation_type,'X-CSRFToken':token},
         dataType:'html',
         success: function(result) {
             // Parse the html response into the correct div
@@ -224,7 +223,7 @@ $(document).ready(function(){
         }
       })
     }else{
-      alert("Please select Groupname!")
+      alert("Please select Zone name!")
     }
   });
 
