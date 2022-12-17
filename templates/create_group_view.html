@@ -69,7 +69,7 @@
 <body>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Group Details</a>
+    <a class="nav-link active" id="create_group-tab" data-toggle="tab" href="#create_group" role="tab" aria-controls="organisation" aria-selected="true">Zone Details</a>
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
@@ -80,32 +80,32 @@
           <div class="success_alert_message"></div>
           <div class="card views-card" >
             <div class="card-header">
-              Create new group <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can create new group for Cohort Analysis"></i>
+              Create new Zone <i class="fas fa-info-circle info-icon" data-toggle="tooltip" data-placement="top" title="Here you can create new zone for Analysis"></i>
             </div>
             <div class="container">
               <form  name="create_group" action="" method = "POST">
                 {% csrf_token %}
 
                 <div class="form-group row">
-                  <label for="group_name" class="col-sm-3 col-form-label">Group Name <span class="text-danger">*</span></label>
+                  <label for="group_name" class="col-sm-3 col-form-label">Zone Name <span class="text-danger">*</span></label>
                   <div class="col-sm-9">
-                    <input type="text" class="form-control-plaintext" id="group_name" name="group_name" placeholder="Please enter group name!">
+                    <input type="text" class="form-control-plaintext" id="group_name" name="group_name" placeholder="Please enter zone name!">
                   </div>
                 </div>
                 <div class="form-group row">
                   <input type="hidden" value="" name="store_selected_activities" class="store_selected_activities" id="store_selected_activities">
-                  <label for="list_of_activities" class="col-sm-3 col-form-label">Select Activities<span class="text-danger">*</span></label>
+                  <label for="list_of_activities" class="col-sm-3 col-form-label">Select Places<span class="text-danger">*</span></label>
                   <div class="col-sm-9">
                     <select class="form-select mb-3" id="list_of_activities" name="list_of_selected_activities" multiple="multiple">
-                      {% for activity in activities %}
-                        <option value="{{activity}}">{{activity}}</option>
+                      {% for place in places %}
+                        <option value="{{place}}">{{place}}</option>
                       {% endfor %}
                     </select>
                   </div>
                 </div>
                 <div class="form-group row" style="padding: 12px">
-                  <input style="margin-left: auto; margin-right: 5px;" type="button" class="btn btn-primary" value = "Create New Group" name = "create_new_group" id ='create_new_group' data-toggle="tooltip" data-placement="top" title="Create the new group"/>
-                  <input style="margin-right: auto; margin-left: 5px;" type="button" class="btn btn-danger" value = "Cancel" name="cancel" id ='cancel' data-toggle="tooltip" data-placement="top" title="Cancel the creation of the group"/>
+                  <input style="margin-left: auto; margin-right: 5px;" type="button" class="btn btn-primary" value = "Create New Zone" name = "create_new_group" id ='create_new_group' data-toggle="tooltip" data-placement="top" title="Create the new Zone"/>
+                  <input style="margin-right: auto; margin-left: 5px;" type="button" class="btn btn-danger" value = "Cancel" name="cancel" id ='cancel' data-toggle="tooltip" data-placement="top" title="Cancel the creation of the zone"/>
                 </div>
               </form>
             </div>
@@ -117,8 +117,8 @@
             <thead>
               <tr>
                 <th scope="col">SL#</th>
-                <th scope="col">Group Name</th>
-                <th scope="col">Number of Activities</th>
+                <th scope="col">Zone Name</th>
+                <th scope="col">Number of Places</th>
                 <th scope="col" >Action</th>
               </tr>
             </thead>

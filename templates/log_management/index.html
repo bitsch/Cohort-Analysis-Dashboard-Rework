@@ -1,17 +1,11 @@
 {% extends 'base.html' %} {% block content %}
 <ul class="nav nav-tabs" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a
-      class="nav-link active"
-      id="eventlogs-tab"
-      data-toggle="tab"
-      href="#eventlogs"
-      role="tab"
-      aria-controls="eventlogs"
-      aria-selected="true"
-      >Event Logs</a
-    >
-  </li>
+    <li class="nav-item" >
+        <a class="nav-link active" id="eventlogs-tab" data-toggle="tab" href="#eventlogs" role="tab" aria-controls="eventlogs" aria-selected="true">Event Logs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="petrinet-tab" data-toggle="tab" href="#petrinet" role="tab" aria-controls="petrinet" aria-selected="false">Petrinet</a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="eventlogs" role="tabpanel" aria-labelledby="eventlogs-tab">
@@ -62,10 +56,10 @@
             <br>
   
            <div class="row">
-            <div class=" col-sm-6 col-md-7 col-lg-8">
+            <div class=" col-sm-4 col-md-4 col-lg-4">
             {% if selected_log_info %}
             <div class="card" style="width: 18rem;">
-              <div class="card-body">
+                <div class="card-body">
                 <h5 class="card-title">Currently Selected Log</h5>
                 <h6 class="card-subtitle mb-2 text-muted">Log Name: {{selected_log_info.log_name}}</h6>
                 <p class="card-text">Case Id: {{selected_log_info.case_id}}</p>
@@ -82,48 +76,121 @@
                 <p id="concept_name"> End Timestamp Event: {{selected_log_info.end_timestamp}} </p>
                 {% endifequal %}
               </div>
+
             </div>
             {% endif %}
             </div>
+
+               <div class=" col-sm-4 col-md-4 col-lg-4">
+                   {% if selected_petrinet_info %}
+                   <div class="card" style="width: 18rem;">
+                   <div class="card-body">
+                       <h5 class="card-title">Currently Selected Petrinet</h5>
+                       <h6 class="card-subtitle mb-2 text-muted">Petrinet Name: {{selected_petrinet_info}}</h6>
+                   </div>
+                       </div>
+                   {% endif %}
+               </div>
+               <div class=" col-sm-4 col-md-4 col-lg-4" >
+                   {% if fitness %}
+                   <div class="card" style="width: 18rem;" id="fitness">
+                       <div class="card-body" >
+                           <h5 class="card-title">Current Fitness: {{fitness.percFitTraces}}</h5>
+                       </div>
+                   </div>
+
+                   <form  name="fitness" action="" method = "POST">
+                       {% csrf_token %}
+
+                       <input style="margin-top: 10px;" data-toggle="tooltip" data-placement="top" title="Make the log Fit on Petrinet" type = "button" class="btn btn-success" value = "Fit" name= "fitButton" id ='fitButton' />
+                       <input style="margin-top: 10px;" type = "button" data-toggle="tooltip" data-placement="top" title="Check Fitness Again" class="btn btn-info " value = "Refresh" name= "checkButton" id ='checkButton'/>
+                   </form>
+               </div>
+                   {% endif %}
+               </div>
           </div>
         </div>
-  
+
+    <div class="tab-pane fade show" id="petrinet" role="tabpanel" aria-labelledby="petrinet-tab">
+
+        <div class="container-fluid">
+            <h3 class="mt-4" style="color:#00529F;">Petrinet</h3>
+            <br>
+            <div class="row">
+                <div class=" col-sm-6 col-md-7 col-lg-8">
+                    <form  name="load" action="" method = "POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <p>Petrinet: <input type = "file" data-toggle="tooltip" data-placement="top" title="Click to upload a new petrinet file" value="petrinetupload" name = "petrinet" /></p>
+                        <p><input  data-toggle="tooltip" data-placement="top" title="Upload new petrinet" type = "submit" class="btn btn-primary mb-2" value = "Upload Petrinet" name = "uploadpnButton" id ='submitpn' /></p>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
     </div>
-  </div>
+
+</div>
 {% endblock %}
 
 {% block script %}
 
 
   <script>
-    var token = '{{csrf_token}}';
+   var token = '{{csrf_token}}';
    $(document).ready(function(){
+        $("select.custom-select").change(function(){
+            var selectedlog = $(this).children("option:selected").val();
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                url: "/logmanagement/ajax/loginfo/",
+                data: {
+                    'log_name': selectedlog,
+                },
+                dataType:'html',
+                success: function(result) {
+                    // Parse the html response into the correct div
+                    $('#log-info-container').html(result);
+                }
+            })
+        });
+        $("#checkButton").click(function(){
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                url: "/logmanagement/ajax/checkFitness/",
+                dataType:'html',
+                success: function(result) {
+                    // Parse the html response into the correct div
+                    $('#fitness').html(result);
+                }
+            })
+        });
 
-    $("select.custom-select").change(function(){
-        var selectedlog = $(this).children("option:selected").val();
-        $.ajax({
-          headers: { "X-CSRFToken": token },
-          url: "/logmanagement/ajax/loginfo/",
-          data: { 
-            'log_name': selectedlog,
-          },
-          dataType:'html',
-          success: function(result) {
-            // Parse the html response into the correct div
-           $('#log-info-container').html(result);
-          }
-        })
-      });
-    });
+        $("#fitButton").click(function(){
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                url: "/logmanagement/ajax/fit/",
+                dataType:'html',
+                success: function(result) {
+                    // Parse the html response into the correct div
+                    $('#fitness').html(result);
+                }
+            })
+        });
+   });
+
 
     $(document).ajaxStart(function() {
       $('#log-info-container').hide();
       $("#loading-spinner").show();
+      $('#fitness').hide();
     });
 
     $(document).ajaxStop(function() {
       $("#loading-spinner").hide();
       $('#log-info-container').show();
+      $('#fitness').show();
     });
 
   </script>

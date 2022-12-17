@@ -1,10 +1,161 @@
 import pandas as pd
 from pm4py import convert_to_dataframe
 from pm4py.util import xes_constants as xes
-
+from datetime import timedelta as td
 import core.utils.utils as utils
 import core.data_transformation.data_transform_utils as data_transform
+from pm4py.algo.conformance.tokenreplay import algorithm as token_replay
+##usage= get_labels_set(input_transition_set)
+def get_labels_set(net,input_transition_set):
+    label_set=set()
+    for transition in input_transition_set:
+        label_set.add(transition._Transition__get_label())
+    return label_set
 
+##usage= get_input_transitions('n4')
+def get_initial_start(net,intial_place):
+    print(intial_place)
+    initial_start=None
+    for place in net.places:
+        if place._Place__get_name()==intial_place:
+            initial_start=place
+    return initial_start
+
+##usage= get_input_transitions(net,initial_start)
+def get_input_transitions(net,place):
+    transition=list()
+    if place in net.places:
+        for arc in net.arcs:
+            if arc._Arc__get_target()==place:
+                if arc._Arc__get_source()._Transition__get_label() is None:
+                    for new_place in arc._Arc__get_source()._Transition__get_in_arcs():
+                        transition.extend(get_input_transitions(net,new_place._Arc__get_source()))
+                else:
+                    transition.append(arc._Arc__get_source())
+        return transition
+    else:
+        return None
+
+##usage= get_output_transitions(net,initial_start)
+def get_output_transitions(net,place):
+    transition=list()
+    if place in net.places:
+        for arc in net.arcs:
+            if arc._Arc__get_source()==place:
+                if arc._Arc__get_target()._Transition__get_label() is None:
+                    for new_place in arc._Arc__get_target()._Transition__get_out_arcs():
+                        transition.extend(get_output_transitions(net,new_place._Arc__get_target()))
+                else:
+                    transition.append(arc._Arc__get_target())
+        return transition
+    else:
+        return None
+
+def getdataframe(log, net,initial_marking, final_marking, places):
+
+	replayed_traces = token_replay.apply(log, net, initial_marking, final_marking)
+	places=places.members
+
+	input_transition_set=set()
+	input_transition_label_set=set()
+	output_transition_set=set()
+	output_transition_label_set=set()
+
+	for start in places:
+	    initial_start=get_initial_start(net,start)
+	    input_transition_set|=set(get_input_transitions(net,initial_start))
+	    temp=input_transition_set.difference(output_transition_set)
+	    output_transition_set|=set(get_output_transitions(net,initial_start))
+	    output_transition_label_set|=get_labels_set(net,output_transition_set)
+
+
+	input_transition_label_set|=get_labels_set(net,input_transition_set)
+	output_transition_label_set|=get_labels_set(net,output_transition_set)
+
+
+	print(input_transition_set)
+	print(input_transition_label_set)
+	print(output_transition_set)
+	print(output_transition_label_set)
+
+	token_produced=0
+	token_consumed=0
+	token_left=0
+	predictordf=pd.DataFrame(columns= ['StartEvent','StartTime','EndEvent','EndTime','User'])
+	for trace,case in zip(replayed_traces, log):
+	    last_event=None
+	    first_event=None
+	    if trace['trace_is_fit']==True:
+	        for active_trace in trace['activated_transitions']:
+	            if active_trace in input_transition_set :
+	                for events in case:
+	                    if events['concept:name'] in input_transition_label_set:
+	                        last_event=events
+	            if active_trace in output_transition_set:
+	                for events in case:
+	                    if events['concept:name'] in output_transition_label_set and first_event is None:
+	                        first_event=events
+	    if last_event is not None and first_event is not None:
+	        token_produced=token_produced+1
+	        token_consumed=token_consumed+1
+	        row_df = pd.DataFrame([[last_event['concept:name'], last_event['time:timestamp'],first_event['concept:name'], first_event['time:timestamp'], case.attributes['concept:name']]],columns= ['StartEvent','StartTime','EndEvent','EndTime','User'])
+	        predictordf = pd.concat([row_df, predictordf], ignore_index=True)
+
+	predictordf['StartDateTime'] = pd.to_datetime(predictordf['StartTime'], utc=True)
+	predictordf['StartDate'] = pd.to_datetime(predictordf['StartDateTime']).dt.date
+	predictordf['EndDateTime'] = pd.to_datetime(predictordf['EndTime'], utc=True)
+	predictordf['EndDate'] = pd.to_datetime(predictordf['EndDateTime']).dt.date
+	predictordf['TotalWaitingTime']=  (pd.to_datetime(predictordf['EndTime'], utc=True)-pd.to_datetime(predictordf['StartTime'], utc=True))
+	minstartdate=min(predictordf['StartDate'])
+	maxenddate=max(predictordf['EndDate'])
+
+	predictordatedataframe = pd.DataFrame({'date':pd.date_range(start=minstartdate, end=maxenddate),'tokenproduced':0,'tokenconsumed':0,'tokenleft':0,'WaitingTime':0,'Count':0})
+	for index, row in predictordatedataframe.iterrows():
+		currentdate=row['date']
+		produced=0
+		left=0
+		consumed=0
+		waiting=td(days=0)
+		waitingdays=0
+		#print(type(waiting))
+		count=0
+		#if currentdate.strftime('%Y-%m-%d')<='1999-10-13':
+		#	continue
+		print(currentdate.strftime('%Y-%m-%d'))
+		for indexdata, rowdata in predictordf.iterrows():
+			StartDate=rowdata['StartDate']
+			EndDate=rowdata['EndDate']
+			#TotalWaitingTime=rowdata['TotalWaitingTime']
+			TotalWaitingTime=rowdata['TotalWaitingTime']
+			#print(type(waiting)," ",type(TotalWaitingTime))
+			WaitingTimeTillDate=currentdate+td(hours=24)
+			if currentdate.date()==StartDate:
+				produced=produced+1
+			if currentdate.date()==EndDate:
+				consumed=consumed+1
+				WaitingTimeTillDate=rowdata['EndDateTime']
+			if currentdate.date()<EndDate and currentdate.date()>=StartDate:
+				left=left+1
+			if currentdate.date()<=EndDate and currentdate.date()>=StartDate:
+				TotalWaitingTime=WaitingTimeTillDate.replace(tzinfo=None)-rowdata['StartDateTime'].replace(tzinfo=None)
+				if waiting is None:
+					waiting=TotalWaitingTime
+				else:
+					if waiting.days<100000:
+						waiting=waiting+TotalWaitingTime
+						waitingdays=waiting.days
+					else :
+						waitingdays=TotalWaitingTime.days+waitingdays
+				count=count+1
+		predictordatedataframe.at[index, 'tokenproduced']=produced
+		predictordatedataframe.at[index, 'tokenconsumed']=consumed
+		predictordatedataframe.at[index, 'tokenleft']=left
+		if waiting.days<100000:
+			predictordatedataframe.at[index, 'WaitingTime']=waiting
+		else:
+			predictordatedataframe.at[index, 'WaitingTime']=waitingdays
+		predictordatedataframe.at[index, 'Count']=count
+	return predictordatedataframe
 
 def create_concurrency_frame(df, Groups, freq="5T"):
     """
@@ -185,9 +336,6 @@ def create_plotting_data(log, file_format, log_information):
     return log
 
 
-def create_timeframe_dataframe(df, Group, start_time, end_time):
+def create_analysis_dataframe(log, net,initial_marking, final_marking, group):
 
-    return df.loc[
-        (df[xes.DEFAULT_TRACEID_KEY].isin(Group.members))
-        & (df[xes.DEFAULT_START_TIMESTAMP_KEY].between(start_time, end_time))
-    ]
+    return getdataframe(log, net,initial_marking, final_marking, group)

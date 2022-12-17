@@ -8,7 +8,7 @@ import re
 import pandas
 
 EVENT_LOG_PATH = os.path.join(settings.MEDIA_ROOT, "event_logs")
-
+PETRINET_LOG_PATH=os.path.join(settings.MEDIA_ROOT, "petrinets")
 
 class LogService:
     """
@@ -28,6 +28,23 @@ class LogService:
     def saveLog(self, log):
         fs = FileSystemStorage(EVENT_LOG_PATH)
         fs.save(log.name, log)
+    """
+    Saves an event log to the existing list of event logs
+    """
+
+    def savefitLog(self, name, log):
+        print(name)
+        fs = FileSystemStorage(EVENT_LOG_PATH)
+        fs.save(name, log)
+
+    """
+        Saves an petrinet to the existing list of petrinets
+    """
+
+    def savePetrinet(self, petrinet):
+        fs = FileSystemStorage(PETRINET_LOG_PATH)
+        fs.save(petrinet.name, petrinet)
+
 
     """
     Sorts the attributes based on Key attributes (Containin ":") and in Lexigographic Ordering

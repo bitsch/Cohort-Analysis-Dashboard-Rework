@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -20,11 +23,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eed136c0-84eb-4345-a123-4cb2c46ab4af" name="Default" comment="EventLog Modification">
-      <change beforePath="$PROJECT_DIR$/media/event_logs/Road_Traffic_Fine_Management_Process.xes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/event_logs/chapter_6.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/event_logs/reviewing_header.XES" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/event_logs/running-example.xes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/media/event_logs/running-example_header_header.XES" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/event_logs/2000casebpi2019.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/event_logs/BPI2020.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/event_logs/fitted.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/event_logs/syntheticlogdelaydoctorcase.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/event_logs/syntheticlogdoctorcaseunfit.xes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2017.pnml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2018.pnml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2019.pnml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2019_kl3s1Rk.pnml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/petrinets/syntheticnetdoctor.pnml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/petrinets/syntheticnetdoctor_xsMfQeZ.pnml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/log_management/fitness.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group_analysis/plotting/data_frame_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/plotting/data_frame_creation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group_management_views/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_management_views/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log_management/services/log_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/services/log_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log_management/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log_management/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/temp/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/media/temp/data.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/perspective_views/plotting/plot_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/perspective_views/plotting/plot_creation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/create_group_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/create_group_view.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/group_analysis.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group_analysis.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/log_management/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/log_management/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,20 +62,21 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1eB4yT5lTYCkvTi7U2AVjgyLII0" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="djangoTest" is-module-sdk="true">
@@ -74,7 +97,7 @@
       <recent name="C:\Users\marcanova\PycharmProjects\UIFramework_pm4py\static" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.views">
+  <component name="RunManager">
     <configuration name="manage" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="djangoTest" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -117,13 +140,8 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.views" />
-        <item itemvalue="Python.manage" />
-      </list>
-    </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -186,7 +204,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="EventLog Modification" />
@@ -252,15 +269,5 @@
       <screen x="0" y="0" width="1707" height="920" />
     </state>
     <state x="617" y="361" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1707.920@0.0.1707.920" timestamp="1593691909209" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/log_filtering/transformation.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

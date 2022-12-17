@@ -9,14 +9,16 @@ from django.conf import settings
 # Core
 import core.data_loading.data_loading as log_import
 
-# Group Analysis 
+# Group Analysis
 from group_analysis.group_managment.group_managment_utils import get_active_groups
 import group_analysis.plotting.data_frame_creation as plotting_data
 import group_analysis.plotting.plot_creation as plotting
 from group_analysis.group_managment.group import Group
 
+from pm4py.objects.petri_net.importer import importer as pnml_importer
 # Application Modules
 
+petrinet_path = os.path.join(settings.MEDIA_ROOT, "petrinets")
 # Create your views here.
 
 
@@ -27,15 +29,20 @@ def group_management(request):
     # Export this into a general function checking existance of the values
     # in the session,for activities, we might assume this
     # But better be safe than sorry
-    if "activities" in request.session:
-        activities = request.session["activities"]
-
+    if "places" in request.session:
+        places = request.session["places"]
+    else :
+        places=get_places(request)
     if "group_details" in request.session:
         active_groups = get_active_groups(request)
 
-    context = {"activities": activities, "active_group_details": active_groups}
+    context = {"places": places, "active_group_details": active_groups}
 
     return render(request, "create_group_view.html", context)
+
+def get_places(request):
+    net, initial_marking, final_marking = pnml_importer.apply(os.path.join(petrinet_path,request.session["current_net"]) )
+    return net.places
 
 
 def save_group_info(request):
@@ -89,19 +96,15 @@ def cohort_analysis_data(request):
 
         # Loading Group details
         group_details = request.session["group_details"]
-
+        print(group_details)
         # Loading the Log
         log, activities = log_import.log_import(event_log, log_format, log_information)
-
-        # Creating the Plotting Data
-        df = plotting_data.create_plotting_data(log, log_format, log_information)
+        net, initial_marking, final_marking = pnml_importer.apply(os.path.join(petrinet_path,request.session["current_net"]) )
 
         # Consider Pickeling the Data for a quick performance boost after the first load
 
         if request.POST["operation_type"] == "timeframe":
 
-            # TODO Replace this with the Interval picker values covered by the UI
-            start_time, end_time = tuple(request.POST["start_end_time"].split(" - "))
 
             group = Group(
                 group_details[request.POST["selected_group_name"]]["group_name"],
@@ -109,11 +112,11 @@ def cohort_analysis_data(request):
                     "selected_activities"
                 ].split(", "),
             )
-
-            df = plotting_data.create_timeframe_dataframe(
-                df, group, start_time, end_time
+            print(group.members)
+            df = plotting_data.create_analysis_dataframe(
+                log, net,initial_marking, final_marking, group
             )
-            plot_div = plotting.timeframe_plot_factory(df)
+            print(df)
 
         else:
 
