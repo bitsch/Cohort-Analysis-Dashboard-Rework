@@ -13,23 +13,23 @@
         },
         {
             "id": "node_1",
+            "name": "hospital admission",
+            "isUnique": false,
+            "conf": [
+                {
+                    "label": "Name",
+                    "value": "hospital admission"
+                }
+            ]
+        },
+        {
+            "id": "node_2",
             "name": "initial check",
             "isUnique": false,
             "conf": [
                 {
                     "label": "Name",
                     "value": "initial check"
-                }
-            ]
-        },
-        {
-            "id": "node_2",
-            "name": "doctor test",
-            "isUnique": false,
-            "conf": [
-                {
-                    "label": "Name",
-                    "value": "doctor test"
                 }
             ]
         },
@@ -46,12 +46,12 @@
         },
         {
             "id": "node_4",
-            "name": "hospital admission",
+            "name": "doctor test",
             "isUnique": false,
             "conf": [
                 {
                     "label": "Name",
-                    "value": "hospital admission"
+                    "value": "doctor test"
                 }
             ]
         }
@@ -59,22 +59,22 @@
     "edges": [
         {
             "source": "node_3",
-            "target": "node_1",
+            "target": "node_2",
             "label": 2000,
             "style": {
                 "endArrow": true
             }
         },
         {
-            "source": "node_1",
-            "target": "node_2",
+            "source": "node_2",
+            "target": "node_4",
             "label": 1810,
             "style": {
                 "endArrow": true
             }
         },
         {
-            "source": "node_2",
+            "source": "node_4",
             "target": "node_0",
             "label": 2000,
             "style": {
@@ -82,16 +82,16 @@
             }
         },
         {
-            "source": "node_1",
-            "target": "node_4",
+            "source": "node_2",
+            "target": "node_1",
             "label": 190,
             "style": {
                 "endArrow": true
             }
         },
         {
-            "source": "node_4",
-            "target": "node_2",
+            "source": "node_1",
+            "target": "node_4",
             "label": 190,
             "style": {
                 "endArrow": true

@@ -20,4 +20,14 @@ urlpatterns = [
         views.cohort_analysis_data,
         name="cohort_analysis_data",
     ),
+    url(
+            r"^ajax/predict/$",
+            views.predict,
+            name="predict",
+        ),
+    url(
+        r"^ajax/setparam/$",
+        views.setparam,
+        name="setparam",
+        ),
 ]
