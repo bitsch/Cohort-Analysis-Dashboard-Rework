@@ -22,6 +22,11 @@ def get_active_groups(request):
             counter = counter + 1
     return datas
 
+def get_diag(request):
+    if request.session["diagnostics"] is None:
+        return None
+    return request.session["diagnostics"]
+
 def check_group_managment(request):
     """ """
     return "group_details" in request.session

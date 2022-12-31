@@ -1,5 +1,5 @@
 import os
-
+import time
 # Django Dependencies
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
@@ -20,6 +20,9 @@ from pm4py.objects.petri_net.importer import importer as pnml_importer
 
 petrinet_path = os.path.join(settings.MEDIA_ROOT, "petrinets")
 # Create your views here.
+diag=[]
+preddf=None
+targetdf=None
 
 
 def group_management(request):
@@ -84,7 +87,10 @@ def change_group_status(request):
     return JsonResponse(message)
 
 def cohort_analysis_data(request):
-
+    global preddf
+    global targetdf
+    global diag
+    diag=[]
     if request.method == "POST":
         event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
         post_data = dict(request.POST.lists())
@@ -100,56 +106,69 @@ def cohort_analysis_data(request):
         # Loading the Log
         log, activities = log_import.log_import(event_log, log_format, log_information)
         net, initial_marking, final_marking = pnml_importer.apply(os.path.join(petrinet_path,request.session["current_net"]) )
-
         # Consider Pickeling the Data for a quick performance boost after the first load
-
-        if request.POST["operation_type"] == "timeframe":
-
-
-            group = Group(
-                group_details[request.POST["selected_group_name"]]["group_name"],
-                group_details[request.POST["selected_group_name"]][
-                    "selected_activities"
-                ].split(", "),
-            )
-            print(group.members)
-            df = plotting_data.create_analysis_dataframe(
-                log, net,initial_marking, final_marking, group
-            )
-            print(df)
-
-        else:
-
-            Groups = [
-                Group(
-                    group_details[name]["group_name"],
-                    group_details[name]["selected_activities"].split(", "),
+        if "predictor_zone" in request.POST:
+            predictor_zone = Group(
+                    group_details[request.POST["predictor_zone"]]["group_name"],
+                    group_details[request.POST["predictor_zone"]][
+                        "selected_activities"
+                    ].split(", "),
                 )
-                for name in group_details.keys()
-                if name in post_data["selected_group_names[]"]
-            ]
-            freq = request.POST["selected_time"]
-            date_frame = plotting_data.create_concurrency_frame(df, Groups)
-            if request.POST["plot_type"] == "standard":
+            print(predictor_zone.members)
+            preddf = plotting_data.create_analysis_dataframe(log, net,initial_marking, final_marking, predictor_zone)
+            diag=getdata(preddf,"predictor")
+        if "target_zone" in request.POST:
+            target_zone = Group(
+                            group_details[request.POST["target_zone"]]["group_name"],
+                            group_details[request.POST["target_zone"]][
+                                "selected_activities"
+                            ].split(", "),
+                        )
+            time.sleep(1)
+            print(target_zone.members)
+            targetdf = plotting_data.create_analysis_dataframe(log, net,initial_marking, final_marking, target_zone)
+            diag=getdata(targetdf,"target")
+            request.session["diagnostics"]=diag
+            request.session.save()
+            print(request.session["diagnostics"])
+    message = {"success": True, "responseText": "Inactivated successfully!"}
 
-                plot_div = plotting.concurrency_plot_factory(
-                    date_frame,
-                    Groups,
-                    freq=freq,
-                    aggregate=settings.AGGREGATE_FUNCTIONS[
-                        request.POST["selected_aggregation"]
-                    ],
-                )
+    return JsonResponse(message)
 
-            else:
-                uniform = (
-                    True if request.POST["amplitude_plot_type"] == "uniform" else False
-                )
-                plot_div = plotting.amplitude_plot_factory(date_frame, Groups, uniform)
+def getdata(df,zone):
+    global diag
+    delayed=len(df[df['delayed']==1].axes[0])
+    message="There are "+str(delayed)+" number of delayed instance in the dataset for the "+zone+" zone"
+    diag.append(message)
 
-    post_data["plot_div"] = plot_div
+    batches=(len(df[df['chunkbatched']>0]))
+    message="There are "+str(batches)+" number of batches instance in the dataset for the "+zone+" zone"
+    diag.append(message)
+    return diag
 
-    html = loader.render_to_string("cohort_analysis_plot.html", post_data)
-    print("Finished Plot Creation")
+def predict(request):
+    global preddf
+    global targetdf
+    if request.method == "POST":
+        print(targetdf)
+        print(preddf)
+        result=plotting.make_prediction(preddf,targetdf)
+        diag.extend(result)
 
-    return HttpResponse(html)
+        request.session["diagnostics"]=diag
+        request.session.save()
+        print(request.session["diagnostics"])
+    message = {"success": True, "responseText": "Inactivated successfully!"}
+    print(request.POST)
+
+    return JsonResponse(message)
+
+def setparam(request):
+    if "sensitivity" in request.POST:
+        plotting_data.set_sensitivity(request.POST["sensitivity"])
+    if "timeframe" in request.POST:
+        plotting_data.set_timeframe(request.POST["timeframe"])
+    message = {"success": True, "responseText": "Inactivated successfully!"}
+    print(request.POST)
+
+    return JsonResponse(message)

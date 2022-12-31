@@ -23,30 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eed136c0-84eb-4345-a123-4cb2c46ab4af" name="Default" comment="EventLog Modification">
-      <change afterPath="$PROJECT_DIR$/media/event_logs/2000casebpi2019.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/event_logs/BPI2020.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/event_logs/fitted.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/event_logs/syntheticlogdelaydoctorcase.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/event_logs/syntheticlogdoctorcaseunfit.xes" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2017.pnml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2018.pnml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2019.pnml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/petrinets/2000petrinetbpi2019_kl3s1Rk.pnml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/petrinets/syntheticnetdoctor.pnml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/petrinets/syntheticnetdoctor_xsMfQeZ.pnml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/log_management/fitness.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group_analysis/group_managment/group_managment_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/group_managment/group_managment_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group_analysis/plotting/data_frame_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/plotting/data_frame_creation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group_analysis/plotting/plot_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/plotting/plot_creation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group_analysis/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/group_management_views/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_management_views/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group_management_views/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_management_views/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_management/services/log_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/services/log_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_management/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/log_management/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/temp/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/media/temp/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/perspective_views/plotting/plot_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/perspective_views/plotting/plot_creation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/create_group_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/create_group_view.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/group_analysis.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group_analysis.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/log_management/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/log_management/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +60,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
   }
 }]]></component>
   <component name="PyConsoleOptionsProvider">
@@ -208,66 +195,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="EventLog Modification" />
     <option name="LAST_COMMIT_MESSAGE" value="EventLog Modification" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="614" y="262" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1593769935166">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state x="614" y="262" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1707.920@0.0.1707.920" timestamp="1593769935166" />
-    <state x="634" y="215" key="FileChooserDialogImpl" timestamp="1594113157740">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state x="634" y="215" key="FileChooserDialogImpl/0.0.1707.920@0.0.1707.920" timestamp="1594113157740" />
-    <state width="1685" height="242" key="GridCell.Tab.0.bottom" timestamp="1594719280500">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state width="1685" height="242" key="GridCell.Tab.0.bottom/0.0.1707.920@0.0.1707.920" timestamp="1594719280500" />
-    <state width="1685" height="242" key="GridCell.Tab.0.center" timestamp="1594719280499">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state width="1685" height="242" key="GridCell.Tab.0.center/0.0.1707.920@0.0.1707.920" timestamp="1594719280499" />
-    <state width="1685" height="242" key="GridCell.Tab.0.left" timestamp="1594719280499">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state width="1685" height="242" key="GridCell.Tab.0.left/0.0.1707.920@0.0.1707.920" timestamp="1594719280499" />
-    <state width="1685" height="242" key="GridCell.Tab.0.right" timestamp="1594719280499">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state width="1685" height="242" key="GridCell.Tab.0.right/0.0.1707.920@0.0.1707.920" timestamp="1594719280499" />
-    <state x="702" y="222" key="RollbackChangesDialog" timestamp="1595496210434">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="702" y="222" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595496210434" />
-    <state x="399" y="119" key="SettingsEditor" timestamp="1595496194371">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="355" y="105" key="SettingsEditor/0.0.1707.920@0.0.1707.920" timestamp="1594035773712" />
-    <state x="399" y="119" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1595496194371" />
-    <state x="502" y="218" key="Vcs.Push.Dialog.v2" timestamp="1595496332355">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="446" y="193" key="Vcs.Push.Dialog.v2/0.0.1707.920@0.0.1707.920" timestamp="1594720257366" />
-    <state x="502" y="218" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1595496332355" />
-    <state x="93" y="93" width="1521" height="735" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1594712373023">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state x="93" y="93" width="1521" height="735" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1707.920@0.0.1707.920" timestamp="1594712373023" />
-    <state x="454" y="71" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1594636140123">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state x="454" y="71" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/0.0.1707.920@0.0.1707.920" timestamp="1594636140123" />
-    <state x="897" y="317" width="652" height="534" key="find.popup" timestamp="1594665537048">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state x="897" y="317" width="652" height="534" key="find.popup/0.0.1707.920@0.0.1707.920" timestamp="1594665537048" />
-    <state x="612" y="280" key="git4idea.merge.GitPullDialog" timestamp="1595496319751">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="544" y="248" key="git4idea.merge.GitPullDialog/0.0.1707.920@0.0.1707.920" timestamp="1593691929801" />
-    <state x="612" y="280" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1595496319751" />
-    <state x="617" y="361" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1593691909209">
-      <screen x="0" y="0" width="1707" height="920" />
-    </state>
-    <state x="617" y="361" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1707.920@0.0.1707.920" timestamp="1593691909209" />
   </component>
 </project>

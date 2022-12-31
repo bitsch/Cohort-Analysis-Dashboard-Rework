@@ -5,6 +5,10 @@ from datetime import timedelta as td
 import core.utils.utils as utils
 import core.data_transformation.data_transform_utils as data_transform
 from pm4py.algo.conformance.tokenreplay import algorithm as token_replay
+import ruptures as rpt
+
+sensitivity=1.5
+timeframe='D'
 ##usage= get_labels_set(input_transition_set)
 def get_labels_set(net,input_transition_set):
     label_set=set()
@@ -109,7 +113,7 @@ def getdataframe(log, net,initial_marking, final_marking, places):
 	minstartdate=min(predictordf['StartDate'])
 	maxenddate=max(predictordf['EndDate'])
 
-	predictordatedataframe = pd.DataFrame({'date':pd.date_range(start=minstartdate, end=maxenddate),'tokenproduced':0,'tokenconsumed':0,'tokenleft':0,'WaitingTime':0,'Count':0})
+	predictordatedataframe = pd.DataFrame({'date':pd.date_range(start=minstartdate, end=maxenddate, freq=timeframe),'tokenproduced':0,'tokenconsumed':0,'tokenleft':0,'WaitingTime':0,'Count':0})
 	for index, row in predictordatedataframe.iterrows():
 		currentdate=row['date']
 		produced=0
@@ -335,7 +339,79 @@ def create_plotting_data(log, file_format, log_information):
 
     return log
 
-
 def create_analysis_dataframe(log, net,initial_marking, final_marking, group):
+    df=getdataframe(log, net,initial_marking, final_marking, group)
+    index=df.index.values
+    df.insert( 0, column='index',value = index+1)
+    df['totaltokenleft'] = df['tokenleft'].cumsum()
+    def categorise(row):
+        if row['index']==0:
+            return 0
+        return row['totaltokenleft']/row['index']
+    df['Averagetokenleft'] = df.apply(lambda row: categorise(row), axis=1)
 
-    return getdataframe(log, net,initial_marking, final_marking, group)
+    df['totaltokenconsumed'] = df['tokenconsumed'].cumsum()
+    def categorise(row):
+        if row['index']==0:
+            return 0
+        return row['totaltokenconsumed']/row['index']
+    df['Averagetokenconsumed'] = df.apply(lambda row: categorise(row), axis=1)
+    df['totaltokenproduced'] = df['tokenproduced'].cumsum()
+    def categorise(row):
+        if row['index']==0:
+            return 0
+        return row['totaltokenproduced']/row['index']
+    df['Averagetokenproduced'] = df.apply(lambda row: categorise(row), axis=1)
+    def categorise(row):
+        if type( row['WaitingTime']) is int :
+            return row['WaitingTime']
+        return row['WaitingTime'].days
+    df['WaitingDays'] = df.apply(lambda row: categorise(row), axis=1)
+
+    def categorise(row):
+        if row['Count']==0:
+            return 0
+        return row['WaitingDays']/row['Count']
+    df['AverageWaitingTime'] = df.apply(lambda row: categorise(row), axis=1)
+    AverageWaitingTimemean=df[df['AverageWaitingTime']!=0][["AverageWaitingTime"]].mean()
+    def categorise(row):
+        if row['AverageWaitingTime'] >= 0.5 :
+            return 1
+        return 0
+    df['delayed'] = df.apply(lambda row: categorise(row), axis=1)
+    df['rolledmean']=df['tokenconsumed'].rolling(30,  min_periods=1, win_type='gaussian').mean(std=100)
+    def categorise(row):
+        if row['rolledmean']/max(row['tokenconsumed'],1) < 0.3 and row['tokenconsumed']>0 :
+            return 1
+        return 0
+
+    df['batched'] = df.apply(lambda row: categorise(row), axis=1)
+    algo_python = rpt.Pelt(model="rbf", jump=2, min_size=1).fit(df[['tokenconsumed']])  # written in pure python
+    penalty_value = 1  # beta
+    result = algo_python.predict(pen=penalty_value)
+    df['chunkmean'] = 0
+    df['chunkindex'] = 1
+    start=0
+    i=1
+    for index in result:
+        df['chunkmean'].iloc[start:index]=df[ ['tokenconsumed'] ].iloc[start:index].mean(axis=0)[0]
+        df['chunkindex'].iloc[start:index]=i
+        i=i+1
+        start=index
+    def categorise(row):
+        global sensitivity
+        if row['chunkmean']*sensitivity < row['tokenconsumed'] :
+            return 1
+        return 0
+    df['chunkbatched'] = df.apply(lambda row: categorise(row), axis=1)
+    return df
+
+def set_sensitivity(param_sensitivity):
+    global sensitivity
+    sensitivity=float(param_sensitivity)
+    return
+
+def set_timeframe(param_timeframe):
+    global timeframe
+    timeframe=param_timeframe
+    return

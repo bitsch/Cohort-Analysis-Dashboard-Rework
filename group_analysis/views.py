@@ -9,6 +9,8 @@ import core.data_loading.data_loading as log_import
 from group_analysis.group_managment.group_managment_utils import (
     get_active_groups,
     check_group_managment,
+    get_diag,
+
 )
 
 # Create your views here.
@@ -18,7 +20,7 @@ def group_analysis(request):
     event_logs_path = os.path.join(settings.MEDIA_ROOT, "event_logs")
     log_information = None
     active_group_details = None
-
+    diagnostics=None
     # TODO Running Example, on how to display Plot
 
     # Use this to include it in the UI
@@ -41,13 +43,14 @@ def group_analysis(request):
         # Set the activities to the activities of the loaded log.
         request.session["activities"] = list(activities)
         active_group_details = get_active_groups(request)
-
+        diagnostics=get_diag(request)
         return render(
             request,
             "group_analysis.html",
             {
                 "log_name": settings.EVENT_LOG_NAME,
                 "active_group_details": active_group_details,
+                "diagnostics":diagnostics,
             },
         )
 
@@ -56,9 +59,11 @@ def group_analysis(request):
         if check_group_managment(request):
 
             active_group_details = get_active_groups(request)
-
+            diagnostics=get_diag(request)
         return render(
             request,
             "group_analysis.html",
-            {"active_group_details": active_group_details},
+            {"active_group_details": active_group_details,
+                "diagnostics":diagnostics,
+            },
         )
