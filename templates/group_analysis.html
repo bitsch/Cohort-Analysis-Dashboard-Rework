@@ -217,7 +217,8 @@ $(document).ready(function(){
     var predictor_zone = $('#predictor_zone').val()
     var target_zone = $('#target_zone').val()
     var token = '{{csrf_token}}';
-    var home_url = "/groupmanagement/"
+    var home_url = "/groupmanagement/";
+    $('#diagnostics').hide();
     if(predictor_zone != ''){
       $.ajax({
         headers: { "X-CSRFToken": token },
@@ -242,6 +243,8 @@ $(document).ready(function(){
         dataType:'json',
       }).done(function(result) {
         if (result.success) {
+
+            $('#diagnostics').show();
             $('#diagnostics').load(document.URL +  ' #diagnostics');
         }else{
           alert(result.responseText)
@@ -257,7 +260,7 @@ $(document).ready(function(){
 $(document).ready(function(){
   $("input[name='analyze']").click(function(){
     var token = '{{csrf_token}}';
-    var home_url = "/groupmanagement/"
+    var home_url = "/groupmanagement/";
     $.ajax({
         headers: { "X-CSRFToken": token },
         url: "/groupmanagement/ajax/predict/",

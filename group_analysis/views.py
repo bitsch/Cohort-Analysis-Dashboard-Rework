@@ -44,6 +44,8 @@ def group_analysis(request):
         request.session["activities"] = list(activities)
         active_group_details = get_active_groups(request)
         diagnostics=get_diag(request)
+        if diagnostics is None:
+            diagnostics=''
         return render(
             request,
             "group_analysis.html",
@@ -60,6 +62,8 @@ def group_analysis(request):
 
             active_group_details = get_active_groups(request)
             diagnostics=get_diag(request)
+            if diagnostics is None:
+                diagnostics=''
         return render(
             request,
             "group_analysis.html",

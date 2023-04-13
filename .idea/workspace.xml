@@ -28,10 +28,10 @@
       <change beforePath="$PROJECT_DIR$/group_analysis/plotting/data_frame_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/plotting/data_frame_creation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group_analysis/plotting/plot_creation.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/plotting/plot_creation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group_analysis/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_analysis/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/group_management_views/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_management_views/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/group_management_views/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/group_management_views/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log_management/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/log_management/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/media/event_logs/fitted.xes" beforeDir="false" afterPath="$PROJECT_DIR$/media/event_logs/fitted.xes" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/media/temp/data.json" beforeDir="false" afterPath="$PROJECT_DIR$/media/temp/data.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/group_analysis.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/group_analysis.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,13 +57,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings module-name="djangoTest" is-module-sdk="true">

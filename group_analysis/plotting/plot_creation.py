@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from django.conf import settings
 import plotly.graph_objs as go
 import plotly.io as pio
@@ -8,7 +9,11 @@ import datetime
 from sklearn import tree,metrics
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, classification_report, confusion_matrix
-
+from functools import reduce
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.linear_model import LinearRegression
 
 
 def concurrency_plot_factory(date_frame, Groups, aggregate, freq):
@@ -143,77 +148,112 @@ def timeframe_plot_factory(df):
     )
 
     return plt_util.create_div_block(fig)
+def max_lag(x,y):
+    corr = np.correlate(x, y, mode='full')
+    # find lag with highest correlation
+    lag = np.argmax(corr) - len(x) + 1
+    # create lagged variable
+    lagged_y = y.shift(lag)
+    # calculate correlation between x and lagged_y
+    corr = x.corr(lagged_y)
+    return lag,corr
 
-def delay(predictordatedataframe,targetdatedataframe):
+def correlation(predictordatedataframe,targetdatedataframe):
     result=[]
-    predictordatedataframe=predictordatedataframe.merge(targetdatedataframe[['date','tokenproduced', 'tokenconsumed', 'tokenleft','chunkmean', 'Count', 'rolledmean']], on='date', how='left')
-    print(predictordatedataframe)
-    #add seven days
-    def categorise(row,numdays):
-        return row['date'] -  datetime.timedelta(days=1)
-    for i in range (7):
-        predictordatedataframe=predictordatedataframe.merge(targetdatedataframe[['date','delayed']].rename({'delayed': 'delayed_'+str(i)}, axis=1), on='date', how='left')
-        targetdatedataframe['date'] = targetdatedataframe.apply(lambda row: categorise(row,i), axis=1)
-    test=predictordatedataframe.loc[predictordatedataframe.index[-2:-1]]
-    predictordatedataframe=predictordatedataframe.drop(predictordatedataframe.index[-2:-1])
-    predictordatedataframe=predictordatedataframe.dropna()
-    predictordatedataframe["delayed_0"] = predictordatedataframe["delayed_0"].astype(int)
-    predictordatedataframe["delayed_1"] = predictordatedataframe["delayed_1"].astype(int)
-    predictordatedataframe["delayed_2"] = predictordatedataframe["delayed_2"].astype(int)
-    predictordatedataframe["delayed_3"] = predictordatedataframe["delayed_3"].astype(int)
-    predictordatedataframe["delayed_4"] = predictordatedataframe["delayed_4"].astype(int)
-    predictordatedataframe["delayed_5"] = predictordatedataframe["delayed_5"].astype(int)
-    predictordatedataframe["delayed_6"] = predictordatedataframe["delayed_6"].astype(int)
-    def traindtmultiple(y,i):
-        clf = tree.DecisionTreeRegressor()
-        clf = clf.fit(x, y)
-        predictiontest=clf.predict(testpred)
-        if predictiontest==1:
-            result.append("High chance of having batching in target zone on "+ str(i) +" timeframe")
-    x = predictordatedataframe[['index', 'tokenproduced_x', 'tokenconsumed_x', 'tokenleft_x','Count_x', 'WaitingDays', 'AverageWaitingTime','rolledmean_x', 'totaltokenleft', 'Averagetokenleft','totaltokenconsumed', 'Averagetokenconsumed', 'totaltokenproduced','Averagetokenproduced','tokenproduced_y', 'tokenconsumed_y', 'tokenleft_y','Count_y','rolledmean_y','chunkmean_y']]
-    testpred= test [['index', 'tokenproduced_x', 'tokenconsumed_x', 'tokenleft_x','Count_x', 'WaitingDays', 'AverageWaitingTime','rolledmean_x', 'totaltokenleft', 'Averagetokenleft','totaltokenconsumed', 'Averagetokenconsumed', 'totaltokenproduced','Averagetokenproduced','tokenproduced_y', 'tokenconsumed_y', 'tokenleft_y','Count_y','rolledmean_y','chunkmean_y']]
-    for i in range(7):
-        y = predictordatedataframe['delayed_'+str(i)].fillna(0)
-        traindtmultiple(y,i)
-    print(result)
+
+    Corrdataframe=pd.DataFrame(columns= ['targetZone','targetFeature','sourceZone','sourceFeature','lag','MaxCorr'])
+    featurelist=['tokenproduced', 'tokenconsumed', 'tokenleft', 'oneframetoken', 'Count', 'DaysSpent',
+                 'AverageTimeSpent', 'drift', 'chunkmean', 'chunkindex', 'chunkstd',
+                 'Strange_tokenproduced', 'Strange_tokenconsumed','Strange_tokenleft', 'Strange_oneframetoken',
+                 'Strange_Count','Strange_AverageTimeSpent']
+    targetZoneList=[predictordatedataframe,targetdatedataframe]
+    for targetZone in targetZoneList:
+        for targetFeature in featurelist:
+            for zone in targetZoneList:
+                lagsum=0
+                for feature in featurelist:
+                    maxlag,maxcorr = max_lag(targetZone[targetFeature].dropna(),zone[feature].dropna())
+                    corrow_df = pd.DataFrame([[targetZone.name, targetFeature,zone.name, feature, maxlag,maxcorr]],columns=  ['targetZone','targetFeature','sourceZone','sourceFeature','lag','MaxCorr'])
+                    Corrdataframe = pd.concat([corrow_df, Corrdataframe], ignore_index=True)
+    Data=Corrdataframe[(Corrdataframe['MaxCorr']>0.7) & (Corrdataframe['lag']>0)].sort_values(by=['MaxCorr'], ascending=False).head(10)
+    for index,row in Data.iterrows():
+        result.append("Source: "+row['sourceFeature']+ " of "+row['sourceZone']+" target : "+row['targetFeature']+" of "+row['targetZone']+" Corr: "+ str(row['MaxCorr'])+" lag: "+str(row['lag']))
     return result
+def traindtmultiple(x,y,columnlist,feature,i):
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.5)
+    clf = tree.DecisionTreeRegressor(max_depth=4)
+    clf = clf.fit(x_train, y_train)
+    prediction=clf.predict(x_test)
+    Y_test_pred = pd.DataFrame(prediction).applymap(lambda x: 1 if x>0.5 else 0)
+    #Y_test_pred = pd.DataFrame(prediction)
+    if accuracy_score(y_test, Y_test_pred)>0.7 and accuracy_score(y_test, Y_test_pred)<1 and f1_score(y_test, Y_test_pred, average="macro")>0.7:
+        print('feature-',feature,':',' Day :',i)
+        print("Mean absolute error LR-",metrics.mean_absolute_error(y_test, Y_test_pred))
+        metrics.mean_squared_error(y_test, Y_test_pred)
+        print("Mean Squared error LR-",np.sqrt(metrics.mean_squared_error(y_test, Y_test_pred)))
+        print("Accuracy:",accuracy_score(y_test, Y_test_pred))
+        print("F1:",f1_score(y_test, Y_test_pred, average="macro"))
+        print("Precision:",precision_score(y_test, Y_test_pred, average="macro"))
+        print("Recall:",recall_score(y_test, Y_test_pred, average="macro"))
+        cm = confusion_matrix(y_test, Y_test_pred)
+        #disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+        #disp.plot()
+        #plt.show()
 
-def batch(predictordatedataframe,targetdatedataframe):
+
+
+def predict(targetZone,predictorZone,featurelist,predictionDelay):
+    for feature in featurelist:
+        combineddata=None
+        for i in range(len(predictorZone)):
+            if combineddata is None:
+                combineddata=pd.merge(predictorZone[0],predictorZone[1],on=['date'],how='left',suffixes=("_"+predictorZone[0].name, "_"+predictorZone[1].name))
+                combineddata['tokenproduced']=0
+                combineddata['tokenconsumed']=0
+                combineddata['tokenleft']=0
+                combineddata['Count']=0
+                combineddata['oneframetoken']=0
+                combineddata['AverageTimeSpent']=0
+            elif i>1:
+                combineddata=combineddata.merge(predictorZone[i],on=['date'],how='left',suffixes=(None,"_"+predictorZone[i].name))
+
+        def categorise(row,numdays):
+            return row['date'] -  datetime.timedelta(days=1)
+        for j in range (predictionDelay):
+            combineddata=combineddata.merge(targetZone[['date',feature]].rename({feature: feature+'_'+str(j)}, axis=1), on='date', how='left')
+            targetZone['date'] = targetZone.apply(lambda row: categorise(row,j), axis=1)
+        combineddata=combineddata.dropna()
+        for j in range (predictionDelay):
+            combineddata[feature+'_'+str(j)] = combineddata[feature+'_'+str(j)].astype(int)
+
+        columnlist=[]
+        columnlist.extend(combineddata.loc[:, combineddata.columns.str.startswith('token')].columns)
+        columnlist.extend(combineddata.loc[:, combineddata.columns.str.startswith('oneframetoken')].columns)
+        columnlist.extend(combineddata.loc[:, combineddata.columns.str.startswith('DaysSpent')].columns)
+        columnlist.extend(combineddata.loc[:, combineddata.columns.str.startswith('AverageTimeSpent')].columns)
+        columnlist.extend(combineddata.loc[:, combineddata.columns.str.startswith('Count')].columns)
+        x = combineddata[columnlist]
+        for i in range(predictionDelay):
+
+            y = combineddata[feature+'_'+str(i)].fillna(0).copy()
+            x = combineddata[columnlist].copy()
+            traindtmultiple(x,y,columnlist,feature,i)
+
+def prediction(predictordatedataframe,targetdatedataframe):
     result=[]
-    predictordatedataframe=predictordatedataframe.merge(targetdatedataframe[['date','tokenproduced', 'tokenconsumed', 'tokenleft','chunkmean', 'Count', 'rolledmean']], on='date', how='left')
-    print(predictordatedataframe)
-    #add seven days
-    def categorise(row,numdays):
-        return row['date'] -  datetime.timedelta(days=1)
-    for i in range (7):
-        predictordatedataframe=predictordatedataframe.merge(targetdatedataframe[['date','chunkbatched']].rename({'chunkbatched': 'batched_'+str(i)}, axis=1), on='date', how='left')
-        targetdatedataframe['date'] = targetdatedataframe.apply(lambda row: categorise(row,i), axis=1)
-    test=predictordatedataframe.loc[predictordatedataframe.index[-2:-1]]
-    predictordatedataframe=predictordatedataframe.drop(predictordatedataframe.index[-2:-1])
-    predictordatedataframe=predictordatedataframe.dropna()
-    predictordatedataframe["batched_0"] = predictordatedataframe["batched_1"].astype(int)
-    predictordatedataframe["batched_1"] = predictordatedataframe["batched_1"].astype(int)
-    predictordatedataframe["batched_2"] = predictordatedataframe["batched_2"].astype(int)
-    predictordatedataframe["batched_3"] = predictordatedataframe["batched_3"].astype(int)
-    predictordatedataframe["batched_4"] = predictordatedataframe["batched_4"].astype(int)
-    predictordatedataframe["batched_5"] = predictordatedataframe["batched_5"].astype(int)
-    predictordatedataframe["batched_6"] = predictordatedataframe["batched_6"].astype(int)
-    def traindtmultiple(y,i):
-        clf = tree.DecisionTreeRegressor()
-        clf = clf.fit(x, y)
-        predictiontest=clf.predict(testpred)
-        if predictiontest==1:
-            result.append("High chance of having batching in target zone on "+ str(i) +" timeframe")
-    x = predictordatedataframe[['index', 'tokenproduced_x', 'tokenconsumed_x', 'tokenleft_x','Count_x', 'WaitingDays', 'AverageWaitingTime','rolledmean_x', 'totaltokenleft', 'Averagetokenleft','totaltokenconsumed', 'Averagetokenconsumed', 'totaltokenproduced','Averagetokenproduced','tokenproduced_y', 'tokenconsumed_y', 'tokenleft_y','Count_y','rolledmean_y','chunkmean_y']]
-    testpred= test [['index', 'tokenproduced_x', 'tokenconsumed_x', 'tokenleft_x','Count_x', 'WaitingDays', 'AverageWaitingTime','rolledmean_x', 'totaltokenleft', 'Averagetokenleft','totaltokenconsumed', 'Averagetokenconsumed', 'totaltokenproduced','Averagetokenproduced','tokenproduced_y', 'tokenconsumed_y', 'tokenleft_y','Count_y','rolledmean_y','chunkmean_y']]
-    for i in range(7):
-        y = predictordatedataframe['batched_'+str(i)].fillna(0)
-        traindtmultiple(y,i)
+    predictionDelay=30
+    targetfeaturelist=['Strange_tokenproduced', 'Strange_tokenconsumed', 'Strange_tokenleft','Strange_oneframetoken',
+                     'Strange_Count', 'Strange_AverageTimeSpent']
+    targetZoneList=[targetdatedataframe]
+    zonelist=[predictordatedataframe,targetdatedataframe]
+    for targetZone in targetZoneList:
+        print(targetZone.name)
+        predict(targetZone.copy(),zonelist,targetfeaturelist,predictionDelay)
     print(result)
     return result
 
 def make_prediction(preddf,targetdf):
     result=[]
-    result.extend(delay(preddf,targetdf))
-    result.extend(batch(preddf,targetdf))
+    result.extend(correlation(preddf,targetdf))
+    result.extend(prediction(preddf,targetdf))
     return result

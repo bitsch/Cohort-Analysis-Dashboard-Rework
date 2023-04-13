@@ -18,6 +18,8 @@ from group_analysis.group_managment.group import Group
 from pm4py.objects.petri_net.importer import importer as pnml_importer
 # Application Modules
 
+from pm4py.algo.conformance.tokenreplay import algorithm as token_replay
+
 petrinet_path = os.path.join(settings.MEDIA_ROOT, "petrinets")
 # Create your views here.
 diag=[]
@@ -106,6 +108,7 @@ def cohort_analysis_data(request):
         # Loading the Log
         log, activities = log_import.log_import(event_log, log_format, log_information)
         net, initial_marking, final_marking = pnml_importer.apply(os.path.join(petrinet_path,request.session["current_net"]) )
+        replayed_traces = token_replay.apply(log, net, initial_marking, final_marking)
         # Consider Pickeling the Data for a quick performance boost after the first load
         if "predictor_zone" in request.POST:
             predictor_zone = Group(
@@ -115,7 +118,7 @@ def cohort_analysis_data(request):
                     ].split(", "),
                 )
             print(predictor_zone.members)
-            preddf = plotting_data.create_analysis_dataframe(log, net,initial_marking, final_marking, predictor_zone)
+            preddf = plotting_data.create_analysis_dataframe(log, net, replayed_traces, predictor_zone,log_information)
             diag=getdata(preddf,"predictor")
         if "target_zone" in request.POST:
             target_zone = Group(
@@ -126,7 +129,7 @@ def cohort_analysis_data(request):
                         )
             time.sleep(1)
             print(target_zone.members)
-            targetdf = plotting_data.create_analysis_dataframe(log, net,initial_marking, final_marking, target_zone)
+            targetdf = plotting_data.create_analysis_dataframe(log, net, replayed_traces, target_zone,log_information)
             diag=getdata(targetdf,"target")
             request.session["diagnostics"]=diag
             request.session.save()
@@ -137,13 +140,18 @@ def cohort_analysis_data(request):
 
 def getdata(df,zone):
     global diag
-    delayed=len(df[df['delayed']==1].axes[0])
-    message="There are "+str(delayed)+" number of delayed instance in the dataset for the "+zone+" zone"
-    diag.append(message)
+    anomalies=0
+    featurelist=['tokenproduced', 'tokenconsumed', 'tokenleft','oneframetoken', 'Count', 'AverageTimeSpent']
+    for feature in featurelist:
+        anomalies=anomalies+len(df[df['Strange_'+feature]==1].axes[0])
+    if anomalies>0:
+        message="There are "+str(anomalies)+" number of anomalies instance in the dataset for the "+zone+" zone"
+        diag.append(message)
 
-    batches=(len(df[df['chunkbatched']>0]))
-    message="There are "+str(batches)+" number of batches instance in the dataset for the "+zone+" zone"
-    diag.append(message)
+    batches=(len(df[df['drift']>0]))
+    if batches>0:
+        message="There are "+str(batches)+" number of changes in behaviour instance in the dataset for the "+zone+" zone"
+        diag.append(message)
     return diag
 
 def predict(request):

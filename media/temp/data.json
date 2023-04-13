@@ -2,23 +2,23 @@
     "nodes": [
         {
             "id": "node_0",
-            "name": "hospital exit",
-            "isUnique": false,
-            "conf": [
-                {
-                    "label": "Name",
-                    "value": "hospital exit"
-                }
-            ]
-        },
-        {
-            "id": "node_1",
             "name": "hospital admission",
             "isUnique": false,
             "conf": [
                 {
                     "label": "Name",
                     "value": "hospital admission"
+                }
+            ]
+        },
+        {
+            "id": "node_1",
+            "name": "hospital exit",
+            "isUnique": false,
+            "conf": [
+                {
+                    "label": "Name",
+                    "value": "hospital exit"
                 }
             ]
         },
@@ -35,17 +35,6 @@
         },
         {
             "id": "node_3",
-            "name": "register patient",
-            "isUnique": false,
-            "conf": [
-                {
-                    "label": "Name",
-                    "value": "register patient"
-                }
-            ]
-        },
-        {
-            "id": "node_4",
             "name": "doctor test",
             "isUnique": false,
             "conf": [
@@ -54,11 +43,22 @@
                     "value": "doctor test"
                 }
             ]
+        },
+        {
+            "id": "node_4",
+            "name": "register patient",
+            "isUnique": false,
+            "conf": [
+                {
+                    "label": "Name",
+                    "value": "register patient"
+                }
+            ]
         }
     ],
     "edges": [
         {
-            "source": "node_3",
+            "source": "node_4",
             "target": "node_2",
             "label": 2000,
             "style": {
@@ -67,15 +67,15 @@
         },
         {
             "source": "node_2",
-            "target": "node_4",
+            "target": "node_3",
             "label": 1810,
             "style": {
                 "endArrow": true
             }
         },
         {
-            "source": "node_4",
-            "target": "node_0",
+            "source": "node_3",
+            "target": "node_1",
             "label": 2000,
             "style": {
                 "endArrow": true
@@ -83,15 +83,15 @@
         },
         {
             "source": "node_2",
-            "target": "node_1",
+            "target": "node_0",
             "label": 190,
             "style": {
                 "endArrow": true
             }
         },
         {
-            "source": "node_1",
-            "target": "node_4",
+            "source": "node_0",
+            "target": "node_3",
             "label": 190,
             "style": {
                 "endArrow": true

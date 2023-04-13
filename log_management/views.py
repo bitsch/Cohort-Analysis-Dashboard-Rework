@@ -99,9 +99,7 @@ def index(request):
         except Exception as err:
             print("Oops!  Fetching the log failed: {0}".format(err))
     if "current_net" in request.session and request.session["current_net"] is not None:
-        if "fitness" not in request.session:
-            my_dict["fitness"]=request.session["fitness"]
-        else:
+        if "fitness" in request.session and request.session["fitness"] is not None:
             my_dict["fitness"]=request.session["fitness"]
         try:
             my_dict["selected_petrinet_info"] = request.session["current_net"]
