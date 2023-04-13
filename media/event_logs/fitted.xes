@@ -13,7 +13,7 @@
 		</event>
 		<event>
 			<string key="concept:name" value="initial check" />
-			<date key="time:timestamp" value="2020-02-08T16:30:00" />
+			<date key="time:timestamp" value="2020-02-08T15:30:00" />
 			<int key="org:resource" value="3" />
 		</event>
 		<event>

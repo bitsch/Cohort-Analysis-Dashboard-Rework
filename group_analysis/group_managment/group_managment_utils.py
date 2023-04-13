@@ -23,7 +23,7 @@ def get_active_groups(request):
     return datas
 
 def get_diag(request):
-    if request.session["diagnostics"] is None:
+    if "diagnostics" not in request.session or request.session["diagnostics"] is None:
         return None
     return request.session["diagnostics"]
 
